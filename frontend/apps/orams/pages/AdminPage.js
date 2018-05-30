@@ -53,6 +53,7 @@ class AdminPage extends Component {
       <main>
         <div className="row">
           <div className="col-xs-12 col-sm-9">
+            <span />
             <div className="au-display-xl">Welcome</div>
             <div>Tasks you can do here are shown below</div>
           </div>

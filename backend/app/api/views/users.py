@@ -15,11 +15,12 @@ from app.emails.users import (
     send_reset_password_confirm_email, orams_send_account_activation_admin_email
 )
 from dmutils.email import EmailError, InvalidToken
-from app.api.helpers import decode_creation_token, user_info
-from app.api.user import is_duplicate_user, update_user_details
+from app.api.helpers import decode_creation_token, user_info, role_required
+from app.api.user import is_duplicate_user, update_user_details, find_user_by_partial_email_address
 from datetime import datetime
 from app.swagger import swag
 from app.api.services import users
+import json
 
 
 @api.route('/users/me', methods=["GET"], endpoint='ping')
@@ -456,3 +457,32 @@ def reset_password(token):
 
     except Exception as error:
         return jsonify(message=error.message), 400
+
+
+@api.route('/users', methods=['GET'], endpoint='get_users')
+@login_required
+@role_required('admin')
+def find_user_by_string():
+    userList = []
+    searchString = request.args.get("string", None)
+    if searchString:
+        users = find_user_by_partial_email_address(searchString)
+        if users is not None:
+            for user in users:
+                u = User(user.id, user.name, user.email_address, user.role)
+                userList.append(u)
+
+    return json.dumps([ob.__dict__ for ob in userList])
+
+
+class User(object):
+    id = ''
+    name = ''
+    email_address = ''
+    role = ''
+
+    def __init__(self, id, name, email_address, role):
+        self.id = id
+        self.name = name
+        self.email_address = email_address
+        self.role = role
