@@ -44,8 +44,8 @@ const adminSearchReducer = (state = initialState, action) => {
 import { SET_USER_TABLE_DATA, SET_TABLE_FOCUS } from 'orams/constants/constants'
 
 const defaultAdminSearchState = {
-  usersData: [],
-  suppliersData: [],
+  userTableData: [],
+  supplierTableData: [],
   tableFocus: false
 }
 

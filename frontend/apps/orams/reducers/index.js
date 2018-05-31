@@ -5,6 +5,7 @@ import { createForms } from 'react-redux-form'
 import appReducer from './appReducer'
 import userReducer from './userReducer'
 import sellersCatalogueReducer from './sellersCatalogueReducer'
+import adminSearchReducer from './adminSearchReducer'
 import editPricingReducer from './editPricingReducer'
 import priceHistoryReducer from './priceHistoryReducer'
 import errorMessage from './errorMessage'
@@ -15,6 +16,7 @@ export default combineReducers({
   app: appReducer,
   user: userReducer,
   sellersCatalogue: sellersCatalogueReducer,
+  adminSearch: adminSearchReducer,
   editPricing: editPricingReducer,
   priceHistory: priceHistoryReducer,
   adminSearch: adminSearchReducer,
