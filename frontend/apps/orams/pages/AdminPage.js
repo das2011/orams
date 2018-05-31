@@ -10,6 +10,7 @@ import LoadingIndicatorFullPage from 'shared/LoadingIndicatorFullPage/LoadingInd
 import Textfield from 'shared/form/Textfield'
 import { searchSupplier } from 'orams/actions/adminSearchActions'
 import { ADMIN_SEARCH_TYPE_SUPPLIER, ADMIN_SEARCH_TYPE_USER } from 'orams/constants/constants'
+import AdminSearch from 'orams/components/AdminSearch/AdminSearch'
 import SupplierSearchForm from 'orams/components/SupplierSearchForm/SupplierSearchForm'
 import supplierSearchResults from 'orams/components/SupplierSearchResults/SupplierSearchResults'
 import { DISPLAY_STEP_2 } from '../constants/constants';
@@ -50,8 +51,8 @@ class AdminPage extends Component {
 
   render() {
     return (
-      <main>
-        <div className="row">
+      <Switch>
+        <Route exact path={match.url} render={() => <AdminSearch {...this.props} />}/>
           <div className="col-xs-12 col-sm-9">
             <span />
             <div className="au-display-xl">Welcome</div>

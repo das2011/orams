@@ -469,13 +469,13 @@ def find_user_by_string():
         users = find_user_by_partial_email_address(searchString)
         if users is not None:
             for user in users:
-                u = User(user.id, user.name, user.email_address, user.role)
+                u = UserInfo(user.id, user.name, user.email_address, user.role)
                 userList.append(u)
 
     return json.dumps([ob.__dict__ for ob in userList])
 
 
-class User(object):
+class UserInfo(object):
     id = ''
     name = ''
     email_address = ''
