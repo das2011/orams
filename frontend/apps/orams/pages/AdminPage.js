@@ -1,6 +1,5 @@
 /* eslint-disable */
 import React, { Component } from 'react'
-import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { Form } from 'react-redux-form'
 import { withRouter, Switch, Route } from 'react-router-dom'
@@ -51,10 +50,9 @@ class AdminPage extends Component {
 
   render() {
     return (
-      <Switch>
-        <Route exact path={match.url} render={() => <AdminSearch {...this.props} />}/>
+      <main>
+        <div className="row">
           <div className="col-xs-12 col-sm-9">
-            <span />
             <div className="au-display-xl">Welcome</div>
             <div>Tasks you can do here are shown below</div>
           </div>
@@ -76,7 +74,9 @@ class AdminPage extends Component {
                 size="50"
                 placeholder="Search user like john@ato.gov.au or just john"
               />
-              <button className="au-btn">
+              <button className="au-btn" onClick={() => {
+                this.onClickSearchUser()
+              }}>
                 Search
               </button>
             </div>
