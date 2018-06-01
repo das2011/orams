@@ -57,12 +57,13 @@ export const searchSupplier = searchTerm => dispatch => {
   })
 }
 =======
-export function loadUsers() {
+export function loadUsers(searchString) {
   return dispatch => {
     dispatch(sendingRequest(true))
+    console.log('!!!!!!!!!!!!!!!!!!', searchString)
     dmapi({
       method: 'get',
-      url: `/users?string=matt`
+      url: `/users?string=${searchString}`
     }).then(response => {
       if (response.error) {
         dispatch(setErrorMessage(GENERAL_ERROR))

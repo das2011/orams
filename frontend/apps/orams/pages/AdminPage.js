@@ -3,6 +3,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { Form } from 'react-redux-form'
 import { withRouter, Switch, Route } from 'react-router-dom'
+
 import AUpageAlert from '@gov.au/page-alerts/lib/js/react.js'
 import formProps from 'shared/form/formPropsSelector'
 import LoadingIndicatorFullPage from 'shared/LoadingIndicatorFullPage/LoadingIndicatorFullPage'
@@ -19,6 +20,8 @@ class AdminPage extends Component {
   constructor(props) {
     super(props)
     this.state = {}
+      submitClicked: null
+    }
   }
 
   handleSupplierSearch = (data) => {
@@ -63,22 +66,19 @@ class AdminPage extends Component {
             <SupplierSearchForm 
               handleSearchSubmit={this.handleSupplierSearch}
             />
+              <Switch>
             <div>
-              <div>Search User By Email</div>
-            </div>
-            <div>
-              <input
-                type="search"
-                id="searchUser"
-                name="string"
-                size="50"
-                placeholder="Search user like john@ato.gov.au or just john"
-              />
-              <button className="au-btn" onClick={() => {
-                this.onClickSearchUser()
-              }}>
-                Search
-              </button>
+                <Route
+                  exact
+                  path={match.url}
+                  render={() =>
+                    <SearchUsersForm
+                      model={model}
+                      submitClicked={this.onSubmitClicked}
+                      handleSubmit={values => this.handleSearchUsersSubmit(values)}
+                    />}
+                />
+              </Switch>
             </div>
           </div>
 
@@ -99,6 +99,9 @@ const mapStateToProps = state => {
   } = state.adminSearch
 
   const { currentlySending, errorMessage } = state.app
+  model: PropTypes.string.isRequired,
+  handleSearchUsersSubmit: PropTypes.func
+}
 
   return {
     searchType,
@@ -109,7 +112,7 @@ const mapStateToProps = state => {
   }
 }
 
-const mapDispatchToProps = dispatch => {
+const mapDispatchToProps = dispatch => ({
   return {
     setSupplierSearchTerm: searchTerm => dispatch(setSupplierSearchTerm(searchTerm)),
     doSearchSupplier: (searchTerm) => dispatch(searchSupplier(searchTerm))
