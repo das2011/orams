@@ -1,8 +1,8 @@
-<<<<<<< HEAD
 import {
   ACTION_SET_SUPPLIER_SEARCH,
   ACTION_SET_SUPPLIER_SEARCH_TERM,
   ACTION_SET_USER_SEARCH,
+  ACTION_SET_USER_SEARCH_TERM,
   ADMIN_SEARCH_TYPE_SUPPLIER,
   ADMIN_SEARCH_TYPE_USER
 } from 'orams/constants/constants'
@@ -22,8 +22,7 @@ const adminSearchReducer = (state = initialState, action) => {
         ...state,
         searchType: ADMIN_SEARCH_TYPE_SUPPLIER,
         supplierSearchResult: action.supplierSearchResult,
-        userSearchResult: [],
-        userSearchTerm: ''
+        supplierSearchTerm: ''
       }
 
     case ACTION_SET_SUPPLIER_SEARCH_TERM:
@@ -37,31 +36,15 @@ const adminSearchReducer = (state = initialState, action) => {
       return {
         ...state,
         searchType: ADMIN_SEARCH_TYPE_USER,
-        supplierSearchResult: [],
-        supplierSearchTerm: '',
-        userSearchResult: action.userSearchResult
-=======
-import { SET_USER_TABLE_DATA, SET_TABLE_FOCUS } from 'orams/constants/constants'
-
-const defaultAdminSearchState = {
-  userTableData: [],
-  supplierTableData: [],
-  tableFocus: false
-}
-
-const adminSearchReducer = (state = defaultAdminSearchState, action) => {
-  switch (action.type) {
-    case SET_USER_TABLE_DATA:
-      return {
-        ...state,
-        userTableData: action.userTableData
+        userSearchResult: action.userSearchResult,
+        userSearchTerm: ''
       }
 
-    case SET_TABLE_FOCUS:
+    case ACTION_SET_USER_SEARCH_TERM:
       return {
         ...state,
-        tableFocus: action.tableFocus
->>>>>>> Added actions and reducers for admin search
+        searchType: ADMIN_SEARCH_TYPE_USER,
+        userSearchTerm: action.userSearchTerm
       }
 
     default:
