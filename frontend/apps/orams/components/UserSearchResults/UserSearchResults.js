@@ -1,9 +1,10 @@
+/* eslint-disable */
 import React from 'react'
 import AUpageAlert from '@gov.au/page-alerts/lib/js/react.js'
 import { uniqueID } from 'shared/utils/helpers'
 import styles from './UserSearchResults.scss'
 
-const renderTable = users => {
+const renderTable = (props, users) => {
   if (users && users.length > 0) {
     return (
       <article role="main">
@@ -21,7 +22,7 @@ const renderTable = users => {
                 <span className={styles.name}>
                   <a
                     onClick={() => {
-                      this.props.history.push(`/user/${user.id}`)
+                      props.history.push(`/user-profile/${user.id}`)
                     }}
                   >
                     {user.name}
@@ -54,7 +55,7 @@ const UserSearchResults = props => {
 
   return (
     <div className={styles.container}>
-      {renderTable(users)}
+      {renderTable(props, users)}
     </div>
   )
 }

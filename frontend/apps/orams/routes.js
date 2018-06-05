@@ -8,6 +8,7 @@ import EditProfilePage from 'orams/pages/EditProfilePage'
 import SellerCataloguePage from 'orams/pages/SellerCataloguePage'
 import SellerProfilePage from 'orams/pages/SellerProfilePage'
 import ProfilePage from 'orams/pages/ProfilePage'
+import UserProfilePage from 'orams/pages/UserProfilePage'
 import ReferralBuilderPage from 'orams/pages/ReferralBuilderPage'
 import NotFound from 'shared/NotFound'
 import ResetPasswordPage from 'orams/pages/ResetPasswordPage'
@@ -35,6 +36,7 @@ export const Routes = () =>
     <PrivateRoute path={`/referral-builder/:id`} component={ReferralBuilderPage} />
     <PrivateRoute path={`/price-history`} component={PriceHistoryPage} />
     <PrivateRoute path={`/profile`} component={ProfilePage} />
+    <PrivateRoute path={`/user-profile/:id`} component={UserProfilePage} />
     <Route path={`/reset-password`} component={ResetPasswordPage} />
     <Route path={`/terms-of-use`} component={TermsPage} />
     <Route path={`/privacy-policy`} component={PrivacyPolicyPage} />

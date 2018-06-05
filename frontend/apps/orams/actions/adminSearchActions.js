@@ -3,6 +3,7 @@ import {
   ACTION_SET_SUPPLIER_SEARCH_TERM,
   ACTION_SET_USER_SEARCH,
   ACTION_SET_USER_SEARCH_TERM,
+  SET_USER_PROFILE_DATA,
   SENDING_REQUEST,
   SET_ERROR_MESSAGE
 } from 'orams/constants/constants'
@@ -36,6 +37,11 @@ export const setUserSearchTerm = searchTerm => ({
   userSearchTerm: searchTerm
 })
 
+export const setUserProfileData = userProfileData => ({
+  type: SET_USER_PROFILE_DATA,
+  userProfileData
+})
+
 export const searchSupplier = searchTerm => dispatch => {
   dispatch(sendingRequest(true))
   dmapi({
@@ -66,6 +72,21 @@ export const searchUser = searchTerm => dispatch => {
       dispatch(setUserSearchResult(response.data))
     }
 
+    dispatch(sendingRequest(false))
+  })
+}
+
+export const loadUserProfileData = id => dispatch => {
+  dispatch(sendingRequest(true))
+  dmapi({
+    method: 'get',
+    url: `/users/${id}`
+  }).then(response => {
+    if (response.error) {
+      dispatch(setErrorMessage(GENERAL_ERROR))
+    } else {
+      dispatch(setUserProfileData(response.data))
+    }
     dispatch(sendingRequest(false))
   })
 }

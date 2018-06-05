@@ -186,7 +186,7 @@ def check_supplier_role(role, supplier_code):
     if role == 'supplier' and supplier_code is None:
         raise ValueError("'supplier_code' is required for users with 'supplier' role")
     elif role != 'supplier' and supplier_code is not None:
-        raise("'supplier_code' is only valid for users with 'supplier' role, not '{}'".format(role))
+        raise ("'supplier_code' is only valid for users with 'supplier' role, not '{}'".format(role))
 
 
 def create_user():
@@ -256,5 +256,13 @@ def find_user_by_partial_email_address(searchString):
     users = User.query.filter(User.email_address.contains(searchString.lower())).order_by(User.name).all()
     if users is not None:
         return users
+    else:
+        return None
+
+
+def find_user_by_id(id):
+    user = User.query.filter(User.id == id).first()
+    if user is not None:
+        return jsonify(user)
     else:
         return None

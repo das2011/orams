@@ -4,7 +4,8 @@ import {
   ACTION_SET_USER_SEARCH,
   ACTION_SET_USER_SEARCH_TERM,
   ADMIN_SEARCH_TYPE_SUPPLIER,
-  ADMIN_SEARCH_TYPE_USER
+  ADMIN_SEARCH_TYPE_USER,
+  SET_USER_PROFILE_DATA
 } from 'orams/constants/constants'
 
 const initialState = {
@@ -45,6 +46,12 @@ const adminSearchReducer = (state = initialState, action) => {
         ...state,
         searchType: ADMIN_SEARCH_TYPE_USER,
         userSearchTerm: action.userSearchTerm
+      }
+
+    case SET_USER_PROFILE_DATA:
+      return {
+        ...state,
+        userProfileData: action.userProfileData
       }
 
     default:

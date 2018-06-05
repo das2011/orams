@@ -16,7 +16,8 @@ from app.emails.users import (
 )
 from dmutils.email import EmailError, InvalidToken
 from app.api.helpers import decode_creation_token, user_info, role_required
-from app.api.user import is_duplicate_user, update_user_details, find_user_by_partial_email_address
+from app.api.user import (is_duplicate_user, update_user_details,
+                          find_user_by_partial_email_address, find_user_by_id)
 from datetime import datetime
 from app.swagger import swag
 from app.api.services import users
@@ -486,3 +487,10 @@ class UserInfo(object):
         self.name = name
         self.email_address = email_address
         self.role = role
+
+
+@api.route('/users/<int:id>', methods=['GET'], endpoint='get_user')
+@login_required
+@role_required('admin')
+def get(id):
+    return find_user_by_id(id)

@@ -50,6 +50,7 @@ class AdminPage extends Component {
 
     if (searchType === ADMIN_SEARCH_TYPE_USER) {
       return <UserSearchResults
+        {...this.props}
         searchResults={userSearchResult}/>
     }
 
