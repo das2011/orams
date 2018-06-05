@@ -1,6 +1,6 @@
 from sqlalchemy.sql import or_
 from app.api.helpers import Service
-from app.models import Supplier, SupplierFramework, SupplierContact, Contact
+from app.models import Supplier, SupplierFramework, SupplierContact, Framework, Contact
 
 
 class SuppliersService(Service):
@@ -10,10 +10,9 @@ class SuppliersService(Service):
         super(SuppliersService, self).__init__(*args, **kwargs)
 
     def find_suppliers(self, prefix):
-        orams_framework_id = 8
-
         suppliers = Supplier.query.join(Supplier.frameworks) \
-            .filter(SupplierFramework.framework_id == orams_framework_id) \
+            .join(SupplierFramework.framework) \
+            .filter(Framework.slug == 'orams') \
             .filter(Supplier.abn.is_(None) | (Supplier.abn != Supplier.DUMMY_ABN)) \
             .filter(Supplier.status != 'deleted')
 

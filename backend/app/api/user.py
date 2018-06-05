@@ -253,7 +253,13 @@ def create_user():
 
 
 def find_user_by_partial_email_address(searchString):
-    users = User.query.filter(User.email_address.contains(searchString.lower())).order_by(User.name).all()
+    users = User.query \
+        .join(User.frameworks) \
+        .join(UserFramework.framework) \
+        .filter(Framework.slug == 'orams') \
+        .filter(User.email_address.contains(searchString.lower())) \
+        .order_by(User.name) \
+        .all()
     if users is not None:
         return users
     else:
