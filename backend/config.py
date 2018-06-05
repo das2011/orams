@@ -122,7 +122,7 @@ class Config:
 
     FRONTEND_ADDRESS = 'https://orams-dev.apps.y.cld.gov.au'
     ADMIN_ADDRESS = 'https://orams-dev.apps.y.cld.gov.au'
-    APP_ROOT = {'digital-marketplace': '/2', 'orams': '/'}
+    APP_ROOT = {'digital-marketplace': '/2', 'orams': ''}
 
     SEND_EMAILS = True
     CSRF_ENABLED = False
