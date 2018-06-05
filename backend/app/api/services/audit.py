@@ -28,6 +28,7 @@ class AuditService(Service):
 
 class AuditTypes(Enum):
     update_price = 'update_price'
+    update_ceiling_price = 'update_ceiling_price'
     sent_closed_brief_email = 'sent_closed_brief_email'
     update_brief_response = 'update_brief_response'
     update_brief_response_contact = 'update_brief_response_contact'

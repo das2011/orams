@@ -409,3 +409,170 @@ def service_type_prices(app, request, regions, services, suppliers):
 
         db.session.commit()
         yield ServiceTypePrice.query.all()
+
+
+@pytest.fixture()
+def service_prices_with_future(app, request, regions, services, suppliers):
+    with app.app_context():
+        db.session.add(ServiceSubType(
+            id=1,
+            name=''
+        ))
+        db.session.add(ServiceSubType(
+            id=2,
+            name='SubType1'
+        ))
+        db.session.flush()
+
+        db.session.add(ServiceTypePriceCeiling(
+            service_type_id=1,
+            sub_service_id=1,
+            region_id=1,
+            supplier_code=1,
+            price=321.56
+        ))
+        db.session.flush()
+
+        db.session.add(ServiceTypePrice(
+            service_type_id=1,
+            sub_service_id=1,
+            region_id=1,
+            supplier_code=1,
+            service_type_price_ceiling_id=1,
+            price=210.60,
+            date_from='1/1/2016',
+            date_to=pendulum.Date.yesterday()
+        ))
+        db.session.add(ServiceTypePrice(
+            service_type_id=1,
+            sub_service_id=1,
+            region_id=1,
+            supplier_code=1,
+            service_type_price_ceiling_id=1,
+            price=200.50,
+            date_from=pendulum.Date.today(),
+            date_to=pendulum.Date.today()
+        ))
+        db.session.add(ServiceTypePrice(
+            service_type_id=1,
+            sub_service_id=1,
+            region_id=1,
+            supplier_code=1,
+            service_type_price_ceiling_id=1,
+            price=100.50,
+            date_from=pendulum.Date.tomorrow(),
+            date_to='1/1/2050'
+        ))
+
+        db.session.commit()
+        yield ServiceTypePrice.query.all()
+
+
+@pytest.fixture()
+def service_prices_without_future(app, request, regions, services, suppliers):
+    with app.app_context():
+        db.session.add(ServiceSubType(
+            id=1,
+            name=''
+        ))
+        db.session.add(ServiceSubType(
+            id=2,
+            name='SubType1'
+        ))
+        db.session.flush()
+
+        db.session.add(ServiceTypePriceCeiling(
+            service_type_id=1,
+            sub_service_id=1,
+            region_id=1,
+            supplier_code=1,
+            price=321.56
+        ))
+        db.session.flush()
+
+        db.session.add(ServiceTypePrice(
+            service_type_id=1,
+            sub_service_id=1,
+            region_id=1,
+            supplier_code=1,
+            service_type_price_ceiling_id=1,
+            price=210.60,
+            date_from='1/1/2016',
+            date_to=pendulum.Date.yesterday()
+        ))
+        db.session.add(ServiceTypePrice(
+            service_type_id=1,
+            sub_service_id=1,
+            region_id=1,
+            supplier_code=1,
+            service_type_price_ceiling_id=1,
+            price=200.50,
+            date_from=pendulum.Date.today(),
+            date_to='1/1/2050'
+        ))
+
+        db.session.commit()
+        yield ServiceTypePrice.query.all()
+
+
+@pytest.fixture()
+def service_type_price_ceiling(app, request, regions, services, suppliers):
+    with app.app_context():
+        db.session.add(ServiceSubType(
+            id=1,
+            name=''
+        ))
+        db.session.add(ServiceSubType(
+            id=2,
+            name='SubType1'
+        ))
+        db.session.flush()
+
+        db.session.add(ServiceTypePriceCeiling(
+            service_type_id=1,
+            sub_service_id=1,
+            region_id=1,
+            supplier_code=1,
+            price=321.56
+        ))
+        db.session.flush()
+
+        db.session.commit()
+        yield ServiceTypePriceCeiling.query.all()
+
+
+@pytest.fixture()
+def service_prices_all_expired(app, request, regions, services, suppliers):
+    with app.app_context():
+        db.session.add(ServiceSubType(
+            id=1,
+            name=''
+        ))
+        db.session.add(ServiceSubType(
+            id=2,
+            name='SubType1'
+        ))
+        db.session.flush()
+
+        db.session.add(ServiceTypePriceCeiling(
+            service_type_id=1,
+            sub_service_id=1,
+            region_id=1,
+            supplier_code=1,
+            price=321.56
+        ))
+        db.session.flush()
+
+        db.session.add(ServiceTypePrice(
+            service_type_id=1,
+            sub_service_id=1,
+            region_id=1,
+            supplier_code=1,
+            service_type_price_ceiling_id=1,
+            price=210.60,
+            date_from='1/1/2016',
+            date_to=pendulum.Date.yesterday()
+        ))
+
+        db.session.commit()
+        yield ServiceTypePrice.query.all()
