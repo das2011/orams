@@ -2838,6 +2838,18 @@ class UserFramework(db.Model):
     framework = db.relationship(Framework, lazy='joined', innerjoin=True)
 
 
+class Referral(db.Model):
+    __tablename__ = 'referral'
+
+    id = db.Column(db.Integer, primary_key=True)
+    service_type_price_id = db.Column(db.Integer,
+                                      db.ForeignKey('service_type_price.id'),
+                                      nullable=False)
+    agency_name = db.Column(db.String, nullable=False)
+    created_by = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    created_at = db.Column(DateTime, index=False, nullable=False, default=utcnow)
+
+
 # Index for .last_for_object queries. Without a composite index the
 # query executes an index backward scan on created_at with filter,
 # which takes a long time for old events
