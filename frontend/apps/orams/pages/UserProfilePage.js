@@ -4,7 +4,12 @@ import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { withRouter, Switch, Route } from 'react-router-dom'
 import UserProfile from 'orams/components/UserProfile/UserProfile'
-import { loadUserProfileData } from 'orams/actions/adminSearchActions'
+import {
+  loadUserProfileData,
+  deactivateUser,
+  activateUser,
+  unlockUser
+ } from 'orams/actions/adminSearchActions'
 
 class UserProfilePage extends Component {
   constructor(props) {
@@ -33,14 +38,27 @@ UserProfilePage.propTypes = {
 }
 
 const mapStateToProps = state => {
+  const {
+    userProfileData,
+    updateUserSuccessMessage,
+    updateUserErrorMessage,
+    errorMessage
+  } = state.adminSearch
+
   return {
-    userProfileData: state.adminSearch.userProfileData
+    userProfileData,
+    updateUserSuccessMessage,
+    updateUserErrorMessage,
+    generalErrorMessage: errorMessage
   }
 }
 
 const mapDispatchToProps = dispatch => {
   return {
-    loadUserProfileData: id => dispatch(loadUserProfileData(id))
+    loadUserProfileData: id => dispatch(loadUserProfileData(id)),
+    deactivateUser: id => dispatch(deactivateUser(id)),
+    activateUser: id => dispatch(activateUser(id)),
+    unlockUser: id => dispatch(unlockUser)
   }
 }
 

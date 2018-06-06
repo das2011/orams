@@ -51,7 +51,6 @@ def me():
         description: User
         schema:
           $ref: '#/definitions/UserInfo'
-
     """
     return jsonify(user_info(current_user))
 
@@ -464,6 +463,39 @@ def reset_password(token):
 @login_required
 @role_required('admin')
 def find_user_by_string():
+    """Search Users by name
+    ---
+    tags:
+      - users
+    definitions:
+      UserDetail:
+        type: object
+        properties:
+          id:
+            type: integer
+          name:
+            type: string
+          emailAddress:
+            type: string
+          role:
+            type: string
+          supplier:
+            type: integer
+          active:
+            type: boolean
+          locked:
+            type: boolean
+          loggedInAt:
+            type: string
+          passwordChangedAt:
+            type: string
+    responses:
+      200:
+        description: User
+        schema:
+          $ref: '#/definitions/UserDetail'
+
+    """
     userList = []
     searchString = request.args.get("string", None)
     if searchString:
@@ -479,18 +511,192 @@ def find_user_by_string():
 class UserInfo(object):
     id = ''
     name = ''
-    email_address = ''
-    role = ''
+    emailAddress = ''
+    role = '',
+    supplier = '',
+    active = None,
+    locked = None,
+    loggedInAt = None,
+    passwordChangedAt = None,
 
-    def __init__(self, id, name, email_address, role):
+
+    def __init__(self, id, name, email_address, role, supplier = None, active = None, locked=None, loggedInAt=None, passwordChangedAt=None):
         self.id = id
         self.name = name
-        self.email_address = email_address
-        self.role = role
+        self.emailAddress = email_address
+        self.role = role,
+        self.active = active
+        self.locked = locked
+
+        if loggedInAt:
+            self.loggedInAt = str(loggedInAt)
+
+        if passwordChangedAt:
+            self.passwordChangedAt = str(passwordChangedAt)
+
+        if supplier:
+            self.supplier = supplier.name
 
 
-@api.route('/users/<int:id>', methods=['GET'], endpoint='get_user')
+@api.route('/users/<int:user_id>', methods=['GET'], endpoint='get_user')
 @login_required
 @role_required('admin')
-def get(id):
-    return find_user_by_id(id)
+def get(user_id):
+    """Get User
+    ---
+    tags:
+      - users
+    parameters:
+      - name: user_id
+        in: path
+        type: integer
+        required: true
+    responses:
+      200:
+        description: A User
+        type: object
+        schema:
+          $ref: '#/definitions/UserDetail'
+    """
+    user = find_user_by_id(user_id)
+    user_detail = UserInfo( \
+        user.id, \
+        user.name, \
+        user.email_address, \
+        user.role, \
+        user.supplier, \
+        user.active, \
+        user.locked, \
+        user.logged_in_at, \
+        user.password_changed_at)
+
+    return json.dumps(user_detail.__dict__)
+
+
+@api.route('/users/<int:user_id>/activate', methods=['PUT'], endpoint='activate_user')
+@login_required
+@role_required('admin')
+def activate_user(user_id):
+    """Activate User
+    ---
+    tags:
+      - users
+    parameters:
+      - name: user_id
+        in: path
+        type: integer
+        required: true
+    responses:
+      200:
+        description: A User
+        type: object
+        schema:
+          $ref: '#/definitions/UserDetail'
+    """
+    try:
+        user = update_user_details(
+            active=True,
+            user_id=user_id
+        )
+
+        user_detail = UserInfo( \
+            user.id, \
+            user.name, \
+            user.email_address, \
+            user.role, \
+            user.supplier, \
+            user.active, \
+            user.locked, \
+            user.logged_in_at, \
+            user.password_changed_at)
+
+        return json.dumps(user_detail.__dict__)
+    except ValueError as error:
+        return jsonify(message=error.message), 400
+
+
+@api.route('/users/<int:user_id>/deactivate', methods=['PUT'], endpoint='deactivate_user')
+@login_required
+@role_required('admin')
+def deactivate_user(user_id):
+    """Deactivate User
+    ---
+    tags:
+      - users
+    parameters:
+      - name: user_id
+        in: path
+        type: integer
+        required: true
+    responses:
+      200:
+        description: A User
+        type: object
+        schema:
+          $ref: '#/definitions/UserDetail'
+    """
+    try:
+        user = update_user_details(
+            active=False,
+            user_id=user_id
+        )
+
+        user_detail = UserInfo( \
+            user.id, \
+            user.name, \
+            user.email_address, \
+            user.role, \
+            user.supplier, \
+            user.active, \
+            user.locked, \
+            user.logged_in_at, \
+            user.password_changed_at)
+
+        return json.dumps(user_detail.__dict__)
+
+    except ValueError as error:
+        return jsonify(message=error.message), 400
+
+
+
+@api.route('/users/<int:user_id>/unlock', methods=['PUT'], endpoint='unlock_user')
+@login_required
+@role_required('admin')
+def unlock_user(user_id):
+    """Unlock User
+    ---
+    tags:
+      - users
+    parameters:
+      - name: user_id
+        in: path
+        type: integer
+        required: true
+    responses:
+      200:
+        description: A User
+        type: object
+        schema:
+          $ref: '#/definitions/UserDetail'
+    """
+    try:
+        user = update_user_details(
+            locked=False,
+            user_id=user_id
+        )
+
+        user_detail = UserInfo( \
+            user.id, \
+            user.name, \
+            user.email_address, \
+            user.role, \
+            user.supplier, \
+            user.active, \
+            user.locked, \
+            user.logged_in_at, \
+            user.password_changed_at)
+
+        return json.dumps(user_detail.__dict__)
+
+    except ValueError as error:
+        return jsonify(message=error.message), 400

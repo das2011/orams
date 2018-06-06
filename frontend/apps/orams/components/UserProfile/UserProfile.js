@@ -1,79 +1,167 @@
 /* eslint-disable */
 import React, { Component } from 'react'
-import { connect } from 'react-redux'
-import { uniqueID } from 'shared/utils/helpers'
+import format from 'date-fns/format'
+import parse from 'date-fns/parse'
+import AUpageAlert from '@gov.au/page-alerts/lib/js/react.js'
 import LoadingIndicatorFullPage from 'shared/LoadingIndicatorFullPage/LoadingIndicatorFullPage'
 import styles from './UserProfile.scss'
 
 class UserProfile extends Component {
+
   constructor(props) {
     super(props)
     this.state = {}
   }
 
-  render() {
-    const { userProfileData } = this.props
+  formatDate(date, dateFormat = 'D MMM YYYY') {
+    if (date) {
+      const parsed = parse(date)
+      return format(parsed, dateFormat)
+    }
+
+    return ''
+  }
+
+  formatLockStatus(locked) {
+    return locked ? 'Y' : 'N'
+  }
+
+  handleActivateUser(userProfileData) {
+    const { id } = userProfileData
+    const { activateUser } = this.props
+
+    activateUser(id)
+  }
+
+  handleDeactivateUser(userProfileData) {
+    const { id } = userProfileData
+    const { deactivateUser } = this.props
+
+    deactivateUser(id)
+  }
+
+  renderActivateDeactivate(userProfileData) {
+    if (userProfileData.active) {
+      return (
+        <div>
+          <button className="au-btn" onClick={() => {this.handleDeactivateUser(userProfileData)}}>
+            Deactivate
+          </button>
+        </div>
+      )
+    }
 
     return (
       <div>
+        <button className="au-btn" onClick={() => {this.handleActivateUser(userProfileData)}}>
+          Activate
+        </button>
+      </div>
+    )
+  }
+
+  renderChangeStatus(userProfileData) {
+    return (
+      <div>
+        {/* <div>Reset password</div> */}
+        {this.renderActivateDeactivate(userProfileData)}
+      </div>
+    )
+  }
+
+  renderGeneralError() {
+    const { errorMessage } = this.props
+
+    if ( errorMessage) {
+      return (
+        <AUpageAlert as="error">
+          <h4>{errorMessage}</h4>
+        </AUpageAlert>
+      )
+    }
+  }
+
+  renderUpdateMessages() {
+    const { updateUserSuccessMessage, updateUserErrorMessage } = this.props
+
+    if ( updateUserSuccessMessage ) {
+      return (
+        <AUpageAlert as="success">
+          <h4>{updateUserSuccessMessage}</h4>
+        </AUpageAlert>
+      )
+    }
+
+    if ( updateUserErrorMessage) {
+      return (
+        <AUpageAlert as="error">
+          <h4>{updateUserErrorMessage}</h4>
+        </AUpageAlert>
+      )
+    }
+  }
+
+  render() {
+    const { userProfileData } = this.props
+    const dateTimeFormat = 'D MMMM YYYY HH:mm'
+
+    return (
+      <div className={styles.container}>
+        {this.renderGeneralError()}
         {userProfileData
-          ? <div>
-            <main>
-              <div className="row">
-                <div className="col-xs-12 col-sm-9">
-                  <div className="au-display-xl">
-                    User Profile
+          ? <article role="main">
+              <div className={styles.headerSection}>
+                <div className="row">
+                  <div className="col-xs-12 col-sm-9">
+                    <div className="au-display-xl">
+                      {userProfileData.emailAddress}
+                    </div>
                   </div>
                 </div>
               </div>
-              <div className="row">
-                <div className="col-sm-3 col-xs-12">
-                  <div className={styles.title}>Name</div>
+              {this.renderUpdateMessages()}
+              <div className={styles.headingRow}>
+                <div className="row">
+                  <div className="col-md-2 col-sm-2">Name</div>
+                  <div className="col-md-1 col-sm-1">Role</div>
+                  <div className="col-md-2 col-sm-2">Supplier</div>
+                  <div className="col-md-2 col-sm-2">Last login</div>
+                  <div className="col-md-2 col-sm-2">Last password change</div>
+                  <div className="col-md-1 col-sm-1">Locked</div>
+                  <div className="col-md-2 col-sm-2">Change status</div>
                 </div>
-                <div className={styles.badge}>
-                  {userProfileData.name}
+              </div>
+              <div className={styles.userRow}>
+                <div className="row">
+                  <div className="col-md-2 col-sm-2">
+                    {userProfileData.name}
+                  </div>
+                  <div className="col-md-1 col-sm-1">
+                    {userProfileData.role}
+                  </div>
+                  <div className="col-md-2 col-sm-2">
+                    {userProfileData.supplier || ''}
+                  </div>
+                  <div className="col-md-2 col-sm-2">
+                    {this.formatDate(userProfileData.loggedInAt)}
+                  </div>
+                  <div className="col-md-2 col-sm-2">
+                    {this.formatDate(userProfileData.passwordChangedAt, dateTimeFormat)}
+                  </div>
+                  <div className="col-md-1 col-sm-1">
+                    {this.formatLockStatus(userProfileData.locked)}
+                  </div>
+                  <div className="col-md-2 col-sm-2">
+                    {this.renderChangeStatus(userProfileData)}
+                  </div>
                 </div>
               </div>
 
-              <div className="row">
-                <div className="col-sm-3 col-xs-12">
-                  <div className={styles.title}>Email</div>
-                </div>
-                <div className={styles.badge}>
-                  {userProfileData.email_address}
-                </div>
-              </div>
-
-              <div className="row">
-                <div className="col-sm-3 col-xs-12">
-                  <div className={styles.title}>Account Created At</div>
-                </div>
-                <div className={styles.badge}>
-                  {userProfileData.createdAt}
-                </div>
-              </div>
-
-              <div className="row">
-                <div className="col-sm-3 col-xs-12">
-                  <div className={styles.title}>Account Last Login At</div>
-                </div>
-                <div className={styles.badge}>
-                  {userProfileData.loggedInAt}
-                </div>
-              </div>
-
-            </main>
-          </div>
+            </article>
           : <LoadingIndicatorFullPage/>}
       </div>
     )
   }
 }
 
-UserProfile.propTypes = {}
-
-const mapStateToProps = state => {
-  return {}
-}
-
-export default connect(mapStateToProps)(UserProfile)
+export default UserProfile

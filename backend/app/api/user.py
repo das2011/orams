@@ -269,6 +269,6 @@ def find_user_by_partial_email_address(searchString):
 def find_user_by_id(id):
     user = User.query.filter(User.id == id).first()
     if user is not None:
-        return jsonify(user)
+        return user
     else:
         return None

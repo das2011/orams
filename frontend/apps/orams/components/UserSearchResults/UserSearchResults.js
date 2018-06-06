@@ -33,7 +33,7 @@ const renderTable = (props, users) => {
                 {user.role}
               </div>
               <div className="col-md-4 col-sm-4 user-email">
-                {user.email_address}
+                {user.emailAddress}
               </div>
             </div>
           </div>

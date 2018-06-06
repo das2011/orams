@@ -1,0 +1,39 @@
+.headerSection {
+  padding-bottom: 20px;
+}
+
+.container {
+  margin-top: 48px;
+  margin-bottom: 100px;
+}
+
+.link {
+  font-size: 17px;
+  font-weight: bold;
+  color: #202751;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.headingRow {
+  font-size: 17px;
+  font-weight: bold;
+  color: #202751;
+  border-bottom: solid 3px #202751;
+  padding-bottom: 7px;
+}
+
+.userRow {
+  padding-top: 13px;
+  padding-bottom: 14px;
+  border-bottom: solid 1px #777777;
+  color: #313131;
+}
+
+.name {
+  font-size: 17px;
+  font-weight: bold;
+  color: #202751;
+  float: left;
+  cursor: pointer;
+}

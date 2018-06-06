@@ -10,7 +10,6 @@ import SupplierSearchForm from 'orams/components/SupplierSearchForm/SupplierSear
 import UserSearchForm from '../components/UserSearchForm/UserSearchForm'
 import SupplierSearchResults from '../components/SupplierSearchResults/SupplierSearchResults'
 import UserSearchResults from '../components/UserSearchResults/UserSearchResults'
-import { setSupplierSearchTerm, setUserSearchTerm } from '../actions/adminSearchActions'
 
 
 class AdminPage extends Component {
@@ -106,9 +105,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    setSupplierSearchTerm: searchTerm => dispatch(setSupplierSearchTerm(searchTerm)),
     doSearchSupplier: (searchTerm) => dispatch(searchSupplier(searchTerm)),
-    setUserSearchTerm: searchTerm => dispatch(setUserSearchTerm(searchTerm)),
     doSearchUser: (searchTerm) => dispatch(searchUser(searchTerm))
 
   }
