@@ -3,7 +3,7 @@ from flasgger import Swagger
 
 SWAGGER_TEMPLATE = {
     'info': {
-        'title': 'Digital Marketplace API'
+        'title': 'ORAMS API'
     },
     'securityDefinitions': {'basicAuth': {'type': 'basic'}}
 }
