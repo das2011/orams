@@ -22,9 +22,12 @@ class ReferralBuilderPage extends Component {
     const { match } = this.props
 
     return (
-      <Switch>
-        <Route exact path={match.url} render={() => <ReferralBuilder id={match.params.id} {...this.props} />} />
-      </Switch>
+      <div>
+        <Switch>
+          <Route exact path={match.url} render={() => <ReferralBuilder id={match.params.id} {...this.props} />}/>
+        </Switch>
+      </div>
+
     )
   }
 }

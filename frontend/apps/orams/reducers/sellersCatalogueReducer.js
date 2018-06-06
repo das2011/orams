@@ -28,7 +28,7 @@ const sellersCatalogueReducer = (state = defaultSellersCatalogueState, action) =
     case SET_REGIONS:
       return {
         ...state,
-        regionsData: action.regionsData
+        regionsData: action.regions
       }
 
     case SET_SERVICES:

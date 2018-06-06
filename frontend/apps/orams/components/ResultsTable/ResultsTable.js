@@ -30,8 +30,8 @@ class ResultsTable extends Component {
     }
   }
 
-  onClickReferral(supplierCode, price){
-    this.props.setSelectedSupplierPrice(price)
+  onClickReferral(supplierCode, priceId, price) {
+    this.props.setSelectedSupplierPrice({ priceId, price })
     this.props.history.push(`/referral-builder/${supplierCode}`)
   }
 
@@ -42,22 +42,22 @@ class ResultsTable extends Component {
       <div tabIndex="0" ref={this.setRef} className={styles.table}>
         {alert
           ? <AUpageAlert as={alert.type}>
-              <h4>
-                {alert.message}
-              </h4>
-            </AUpageAlert>
+            <h4>
+              {alert.message}
+            </h4>
+          </AUpageAlert>
           : ''}
         <div className={styles.tableContainer}>
           {categories &&
-            categories.map((category, id = uniqueID()) =>
-              <div key={id + category.name}>
-                <div className={styles.categoryTitle}>
-                  {category.name}
-                </div>
-                {category.suppliers.map((supplier, id = uniqueID()) =>
-                  <div key={id} className={styles.tableRow}>
-                    <div className="row">
-                      <div className="col-xs-12 col-sm-12">
+          categories.map((category, id = uniqueID()) =>
+            <div key={id + category.name}>
+              <div className={styles.categoryTitle}>
+                {category.name}
+              </div>
+              {category.suppliers.map((supplier, id = uniqueID()) =>
+                <div key={id} className={styles.tableRow}>
+                  <div className="row">
+                    <div className="col-xs-12 col-sm-12">
                         <span className={styles.name}>
                           <a
                             onClick={() => {
@@ -67,37 +67,37 @@ class ResultsTable extends Component {
                             {supplier.name}
                           </a>
                         </span>
-                        <span className={styles.priceElements}>
+                      <span className={styles.priceElements}>
                           <div className={styles.price}>
                             {'$' + supplier.price}
                           </div>
                           <div className={styles.incGst}>inc GST</div>
                         </span>
-                      </div>
                     </div>
-                    <div className="row">
-                      <div className="col-xs-12 col-sm-12">
+                  </div>
+                  <div className="row">
+                    <div className="col-xs-12 col-sm-12">
                         <span className={styles.phone}>
                           {supplier.phone}
                         </span>
-                        <span className={styles.email}>
+                      <span className={styles.email}>
                           <a href={'mailto:' + supplier.email}>
                             {supplier.email}
                           </a>
                         </span>
-                        <div className={styles.referral}>
-                          <button className="au-btn" onClick={() => {
-                            this.onClickReferral(supplier.code, supplier.price)
-                          }}
-                          >Send Referral
-                          </button>
-                        </div>
+                      <div className={styles.referral}>
+                        <button className="au-btn" onClick={() => {
+                          this.onClickReferral(supplier.code, supplier.priceId, supplier.price)
+                        }}
+                        >Send Referral
+                        </button>
                       </div>
                     </div>
                   </div>
-                )}
-              </div>
-            )}
+                </div>
+              )}
+            </div>
+          )}
         </div>
       </div>
     )

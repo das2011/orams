@@ -127,6 +127,8 @@ def filter(service_type_id, region_id):
             type: string
           price:
             type: string
+          priceId:
+            type: integer
           code:
             type: integer
       Alert:
@@ -170,6 +172,7 @@ def filter(service_type_id, region_id):
             None if not sub_service else sub_service.name,
             {
                 'price': '{:1,.2f}'.format(price.price),
+                'priceId': price.id,
                 'name': supplier.name,
                 'phone': supplier.data.get('contact_phone', None),
                 'email': supplier.data.get('contact_email', None),

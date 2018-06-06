@@ -24,8 +24,8 @@ export const setErrorMessage = errorMessage => ({
   errorMessage
 })
 
-export function setRegions(regionsData) {
-  return { type: SET_REGIONS, regionsData }
+export function setRegions(regions) {
+  return { type: SET_REGIONS, regions }
 }
 
 export function setServices(servicesData) {
@@ -40,7 +40,7 @@ export function setCategoryAccordionOpen(id) {
   return { type: SET_CATEGORY_ACCORDION_OPEN, id }
 }
 
-export function setRegionData(region) {
+export function setRegion(region) {
   return { type: SET_REGION, region }
 }
 
@@ -118,7 +118,6 @@ export function loadSuppliers() {
 
 export function loadSupplierProfile(id) {
   return (dispatch, getState) => {
-    const state = getState()
     dispatch(sendingRequest(true))
     dmapi({
       method: 'get',
