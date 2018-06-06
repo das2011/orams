@@ -519,23 +519,23 @@ class UserInfo(object):
     loggedInAt = None,
     passwordChangedAt = None,
 
+    def __init__(self, user):
+        if user is not None:
+            self.id = user.id
+            self.name = user.name
+            self.emailAddress = user.email_address
+            self.role = user.role,
+            self.active = user.active
+            self.locked = user.locked
 
-    def __init__(self, id, name, email_address, role, supplier = None, active = None, locked=None, loggedInAt=None, passwordChangedAt=None):
-        self.id = id
-        self.name = name
-        self.emailAddress = email_address
-        self.role = role,
-        self.active = active
-        self.locked = locked
+            if user.loggedInAt:
+                self.loggedInAt = str(user.loggedInAt)
 
-        if loggedInAt:
-            self.loggedInAt = str(loggedInAt)
+            if user.passwordChangedAt:
+                self.passwordChangedAt = str(user.passwordChangedAt)
 
-        if passwordChangedAt:
-            self.passwordChangedAt = str(passwordChangedAt)
-
-        if supplier:
-            self.supplier = supplier.name
+            if user.supplier:
+                self.supplier = user.supplier.name
 
 
 @api.route('/users/<int:user_id>', methods=['GET'], endpoint='get_user')
@@ -559,16 +559,7 @@ def get(user_id):
           $ref: '#/definitions/UserDetail'
     """
     user = find_user_by_id(user_id)
-    user_detail = UserInfo( \
-        user.id, \
-        user.name, \
-        user.email_address, \
-        user.role, \
-        user.supplier, \
-        user.active, \
-        user.locked, \
-        user.logged_in_at, \
-        user.password_changed_at)
+    user_detail = UserInfo(user)
 
     return json.dumps(user_detail.__dict__)
 
@@ -599,17 +590,7 @@ def activate_user(user_id):
             user_id=user_id
         )
 
-        user_detail = UserInfo( \
-            user.id, \
-            user.name, \
-            user.email_address, \
-            user.role, \
-            user.supplier, \
-            user.active, \
-            user.locked, \
-            user.logged_in_at, \
-            user.password_changed_at)
-
+        user_detail = UserInfo(user)
         return json.dumps(user_detail.__dict__)
     except ValueError as error:
         return jsonify(message=error.message), 400
@@ -641,22 +622,12 @@ def deactivate_user(user_id):
             user_id=user_id
         )
 
-        user_detail = UserInfo( \
-            user.id, \
-            user.name, \
-            user.email_address, \
-            user.role, \
-            user.supplier, \
-            user.active, \
-            user.locked, \
-            user.logged_in_at, \
-            user.password_changed_at)
+        user_detail = UserInfo(user)
 
         return json.dumps(user_detail.__dict__)
 
     except ValueError as error:
         return jsonify(message=error.message), 400
-
 
 
 @api.route('/users/<int:user_id>/unlock', methods=['PUT'], endpoint='unlock_user')
@@ -685,16 +656,7 @@ def unlock_user(user_id):
             user_id=user_id
         )
 
-        user_detail = UserInfo( \
-            user.id, \
-            user.name, \
-            user.email_address, \
-            user.role, \
-            user.supplier, \
-            user.active, \
-            user.locked, \
-            user.logged_in_at, \
-            user.password_changed_at)
+        user_detail = UserInfo(user)
 
         return json.dumps(user_detail.__dict__)
 

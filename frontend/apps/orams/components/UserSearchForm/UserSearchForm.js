@@ -28,7 +28,7 @@ class UserSearchForm extends Component {
             id="userSearchTerm"
             htmlFor="userSearchTerm"
             label="Find user by partial email"
-            description="e.g. searching for ca would give all users that email contains c"
+            description="e.g. searching for ca would give all users that email contains ca"
           />
           <button type="submit" className="au-btn">
             Search

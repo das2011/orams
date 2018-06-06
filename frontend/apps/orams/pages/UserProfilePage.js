@@ -58,7 +58,7 @@ const mapDispatchToProps = dispatch => {
     loadUserProfileData: id => dispatch(loadUserProfileData(id)),
     deactivateUser: id => dispatch(deactivateUser(id)),
     activateUser: id => dispatch(activateUser(id)),
-    unlockUser: id => dispatch(unlockUser)
+    unlockUser: id => dispatch(unlockUser(id))
   }
 }
 

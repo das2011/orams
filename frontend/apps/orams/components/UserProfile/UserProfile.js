@@ -40,10 +40,17 @@ class UserProfile extends Component {
     deactivateUser(id)
   }
 
+  handleUnlockUser(userProfileData) {
+    const { id } = userProfileData
+    const { unlockUser } = this.props
+
+    unlockUser(id)
+  }
+
   renderActivateDeactivate(userProfileData) {
     if (userProfileData.active) {
       return (
-        <div>
+        <div className={styles.statusAction}>
           <button className="au-btn" onClick={() => {this.handleDeactivateUser(userProfileData)}}>
             Deactivate
           </button>
@@ -52,7 +59,7 @@ class UserProfile extends Component {
     }
 
     return (
-      <div>
+      <div className={styles.statusAction}>
         <button className="au-btn" onClick={() => {this.handleActivateUser(userProfileData)}}>
           Activate
         </button>
@@ -60,11 +67,23 @@ class UserProfile extends Component {
     )
   }
 
+  renderUnlockButton(userProfileData) {
+    if (userProfileData.locked) {
+      return (
+        <div className={styles.statusAction}>
+          <button className="au-btn" onClick={() => {this.handleUnlockUser(userProfileData)}}>
+            Unlock
+          </button>
+        </div>
+      )
+    }
+  }
+
   renderChangeStatus(userProfileData) {
     return (
       <div>
-        {/* <div>Reset password</div> */}
         {this.renderActivateDeactivate(userProfileData)}
+        {this.renderUnlockButton(userProfileData)}
       </div>
     )
   }
@@ -120,6 +139,15 @@ class UserProfile extends Component {
                 </div>
               </div>
               {this.renderUpdateMessages()}
+              <div>
+                <a
+                  onClick={() => {
+                    this.props.history.goBack()
+                  }}
+                >
+                  Back To User Search
+                </a>
+              </div>
               <div className={styles.headingRow}>
                 <div className="row">
                   <div className="col-md-2 col-sm-2">Name</div>

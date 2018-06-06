@@ -157,7 +157,7 @@ def update_user_details(**kwargs):
         user.supplier_code = kwargs['supplierCode']
     if kwargs.get('application_id', None) is not None:
         user.application_id = kwargs['application_id']
-    if kwargs.get('locked', None) and not kwargs['locked']:
+    if kwargs.get('locked', None) is not None and not kwargs['locked']:
         user.failed_login_count = 0
     if kwargs.get('termsAcceptedAt', None) is not None:
         user.terms_accepted_at = kwargs['termsAcceptedAt']

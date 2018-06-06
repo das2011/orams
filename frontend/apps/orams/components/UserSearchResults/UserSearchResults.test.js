@@ -21,13 +21,13 @@ describe('UserSearchResults', () => {
         id: 1,
         name: 'Buyer user',
         role: 'buyer',
-        email_address: 'buyer@orams.com'
+        emailAddress: 'buyer@orams.com'
       },
       {
         id: 2,
         name: 'Seller user',
         role: 'seller',
-        email_address: 'seller@orams.com'
+        emailAddress: 'seller@orams.com'
       }
     ]
 

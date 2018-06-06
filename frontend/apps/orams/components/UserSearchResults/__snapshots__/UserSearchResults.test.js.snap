@@ -8,13 +8,13 @@ ShallowWrapper {
     searchResults={
       Array [
         Object {
-          "email_address": "buyer@orams.com",
+          "emailAddress": "buyer@orams.com",
           "id": 1,
           "name": "Buyer user",
           "role": "buyer",
         },
         Object {
-          "email_address": "seller@orams.com",
+          "emailAddress": "seller@orams.com",
           "id": 2,
           "name": "Seller user",
           "role": "seller",
