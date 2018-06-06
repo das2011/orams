@@ -8,7 +8,7 @@ from app.swagger import swag
 
 @api.route('/referrals', methods=['POST'], endpoint='create_referral')
 @login_required
-@role_required('buyer')
+@role_required('buyer', 'admin')
 @swag.validate('CreateReferral')
 def create_referral():
     """Create Referral
