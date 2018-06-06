@@ -3,13 +3,21 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { uniqueID } from 'shared/utils/helpers'
 import LoadingIndicatorFullPage from 'shared/LoadingIndicatorFullPage/LoadingIndicatorFullPage'
+import Textfield from 'shared/form/Textfield'
+import formProps from 'shared/form/formPropsSelector'
+import { Form } from 'react-redux-form'
 
-import styles from './ReferralBuilder.scss'
+import styles from './ReferralBuilderForm.scss'
+import PropTypes from 'prop-types'
 
-class ReferralBuilder extends Component {
+class ReferralBuilderForm extends Component {
   constructor(props) {
     super(props)
     this.state = {}
+  }
+
+  static propTypes = {
+    handleCreateReferralSubmit: PropTypes.func.isRequired
   }
 
   retrieveRegionName(regionCode, regionData) {
@@ -32,7 +40,14 @@ class ReferralBuilder extends Component {
     this.props.history.goBack()
   }
 
+  handleSubmit(data) {
+    const { price, handleCreateReferralSubmit } = this.props
+    handleCreateReferralSubmit({ serviceTypePriceId: price.priceId })
+  }
+
   renderReferralInfo(supplierData, regionCode, regionsData, price, organisation) {
+    const { model } = this.props
+
     return (
       <div>
         <div>
@@ -112,11 +127,28 @@ class ReferralBuilder extends Component {
         </div>
 
         <div>
-          <button className="au-btn" onClick={() => {
-            this.props.history.goBack()
-          }}
-          >Cancel
-          </button>
+          <Form model={model} id="createReferral" action="" onSubmit={data => this.handleSubmit(data)}>
+            <Textfield
+              model={`${model}.field1`}
+              name="field1"
+              id="field1"
+              htmlFor="field1"
+              label="field1"
+              description="oh oh, a field here"
+            />
+            <button type="cancel" className="au-btn" onClick={() => {
+              this.props.history.goBack()
+            }}
+            >Cancel
+            </button>
+
+            <button type="submit" className="au-btn">
+              Submit
+            </button>
+          </Form>
+        </div>
+
+        <div>
         </div>
 
         <div>
@@ -154,10 +186,12 @@ class ReferralBuilder extends Component {
   }
 }
 
-ReferralBuilder.propTypes = {}
+ReferralBuilderForm.propTypes = {}
 
-const mapStateToProps = state => {
-  return {}
-}
+const mapStateToProps = state => ({
+  ...formProps(state, 'referralBuilderForm')
+})
 
-export default connect(mapStateToProps)(ReferralBuilder)
+export { Textfield, mapStateToProps, ReferralBuilderForm as Form }
+
+export default connect(mapStateToProps)(ReferralBuilderForm)

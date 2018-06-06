@@ -3,7 +3,8 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { withRouter, Switch, Route } from 'react-router-dom'
-import ReferralBuilder from 'orams/components/ReferralBuilder/ReferralBuilder'
+import { createReferral } from 'orams/actions/referralActions'
+import ReferralBuilderForm from 'orams/components/ReferralBuilderForm/ReferralBuilderForm'
 import {
   loadSupplierProfile
 } from 'orams/actions/sellerCatalogueActions'
@@ -18,13 +19,22 @@ class ReferralBuilderPage extends Component {
     this.props.loadSupplierData(this.props.match.params.id)
   }
 
+  handleCreateReferral = (data) => {
+    const { doCreateReferral } = this.props
+    doCreateReferral(data)
+  }
+
   render() {
     const { match } = this.props
 
     return (
       <div>
         <Switch>
-          <Route exact path={match.url} render={() => <ReferralBuilder id={match.params.id} {...this.props} />}/>
+          <Route exact path={match.url} render={() =>
+            <ReferralBuilderForm
+            handleCreateReferralSubmit={this.handleCreateReferral}
+            id={match.params.id}
+            {...this.props} />}/>
         </Switch>
       </div>
 
@@ -48,7 +58,8 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    loadSupplierData: id => dispatch(loadSupplierProfile(id))
+    loadSupplierData: id => dispatch(loadSupplierProfile(id)),
+    doCreateReferral: (data) => dispatch(createReferral(data))
   }
 }
 
