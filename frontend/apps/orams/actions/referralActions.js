@@ -1,7 +1,4 @@
-import {
-  SENDING_REQUEST,
-  SET_ERROR_MESSAGE
-} from 'orams/constants/constants'
+import { SENDING_REQUEST, SET_ERROR_MESSAGE } from 'orams/constants/constants'
 import { GENERAL_ERROR } from 'orams/constants/messageConstants'
 import dmapi from 'orams/services/apiClient'
 import { setSuccessMessage } from './editPriceActions'
@@ -19,17 +16,13 @@ export const createReferral = data => dispatch => {
     method: 'post',
     url: '/referrals',
     data: JSON.stringify(data)
+  }).then(response => {
+    if (response.error) {
+      dispatch(setErrorMessage(GENERAL_ERROR))
+    } else {
+      dispatch(setSuccessMessage(true))
+      // todo need to do something here with the response.data.id
+    }
+    dispatch(sendingRequest(false))
   })
-    .then(response => {
-      if (response.error) {
-        dispatch(setErrorMessage(GENERAL_ERROR))
-      } else {
-        dispatch(setSuccessMessage(true))
-        // todo need to do something here with the response.data.id
-      }
-      dispatch(sendingRequest(false))
-    })
-    .catch(error => {
-      console.log(error)
-    })
 }
