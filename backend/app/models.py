@@ -2849,6 +2849,8 @@ class Referral(db.Model):
     created_by = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
     created_at = db.Column(DateTime, index=False, nullable=False, default=utcnow)
 
+    service_type_price = db.relationship('ServiceTypePrice', lazy='joined')
+
 
 # Index for .last_for_object queries. Without a composite index the
 # query executes an index backward scan on created_at with filter,
