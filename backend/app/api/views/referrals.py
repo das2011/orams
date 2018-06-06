@@ -42,32 +42,34 @@ def create_referral():
 
 
 def belongs_to(created_by, supplier_code, current_user):
-    return (current_user.role == 'buyer' and created_by == int(current_user.get_id())
-            or current_user.role == 'supplier' and supplier_code == current_user.supplier_code)
+    return (current_user.role == 'buyer' and created_by == int(current_user.get_id()) or
+            current_user.role == 'supplier' and supplier_code == current_user.supplier_code)
+
+def format_referral_response(referral_id, referral):
+    print referral
+    supplier_code = referral.service_type_price.supplier_code
+    supplier_name = suppliers.first(code=supplier_code).name
+
+    return jsonify({
+        'supplier': supplier_name,
+        'price': referral.service_type_price.price,
+        'dateCreated': referral.created_at,
+        'regionName': referral.service_type_price.region.name,
+        'regionState': referral.service_type_price.region.state,
+        'createdBy': referral.created_by,
+        'referralId': referral_id,
+        'agency': referral.agency_name,
+        'info': 'Info'
+    })
 
 @api.route('/referral/<int:referral_id>', methods=['GET'], endpoint='get_referral')
 @login_required
 @role_required('buyer', 'supplier')
 def get_referral(referral_id):
-    # print belongs_to({'created_by': u'4833'}, current_user)
-    # get referral by id
-    # if belongs_to(referral, current_user): return referral
-    # else: return 401
-    referral = referral_service.get(1)
+    referral = referral_service.get(referral_id)
     supplier_code = referral.service_type_price.supplier_code
-    supplier_name = suppliers.first(code=supplier_code).name
 
     if belongs_to(referral.created_by, supplier_code, current_user):
-        return jsonify({
-            'supplier': supplier_name,
-            'price': referral.service_type_price.price,
-            'dateCreated': referral.created_at,
-            'regionName': referral.service_type_price.region.name,
-            'regionState': referral.service_type_price.region.state,
-            'createdBy': referral.created_by,
-            'referralId': referral_id,
-            'agency': 'Agency name',
-            'info': 'Info'
-        }), 200
+        return format_referral_response(referral_id, referral), 200
     else:
         return '', 401
