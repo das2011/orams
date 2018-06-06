@@ -29,6 +29,8 @@ def test_referral_created_when_requested_by_buyer(client, users, agencies, servi
 
 
 def test_referral_created(client, users, agencies, service_prices_without_future):
+    from app.models import Referral
+
     buyer = next(user for user in users if user.id == 7)
     res = client.post('/2/login', data=json.dumps({
         'emailAddress': buyer.email_address, 'password': 'testpassword'
@@ -42,6 +44,13 @@ def test_referral_created(client, users, agencies, service_prices_without_future
     assert response.status_code == 200
     referral = json.loads(response.data)
     assert referral['referralId'] == 1
+    referral = Referral.query\
+        .filter(Referral.id == referral['referralId'])\
+        .first()
+    assert referral.agency_name == 'Digital Transformation Agency'
+    assert referral.created_by == buyer.id
+    assert referral.service_type_price.supplier_code == service_prices_without_future[0].supplier_code
+    assert referral.service_type_price.price == service_prices_without_future[0].price
 
 
 def test_referral_created_when_requested_by_admin(client, admin_users, agencies, service_prices_without_future):

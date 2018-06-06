@@ -2850,6 +2850,7 @@ class Referral(db.Model):
     created_at = db.Column(DateTime, index=False, nullable=False, default=utcnow)
 
     service_type_price = db.relationship('ServiceTypePrice', lazy='joined')
+    creator = db.relationship(User, lazy='joined')
 
 
 # Index for .last_for_object queries. Without a composite index the
