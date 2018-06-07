@@ -51,7 +51,7 @@ const renderTable = (props, users) => {
 
 const UserSearchResults = props => {
   const { searchResults } = props
-  const users = searchResults || {}
+  const users = searchResults || []
 
   return (
     <div className={styles.container}>

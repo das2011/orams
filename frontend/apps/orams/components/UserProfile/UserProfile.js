@@ -1,57 +1,57 @@
-/* eslint-disable */
 import React, { Component } from 'react'
-import format from 'date-fns/format'
-import parse from 'date-fns/parse'
 import AUpageAlert from '@gov.au/page-alerts/lib/js/react.js'
 import LoadingIndicatorFullPage from 'shared/LoadingIndicatorFullPage/LoadingIndicatorFullPage'
+import { DATE_FORMAT_D_MMM_YYYY, DATE_TIME_FORMAT_D_MMM_YYYY_HHMM } from 'orams/constants/formatConstants'
+import { formatDate } from 'orams/util/dateUtil'
 import styles from './UserProfile.scss'
 
-class UserProfile extends Component {
+const formatLockStatus = locked => (locked ? 'Y' : 'N')
+const renderColumn = (size, text) => {
+  const displayText = text || ''
 
+  return (
+    <div className={`col-md-${size} col-sm-${size}`}>
+      {displayText}
+    </div>
+  )
+}
+
+class UserProfile extends Component {
   constructor(props) {
     super(props)
     this.state = {}
   }
 
-  formatDate(date, dateFormat = 'D MMM YYYY') {
-    if (date) {
-      const parsed = parse(date)
-      return format(parsed, dateFormat)
-    }
-
-    return ''
-  }
-
-  formatLockStatus(locked) {
-    return locked ? 'Y' : 'N'
-  }
-
-  handleActivateUser(userProfileData) {
-    const { id } = userProfileData
+  handleActivateUser(userId) {
     const { activateUser } = this.props
 
-    activateUser(id)
+    activateUser(userId)
   }
 
-  handleDeactivateUser(userProfileData) {
-    const { id } = userProfileData
+  handleDeactivateUser(userId) {
     const { deactivateUser } = this.props
 
-    deactivateUser(id)
+    deactivateUser(userId)
   }
 
-  handleUnlockUser(userProfileData) {
-    const { id } = userProfileData
+  handleUnlockUser(userId) {
     const { unlockUser } = this.props
 
-    unlockUser(id)
+    unlockUser(userId)
   }
 
   renderActivateDeactivate(userProfileData) {
-    if (userProfileData.active) {
+    const { id, active } = userProfileData
+
+    if (active) {
       return (
         <div className={styles.statusAction}>
-          <button className="au-btn" onClick={() => {this.handleDeactivateUser(userProfileData)}}>
+          <button
+            className="au-btn"
+            onClick={() => {
+              this.handleDeactivateUser(id)
+            }}
+          >
             Deactivate
           </button>
         </div>
@@ -60,7 +60,12 @@ class UserProfile extends Component {
 
     return (
       <div className={styles.statusAction}>
-        <button className="au-btn" onClick={() => {this.handleActivateUser(userProfileData)}}>
+        <button
+          className="au-btn"
+          onClick={() => {
+            this.handleActivateUser(id)
+          }}
+        >
           Activate
         </button>
       </div>
@@ -68,15 +73,24 @@ class UserProfile extends Component {
   }
 
   renderUnlockButton(userProfileData) {
-    if (userProfileData.locked) {
+    const { id, locked } = userProfileData
+
+    if (locked) {
       return (
         <div className={styles.statusAction}>
-          <button className="au-btn" onClick={() => {this.handleUnlockUser(userProfileData)}}>
+          <button
+            className="au-btn"
+            onClick={() => {
+              this.handleUnlockUser(id)
+            }}
+          >
             Unlock
           </button>
         </div>
       )
     }
+
+    return ''
   }
 
   renderChangeStatus(userProfileData) {
@@ -91,38 +105,44 @@ class UserProfile extends Component {
   renderGeneralError() {
     const { errorMessage } = this.props
 
-    if ( errorMessage) {
+    if (errorMessage) {
       return (
         <AUpageAlert as="error">
-          <h4>{errorMessage}</h4>
+          <h4>{`${errorMessage}`}</h4>
         </AUpageAlert>
       )
     }
+
+    return ''
   }
 
   renderUpdateMessages() {
     const { updateUserSuccessMessage, updateUserErrorMessage } = this.props
 
-    if ( updateUserSuccessMessage ) {
+    if (updateUserSuccessMessage) {
       return (
         <AUpageAlert as="success">
-          <h4>{updateUserSuccessMessage}</h4>
+          <h4>{`${updateUserSuccessMessage}`}</h4>
         </AUpageAlert>
       )
     }
 
-    if ( updateUserErrorMessage) {
+    if (updateUserErrorMessage) {
       return (
         <AUpageAlert as="error">
-          <h4>{updateUserErrorMessage}</h4>
+          <h4>{`${updateUserErrorMessage}`}</h4>
         </AUpageAlert>
       )
     }
+
+    return ''
   }
 
   render() {
     const { userProfileData } = this.props
-    const dateTimeFormat = 'D MMMM YYYY HH:mm'
+    const { name, role, supplier, loggedInAt, passwordChangedAt, locked } = userProfileData
+    const loggedInDate = formatDate(loggedInAt, DATE_FORMAT_D_MMM_YYYY)
+    const passwordChangedDateTime = formatDate(passwordChangedAt, DATE_TIME_FORMAT_D_MMM_YYYY_HHMM)
 
     return (
       <div className={styles.container}>
@@ -150,43 +170,30 @@ class UserProfile extends Component {
               </div>
               <div className={styles.headingRow}>
                 <div className="row">
-                  <div className="col-md-2 col-sm-2">Name</div>
-                  <div className="col-md-1 col-sm-1">Role</div>
-                  <div className="col-md-2 col-sm-2">Supplier</div>
-                  <div className="col-md-2 col-sm-2">Last login</div>
-                  <div className="col-md-2 col-sm-2">Last password change</div>
-                  <div className="col-md-1 col-sm-1">Locked</div>
-                  <div className="col-md-2 col-sm-2">Change status</div>
+                  {renderColumn(2, 'Name')}
+                  {renderColumn(1, 'Role')}
+                  {renderColumn(2, 'Supplier')}
+                  {renderColumn(2, 'Last login')}
+                  {renderColumn(2, 'Last password')}
+                  {renderColumn(1, 'Locked')}
+                  {renderColumn(2, 'Change status')}
                 </div>
               </div>
               <div className={styles.userRow}>
                 <div className="row">
-                  <div className="col-md-2 col-sm-2">
-                    {userProfileData.name}
-                  </div>
-                  <div className="col-md-1 col-sm-1">
-                    {userProfileData.role}
-                  </div>
-                  <div className="col-md-2 col-sm-2">
-                    {userProfileData.supplier || ''}
-                  </div>
-                  <div className="col-md-2 col-sm-2">
-                    {this.formatDate(userProfileData.loggedInAt)}
-                  </div>
-                  <div className="col-md-2 col-sm-2">
-                    {this.formatDate(userProfileData.passwordChangedAt, dateTimeFormat)}
-                  </div>
-                  <div className="col-md-1 col-sm-1">
-                    {this.formatLockStatus(userProfileData.locked)}
-                  </div>
+                  {renderColumn(2, name)}
+                  {renderColumn(1, role)}
+                  {renderColumn(2, supplier)}
+                  {renderColumn(2, loggedInDate)}
+                  {renderColumn(2, passwordChangedDateTime)}
+                  {renderColumn(1, formatLockStatus(locked))}
                   <div className="col-md-2 col-sm-2">
                     {this.renderChangeStatus(userProfileData)}
                   </div>
                 </div>
               </div>
-
             </article>
-          : <LoadingIndicatorFullPage/>}
+          : <LoadingIndicatorFullPage />}
       </div>
     )
   }
