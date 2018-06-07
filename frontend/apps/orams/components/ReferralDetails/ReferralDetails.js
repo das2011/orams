@@ -12,8 +12,7 @@ const DETAILS_KEY_MAP = {
   location: 'Location',
   createdBy: 'Created By',
   referralId: 'Referral ID',
-  agency: 'Agency',
-  info: 'Other info'
+  agency: 'Agency'
 }
 
 export default class ReferralDetails extends Component {
@@ -49,11 +48,10 @@ export default class ReferralDetails extends Component {
       location: `${details.regionName} ${details.regionState}`,
       createdBy: details.createdBy,
       referralId: details.referralId,
-      agency: details.agency,
-      info: details.info
+      agency: details.agency
     }
 
-    return Object.keys(referralDetails).map(k =>
+    return Object.keys(DETAILS_KEY_MAP).map(k =>
       ReferralDetails.renderDetailsItem(DETAILS_KEY_MAP[k], referralDetails[k])
     )
   }

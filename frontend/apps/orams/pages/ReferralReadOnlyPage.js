@@ -5,7 +5,7 @@ import { withRouter, Switch, Route } from 'react-router-dom'
 import ReferralDetails from 'orams/components/ReferralDetails/ReferralDetails'
 import { loadReferralData } from 'orams/actions/referralActions'
 
-class ReferralReadOnlyPage extends Component {
+export class ReferralReadOnlyPage extends Component {
   constructor(props) {
     super(props)
     this.state = {}
