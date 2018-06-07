@@ -63,6 +63,7 @@ jobs:
         environment:
           TZ: "/usr/share/zoneinfo/Australia/Sydney"
     steps:
+      - *cf-install
       - *update-libs
       - *postgres-install
       - attach_workspace:
@@ -84,6 +85,13 @@ jobs:
             source venv/bin/activate
             ./scripts/run_tests.sh
             git log --pretty=format:'%h' -n 1 > version_label
+      - run:
+          name: Compare database model (code) with copy of schema from dev (migrations applied)
+          command: |
+            cd backend
+            source venv/bin/activate
+            cf login -a https://api.system.y.cld.gov.au -o dta -s marketplace -u $CF_USER_STAGING -p $CF_PASSWORD_STAGING
+            python ./db_tasks.py v2_test_migration $CIRCLE_BUILD_NUM api.system.y.cld.gov.au $CF_USER_STAGING $CF_PASSWORD_STAGING orams-dev-shared
       - persist_to_workspace:
           root: .
           paths:
