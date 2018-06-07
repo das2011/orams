@@ -30,7 +30,7 @@ export const createReferral = data => dispatch => { //eslint-disable-line
 }
 
 export function loadReferralData(id) {
-  return dispatch => {
+  return dispatch =>
     dmapi({ url: `referral/${id}` }).then(response => {
       if (response.error) {
         if (response.status === 401) {
@@ -43,5 +43,4 @@ export function loadReferralData(id) {
         window.scrollTo(0, 0)
       }
     })
-  }
 }

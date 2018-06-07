@@ -1,12 +1,9 @@
-/* eslint-disable */
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { withRouter, Switch, Route } from 'react-router-dom'
 import ReferralDetails from 'orams/components/ReferralDetails/ReferralDetails'
-import {
-  loadReferralData
-} from 'orams/actions/referralActions'
+import { loadReferralData } from 'orams/actions/referralActions'
 
 class ReferralReadOnlyPage extends Component {
   constructor(props) {
@@ -33,18 +30,12 @@ ReferralReadOnlyPage.propTypes = {
   match: PropTypes.object.isRequired
 }
 
-const mapStateToProps = state => {
-  return {
-    referralDetails: state.referralDetails,
-    isLoading: state.app.currentlySending,
-    errorMessage: state.app.errorMessage
-  };
-}
+const mapStateToProps = state => ({
+  referralDetails: state.referralDetails,
+  isLoading: state.app.currentlySending,
+  errorMessage: state.app.errorMessage
+})
 
-function mapDispatchToProps() {
-  return {
-    loadReferralData
-  }
-}
+const mapDispatchToProps = { loadReferralData }
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps())(ReferralReadOnlyPage))
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(ReferralReadOnlyPage))
