@@ -131,21 +131,17 @@
     "build:development": "node $NODE_DEBUG_OPTION scripts/build.js --dev",
     "test": "node scripts/test.js --env=jsdom",
     "test:coverage": "node scripts/test.js --env=jsdom --coverage",
+    "jest": "jest --watch",
+    "jest:coverage": "jest --coverage",
     "server": "node scripts/server.js",
     "server:development": "nodemon $NODE_DEBUG_OPTION scripts/server.js --watch build/render-server.js",
     "bdd-test": "node ./node_modules/.bin/wdio wdio.conf.js",
     "eslint": "./node_modules/.bin/eslint .",
+    "eslint:fix": "npm run eslint -- --fix",
     "prettier": "./node_modules/.bin/prettier --print-width 120 --single-quote --no-semi --write \"apps/**/*.js\""
   },
   "jest": {
     "coverageDirectory": "coverage",
-    "collectCoverageFrom": [
-      "src/**/*.{js,jsx}",
-      "app/**/*.{js,jsx}",
-      "server/**/*.{js,jsx}",
-      "!src/**/index.js",
-      "!**/node_modules/**"
-    ],
     "moduleFileExtensions": [
       "jsx",
       "js",

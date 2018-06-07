@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import parse_date from 'date-fns/parse'
+import parseDate from 'date-fns/parse'
 import format from 'date-fns/format'
 import AUpageAlert from '@gov.au/page-alerts/lib/js/react.js'
 import LoadingIndicatorFullPage from 'shared/LoadingIndicatorFullPage/LoadingIndicatorFullPage'
@@ -37,7 +37,7 @@ export default class ReferralDetails extends Component {
   }
 
   static renderHorizontalLine() {
-    return <div className={styles.horizontalSeparatorLine}/>
+    return <div className={styles.horizontalSeparatorLine} />
   }
 
   renderAllDetails() {
@@ -45,13 +45,13 @@ export default class ReferralDetails extends Component {
     const referralDetails = {
       supplier: details.supplier,
       price: `$${details.price} incl GST`,
-      dateCreated: format(parse_date(details.dateCreated), 'DD MMM YYYY'),
+      dateCreated: format(parseDate(details.dateCreated), 'DD MMM YYYY'),
       location: `${details.regionName} ${details.regionState}`,
       createdBy: details.createdBy,
       referralId: details.referralId,
       agency: details.agency,
       info: details.info
-    };
+    }
 
     return Object.keys(referralDetails).map(k =>
       ReferralDetails.renderDetailsItem(DETAILS_KEY_MAP[k], referralDetails[k])

@@ -8,8 +8,7 @@ const initialState = {
   regionState: '',
   createdBy: '',
   referralId: '',
-  agency: '',
-  info: ''
+  agency: ''
 }
 
 const referralDetailsReducer = (state = initialState, action) => {
