@@ -157,7 +157,7 @@ def update_user_details(**kwargs):
         user.supplier_code = kwargs['supplierCode']
     if kwargs.get('application_id', None) is not None:
         user.application_id = kwargs['application_id']
-    if kwargs.get('locked', None) is not None and not kwargs['locked']:
+    if 'locked' in kwargs and not kwargs['locked']:
         user.failed_login_count = 0
     if kwargs.get('termsAcceptedAt', None) is not None:
         user.terms_accepted_at = kwargs['termsAcceptedAt']
@@ -186,7 +186,7 @@ def check_supplier_role(role, supplier_code):
     if role == 'supplier' and supplier_code is None:
         raise ValueError("'supplier_code' is required for users with 'supplier' role")
     elif role != 'supplier' and supplier_code is not None:
-        raise ("'supplier_code' is only valid for users with 'supplier' role, not '{}'".format(role))
+        raise("'supplier_code' is only valid for users with 'supplier' role, not '{}'".format(role))
 
 
 def create_user():
@@ -250,25 +250,3 @@ def create_user():
 
     except Exception as error:
         return jsonify(message=error.message), 400
-
-
-def find_user_by_partial_email_address(searchString):
-    users = User.query \
-        .join(User.frameworks) \
-        .join(UserFramework.framework) \
-        .filter(Framework.slug == 'orams') \
-        .filter(User.email_address.contains(searchString.lower())) \
-        .order_by(User.name) \
-        .all()
-    if users is not None:
-        return users
-    else:
-        return None
-
-
-def find_user_by_id(id):
-    user = User.query.filter(User.id == id).first()
-    if user is not None:
-        return user
-    else:
-        return None

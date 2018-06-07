@@ -5,7 +5,7 @@ import { uniqueID } from 'shared/utils/helpers'
 import styles from './UserSearchResults.scss'
 
 const renderTable = (props, users) => {
-  if (users && users.length > 0) {
+  if (users.length > 0) {
     return (
       <article role="main">
         <div className={styles.headingRow}>

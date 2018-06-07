@@ -103,12 +103,9 @@ const mapStateToProps = state => {
   }
 }
 
-const mapDispatchToProps = dispatch => {
-  return {
-    doSearchSupplier: (searchTerm) => dispatch(searchSupplier(searchTerm)),
-    doSearchUser: (searchTerm) => dispatch(searchUser(searchTerm))
-
-  }
+const mapDispatchToProps = {
+  doSearchSupplier: (searchTerm) => searchSupplier(searchTerm),
+  doSearchUser: (searchTerm) => searchUser(searchTerm)
 }
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(AdminPage))

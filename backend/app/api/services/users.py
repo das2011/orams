@@ -1,6 +1,6 @@
 from app.api.helpers import Service
 from app import db
-from app.models import User
+from app.models import User, UserFramework, Framework
 from sqlalchemy import func, desc
 from sqlalchemy.sql.functions import concat
 
@@ -44,3 +44,17 @@ class UsersService(Service):
                                   .order_by(desc(User.logged_in_at)))
 
         return user_by_supplier_query.first()
+
+    def find_user_by_partial_email_address(self, search_string):
+        """Returns a list of the users based on search string."""
+        users = User.query \
+            .join(User.frameworks) \
+            .join(UserFramework.framework) \
+            .filter(Framework.slug == 'orams') \
+            .filter(User.email_address.contains(search_string.lower())) \
+            .order_by(User.name) \
+            .all()
+        if users is not None:
+            return users
+        else:
+            return None

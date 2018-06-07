@@ -138,62 +138,71 @@ class UserProfile extends Component {
     return ''
   }
 
-  render() {
+  renderUserTable() {
     const { userProfileData } = this.props
-    const { name, role, supplier, loggedInAt, passwordChangedAt, locked } = userProfileData
-    const loggedInDate = formatDate(loggedInAt, DATE_FORMAT_D_MMM_YYYY)
-    const passwordChangedDateTime = formatDate(passwordChangedAt, DATE_TIME_FORMAT_D_MMM_YYYY_HHMM)
 
+    if (userProfileData) {
+      const { name, role, supplier, loggedInAt, passwordChangedAt, locked } = userProfileData
+      const loggedInDate = formatDate(loggedInAt, DATE_FORMAT_D_MMM_YYYY)
+      const passwordChangedDateTime = formatDate(passwordChangedAt, DATE_TIME_FORMAT_D_MMM_YYYY_HHMM)
+
+      return (
+        <article role="main">
+          <div className={styles.headerSection}>
+            <div className="row">
+              <div className="col-xs-12 col-sm-9">
+                <div className="au-display-xl">
+                  {userProfileData.emailAddress}
+                </div>
+              </div>
+            </div>
+          </div>
+          {this.renderUpdateMessages()}
+          <div>
+            <a
+              onClick={() => {
+                this.props.history.goBack()
+              }}
+            >
+              Back To User Search
+            </a>
+          </div>
+          <div className={styles.headingRow}>
+            <div className="row">
+              {renderColumn(2, 'Name')}
+              {renderColumn(1, 'Role')}
+              {renderColumn(2, 'Supplier')}
+              {renderColumn(2, 'Last login')}
+              {renderColumn(2, 'Last password')}
+              {renderColumn(1, 'Locked')}
+              {renderColumn(2, 'Change status')}
+            </div>
+          </div>
+          <div className={styles.userRow}>
+            <div className="row">
+              {renderColumn(2, name)}
+              {renderColumn(1, role)}
+              {renderColumn(2, supplier)}
+              {renderColumn(2, loggedInDate)}
+              {renderColumn(2, passwordChangedDateTime)}
+              {renderColumn(1, formatLockStatus(locked))}
+              <div className="col-md-2 col-sm-2">
+                {this.renderChangeStatus(userProfileData)}
+              </div>
+            </div>
+          </div>
+        </article>
+      )
+    }
+
+    return <LoadingIndicatorFullPage />
+  }
+
+  render() {
     return (
       <div className={styles.container}>
         {this.renderGeneralError()}
-        {userProfileData
-          ? <article role="main">
-              <div className={styles.headerSection}>
-                <div className="row">
-                  <div className="col-xs-12 col-sm-9">
-                    <div className="au-display-xl">
-                      {userProfileData.emailAddress}
-                    </div>
-                  </div>
-                </div>
-              </div>
-              {this.renderUpdateMessages()}
-              <div>
-                <a
-                  onClick={() => {
-                    this.props.history.goBack()
-                  }}
-                >
-                  Back To User Search
-                </a>
-              </div>
-              <div className={styles.headingRow}>
-                <div className="row">
-                  {renderColumn(2, 'Name')}
-                  {renderColumn(1, 'Role')}
-                  {renderColumn(2, 'Supplier')}
-                  {renderColumn(2, 'Last login')}
-                  {renderColumn(2, 'Last password')}
-                  {renderColumn(1, 'Locked')}
-                  {renderColumn(2, 'Change status')}
-                </div>
-              </div>
-              <div className={styles.userRow}>
-                <div className="row">
-                  {renderColumn(2, name)}
-                  {renderColumn(1, role)}
-                  {renderColumn(2, supplier)}
-                  {renderColumn(2, loggedInDate)}
-                  {renderColumn(2, passwordChangedDateTime)}
-                  {renderColumn(1, formatLockStatus(locked))}
-                  <div className="col-md-2 col-sm-2">
-                    {this.renderChangeStatus(userProfileData)}
-                  </div>
-                </div>
-              </div>
-            </article>
-          : <LoadingIndicatorFullPage />}
+        {this.renderUserTable()}
       </div>
     )
   }

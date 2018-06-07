@@ -16,8 +16,7 @@ from app.emails.users import (
 )
 from dmutils.email import EmailError, InvalidToken
 from app.api.helpers import decode_creation_token, user_info, role_required
-from app.api.user import (is_duplicate_user, update_user_details,
-                          find_user_by_partial_email_address, find_user_by_id)
+from app.api.user import (is_duplicate_user, update_user_details)
 from datetime import datetime
 from app.swagger import swag
 from app.api.services import users
@@ -499,16 +498,16 @@ def find_user_by_string():
     userList = []
     searchString = request.args.get("string", None)
     if searchString:
-        users = find_user_by_partial_email_address(searchString)
+        foundUsers = users.find_user_by_partial_email_address(searchString)
         if users is not None:
-            for user in users:
-                u = UserInfo(user.id, user.name, user.email_address, user.role)
+            for user in foundUsers:
+                u = UserView(user)
                 userList.append(u)
 
-    return json.dumps([ob.__dict__ for ob in userList])
+    return jsonify([ob.__dict__ for ob in userList])
 
 
-class UserInfo(object):
+class UserView(object):
     id = ''
     name = ''
     emailAddress = ''
@@ -528,11 +527,11 @@ class UserInfo(object):
             self.active = user.active
             self.locked = user.locked
 
-            if user.loggedInAt:
-                self.loggedInAt = str(user.loggedInAt)
+            if user.logged_in_at:
+                self.loggedInAt = str(user.logged_in_at)
 
-            if user.passwordChangedAt:
-                self.passwordChangedAt = str(user.passwordChangedAt)
+            if user.password_changed_at:
+                self.passwordChangedAt = str(user.password_changed_at)
 
             if user.supplier:
                 self.supplier = user.supplier.name
@@ -558,10 +557,10 @@ def get(user_id):
         schema:
           $ref: '#/definitions/UserDetail'
     """
-    user = find_user_by_id(user_id)
-    user_detail = UserInfo(user)
+    user = users.get(user_id)
+    user_detail = UserView(user)
 
-    return json.dumps(user_detail.__dict__)
+    return jsonify(user_detail.__dict__)
 
 
 @api.route('/users/<int:user_id>/activate', methods=['PUT'], endpoint='activate_user')
@@ -584,16 +583,7 @@ def activate_user(user_id):
         schema:
           $ref: '#/definitions/UserDetail'
     """
-    try:
-        user = update_user_details(
-            active=True,
-            user_id=user_id
-        )
-
-        user_detail = UserInfo(user)
-        return json.dumps(user_detail.__dict__)
-    except ValueError as error:
-        return jsonify(message=error.message), 400
+    return get_user_view_updated_user(active=True, user_id=user_id)
 
 
 @api.route('/users/<int:user_id>/deactivate', methods=['PUT'], endpoint='deactivate_user')
@@ -616,18 +606,7 @@ def deactivate_user(user_id):
         schema:
           $ref: '#/definitions/UserDetail'
     """
-    try:
-        user = update_user_details(
-            active=False,
-            user_id=user_id
-        )
-
-        user_detail = UserInfo(user)
-
-        return json.dumps(user_detail.__dict__)
-
-    except ValueError as error:
-        return jsonify(message=error.message), 400
+    return get_user_view_updated_user(active=False, user_id=user_id)
 
 
 @api.route('/users/<int:user_id>/unlock', methods=['PUT'], endpoint='unlock_user')
@@ -650,15 +629,13 @@ def unlock_user(user_id):
         schema:
           $ref: '#/definitions/UserDetail'
     """
+    return get_user_view_updated_user(locked=False, user_id=user_id)
+
+
+def get_user_view_updated_user(**kwargs):
     try:
-        user = update_user_details(
-            locked=False,
-            user_id=user_id
-        )
-
-        user_detail = UserInfo(user)
-
-        return json.dumps(user_detail.__dict__)
-
+        user = update_user_details(**kwargs)
+        user_detail = UserView(user)
+        return jsonify(user_detail.__dict__)
     except ValueError as error:
         return jsonify(message=error.message), 400
