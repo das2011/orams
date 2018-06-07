@@ -46,7 +46,6 @@ def belongs_to(created_by, supplier_code, current_user):
             current_user.role == 'supplier' and supplier_code == current_user.supplier_code)
 
 def format_referral_response(referral_id, referral):
-    print referral
     supplier_code = referral.service_type_price.supplier_code
     supplier_name = suppliers.first(code=supplier_code).name
 

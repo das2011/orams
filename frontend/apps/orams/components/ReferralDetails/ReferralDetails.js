@@ -19,9 +19,9 @@ const DETAILS_KEY_MAP = {
 export default class ReferralDetails extends Component {
   static renderDetailsItem(title, value) {
     return (
-      <div className="row" key={title}>
+      <div className={`row ${styles.detailsRow}`} key={title}>
         <div className="col-sm-3 col-xs-12">
-          <div>
+          <div className={styles.title}>
             {title}
           </div>
         </div>
@@ -34,6 +34,10 @@ export default class ReferralDetails extends Component {
 
   static renderDisclaimerText() {
     return <div className="row">Disclaimer:</div>
+  }
+
+  static renderHorizontalLine() {
+    return <div className={styles.horizontalSeparatorLine}/>
   }
 
   renderAllDetails() {
@@ -49,7 +53,9 @@ export default class ReferralDetails extends Component {
       info: details.info
     };
 
-    return Object.keys(referralDetails).map(k => ReferralDetails.renderDetailsItem(DETAILS_KEY_MAP[k], referralDetails[k]))
+    return Object.keys(referralDetails).map(k =>
+      ReferralDetails.renderDetailsItem(DETAILS_KEY_MAP[k], referralDetails[k])
+    )
   }
 
   render() {
@@ -68,13 +74,15 @@ export default class ReferralDetails extends Component {
     }
     return (
       <main>
-        <div className="row">
+        <div className={`row ${styles.headerSection}`}>
           <div className="col-xs-12 col-sm-12">
             <h1 className="au-display-xl">Referral Details</h1>
           </div>
         </div>
 
         {this.renderAllDetails()}
+
+        {ReferralDetails.renderHorizontalLine()}
         {ReferralDetails.renderDisclaimerText()}
       </main>
     )
