@@ -4,11 +4,20 @@ import dmapi from 'orams/services/apiClient'
 import { setSuccessMessage } from './editPriceActions'
 
 const sendingRequest = sending => ({ type: SENDING_REQUEST, sending })
+import {
+  SET_REFERRAL_DATA,
+  SET_ERROR_MESSAGE,
+  SET_LOADING_REFERRAL_DATA,
+  RESET_LOADING_REFERRAL_DATA
+} from '../constants/constants'
 
 const setErrorMessage = errorMessage => ({
   type: SET_ERROR_MESSAGE,
   errorMessage
 })
+
+const setLoading = () => ({ type: SET_LOADING_REFERRAL_DATA })
+const resetLoading = () => ({ type: RESET_LOADING_REFERRAL_DATA })
 
 const setReferralData = referralData => ({ type: SET_REFERRAL_DATA, referralData })
 
@@ -30,8 +39,10 @@ export const createReferral = data => dispatch => { //eslint-disable-line
 }
 
 export function loadReferralData(id) {
-  return dispatch =>
-    dmapi({ url: `referral/${id}` }).then(response => {
+  return dispatch => {
+    dispatch(setLoading())
+    return dmapi({ url: `referral/${id}` }).then(response => {
+      dispatch(resetLoading())
       if (response.error) {
         if (response.status === 401) {
           dispatch(setErrorMessage(UNAUTHORISED_ERROR))
@@ -43,4 +54,5 @@ export function loadReferralData(id) {
         window.scrollTo(0, 0)
       }
     })
+  }
 }

@@ -32,7 +32,7 @@ ReferralReadOnlyPage.propTypes = {
 
 const mapStateToProps = state => ({
   referralDetails: state.referralDetails,
-  isLoading: state.app.currentlySending,
+  isLoading: state.referralDetails.isLoading,
   errorMessage: state.app.errorMessage
 })
 

@@ -1,12 +1,19 @@
 import dmapi from 'orams/services/apiClient'
 import { GENERAL_ERROR, UNAUTHORISED_ERROR } from 'orams/constants/messageConstants'
-import { SET_REFERRAL_DATA, SET_ERROR_MESSAGE } from '../constants/constants'
+import {
+  SET_REFERRAL_DATA,
+  SET_ERROR_MESSAGE,
+  SET_LOADING_REFERRAL_DATA,
+  RESET_LOADING_REFERRAL_DATA
+} from '../constants/constants'
 import { loadReferralData } from './referralActions'
 
 jest.mock('orams/services/apiClient')
 
 describe('referralActions', () => {
   const mockDispatch = jest.fn()
+  const setLoadingAction = { type: SET_LOADING_REFERRAL_DATA }
+  const resetLoadingAction = { type: RESET_LOADING_REFERRAL_DATA }
 
   beforeEach(() => {
     jest.resetAllMocks()
@@ -25,7 +32,9 @@ describe('referralActions', () => {
     const expectedAction = { type: SET_REFERRAL_DATA, referralData: { price: 200 } }
     dmapi.mockReturnValueOnce(Promise.resolve(responseData))
     return loadReferralData(1)(mockDispatch).then(() => {
-      expect(mockDispatch.mock.calls[0][0]).toEqual(expectedAction)
+      expect(mockDispatch.mock.calls[0][0]).toEqual(setLoadingAction)
+      expect(mockDispatch.mock.calls[1][0]).toEqual(resetLoadingAction)
+      expect(mockDispatch.mock.calls[2][0]).toEqual(expectedAction)
     })
   })
 
@@ -34,7 +43,9 @@ describe('referralActions', () => {
     const expectedAction = { type: SET_ERROR_MESSAGE, errorMessage: GENERAL_ERROR }
     dmapi.mockReturnValueOnce(Promise.resolve(responseData))
     return loadReferralData(1)(mockDispatch).then(() => {
-      expect(mockDispatch.mock.calls[0][0]).toEqual(expectedAction)
+      expect(mockDispatch.mock.calls[0][0]).toEqual(setLoadingAction)
+      expect(mockDispatch.mock.calls[1][0]).toEqual(resetLoadingAction)
+      expect(mockDispatch.mock.calls[2][0]).toEqual(expectedAction)
     })
   })
 
@@ -43,7 +54,9 @@ describe('referralActions', () => {
     const expectedAction = { type: SET_ERROR_MESSAGE, errorMessage: UNAUTHORISED_ERROR }
     dmapi.mockReturnValueOnce(Promise.resolve(responseData))
     return loadReferralData(1)(mockDispatch).then(() => {
-      expect(mockDispatch.mock.calls[0][0]).toEqual(expectedAction)
+      expect(mockDispatch.mock.calls[0][0]).toEqual(setLoadingAction)
+      expect(mockDispatch.mock.calls[1][0]).toEqual(resetLoadingAction)
+      expect(mockDispatch.mock.calls[2][0]).toEqual(expectedAction)
     })
   })
 })
