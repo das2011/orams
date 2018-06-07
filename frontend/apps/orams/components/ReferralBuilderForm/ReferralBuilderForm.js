@@ -1,10 +1,10 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
+import { Form } from 'react-redux-form'
 import PropTypes from 'prop-types'
 import LoadingIndicatorFullPage from 'shared/LoadingIndicatorFullPage/LoadingIndicatorFullPage'
 import Textfield from 'shared/form/Textfield'
 import formProps from 'shared/form/formPropsSelector'
-import { Form } from 'react-redux-form'
 import styles from './ReferralBuilderForm.scss'
 
 class ReferralBuilderForm extends Component {
