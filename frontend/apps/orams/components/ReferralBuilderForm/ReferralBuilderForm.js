@@ -31,6 +31,7 @@ class ReferralBuilderForm extends Component {
       }
     }
     return `${regionName} ${subRegionName}`
+    /* eslint-enable no-restricted-syntax */
   }
 
   goBack = () => {
