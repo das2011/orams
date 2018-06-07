@@ -45,6 +45,7 @@ def belongs_to(created_by, supplier_code, current_user):
     return (current_user.role == 'buyer' and created_by == int(current_user.get_id()) or
             current_user.role == 'supplier' and supplier_code == current_user.supplier_code)
 
+
 def format_referral_response(referral_id, referral):
     supplier_code = referral.service_type_price.supplier_code
     supplier_name = suppliers.first(code=supplier_code).name
@@ -60,6 +61,7 @@ def format_referral_response(referral_id, referral):
         'agency': referral.agency_name,
         'info': 'Info'
     })
+
 
 @api.route('/referral/<int:referral_id>', methods=['GET'], endpoint='get_referral')
 @login_required
