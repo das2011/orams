@@ -3,14 +3,14 @@ import { GENERAL_ERROR } from 'orams/constants/messageConstants'
 import dmapi from 'orams/services/apiClient'
 import { setSuccessMessage } from './editPriceActions'
 
-export const sendingRequest = sending => ({ type: SENDING_REQUEST, sending })
+const sendingRequest = sending => ({ type: SENDING_REQUEST, sending })
 
 const setErrorMessage = errorMessage => ({
   type: SET_ERROR_MESSAGE,
   errorMessage
 })
 
-export const createReferral = data => dispatch => {
+export const createReferral = data => dispatch => { //eslint-disable-line
   dispatch(sendingRequest(true))
   dmapi({
     method: 'post',

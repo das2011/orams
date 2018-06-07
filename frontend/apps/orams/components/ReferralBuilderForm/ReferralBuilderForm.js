@@ -1,52 +1,49 @@
-/* eslint-disable */
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { uniqueID } from 'shared/utils/helpers'
+import PropTypes from 'prop-types'
 import LoadingIndicatorFullPage from 'shared/LoadingIndicatorFullPage/LoadingIndicatorFullPage'
 import Textfield from 'shared/form/Textfield'
 import formProps from 'shared/form/formPropsSelector'
 import { Form } from 'react-redux-form'
-
 import styles from './ReferralBuilderForm.scss'
-import PropTypes from 'prop-types'
 
 class ReferralBuilderForm extends Component {
+  static propTypes = {
+    handleCreateReferralSubmit: PropTypes.func.isRequired
+  }
+
   constructor(props) {
     super(props)
     this.state = {}
   }
 
-  static propTypes = {
-    handleCreateReferralSubmit: PropTypes.func.isRequired
-  }
-
-  retrieveRegionName(regionCode, regionData) {
+  retrieveRegionName() {
+    /* eslint-disable no-restricted-syntax */
+    const { regionCode, regionsData } = this.props
     let regionName = ''
     let subRegionName = ''
-    for (const region of regionData.regions) {
-      const foundSubRegion = region.subRegions.find((subRegion) => {
-        return subRegion.id == regionCode
-      })
+    for (const region of regionsData.regions) {
+      const foundSubRegion = region.subRegions.find(subRegion => subRegion.id === parseInt(regionCode, 10))
       if (foundSubRegion) {
         regionName = region.name
         subRegionName = foundSubRegion.name
         break
       }
     }
-    return regionName + ' ' + subRegionName
+    return `${regionName} ${subRegionName}`
   }
 
-  goBack = (props) => {
+  goBack = () => {
     this.props.history.goBack()
   }
 
-  handleSubmit(data) {
+  handleSubmit() {
     const { price, handleCreateReferralSubmit } = this.props
     handleCreateReferralSubmit({ serviceTypePriceId: price.priceId })
   }
 
-  renderReferralInfo(supplierData, regionCode, regionsData, price, organisation) {
-    const { model } = this.props
+  renderReferralInfo() {
+    const { model, supplierData, price, organisation } = this.props
 
     return (
       <div>
@@ -54,27 +51,26 @@ class ReferralBuilderForm extends Component {
           <main>
             <div className="row">
               <div className="col-xs-12 col-sm-9">
-                <div className="au-display-xl">
-                  Send Referral
-                </div>
+                <div className="au-display-xl">Send Referral</div>
               </div>
             </div>
           </main>
         </div>
 
-        <div className={styles.separator}/>
+        <div className={styles.separator} />
 
         <div className={styles.informationSection}>
           <main>
             <div className="row">
               <div className="col-sm-8 col-xs-12">
-
                 <div className="row">
                   <div className="col-sm-3 col-xs-12">
                     <div className={styles.title}>Supplier</div>
                   </div>
                   <div className="col-sm-8 col-sm-push-1 col-xs-12">
-                    <div> {supplierData.name}</div>
+                    <div>
+                      {supplierData.name}
+                    </div>
                   </div>
                 </div>
 
@@ -83,7 +79,9 @@ class ReferralBuilderForm extends Component {
                     <div className={styles.title}>Services</div>
                   </div>
                   <div className="col-sm-8 col-sm-push-1 col-xs-12">
-                    <div> {supplierData.category_name}</div>
+                    <div>
+                      {supplierData.category_name}
+                    </div>
                   </div>
                 </div>
 
@@ -92,7 +90,9 @@ class ReferralBuilderForm extends Component {
                     <div className={styles.title}>Operates in</div>
                   </div>
                   <div className="col-sm-8 col-sm-push-1 col-xs-12">
-                    <div> {this.retrieveRegionName(regionCode, regionsData)}</div>
+                    <div>
+                      {this.retrieveRegionName()}
+                    </div>
                   </div>
                 </div>
 
@@ -102,11 +102,11 @@ class ReferralBuilderForm extends Component {
                   </div>
                   <div className="col-sm-8 col-sm-push-1 col-xs-12">
                     <div>
-                       <span className={styles.priceElements}>
-                          <div className={styles.price}>
-                            {'$' + price.price + ' ' + 'inc GST'}
-                            </div>
-                        </span>
+                      <span className={styles.priceElements}>
+                        <div className={styles.price}>
+                          {`$${price.price} inc GST`}
+                        </div>
+                      </span>
                     </div>
                   </div>
                 </div>
@@ -116,13 +116,13 @@ class ReferralBuilderForm extends Component {
                     <div className={styles.title}>Buyer Organisation</div>
                   </div>
                   <div className="col-sm-8 col-sm-push-1 col-xs-12">
-                    <div> {organisation} </div>
+                    <div>
+                      {organisation}
+                    </div>
                   </div>
                 </div>
-
               </div>
             </div>
-
           </main>
         </div>
 
@@ -136,10 +136,14 @@ class ReferralBuilderForm extends Component {
               label="field1"
               description="oh oh, a field here"
             />
-            <button type="cancel" className="au-btn" onClick={() => {
-              this.props.history.goBack()
-            }}
-            >Cancel
+            <button
+              type="cancel"
+              className="au-btn"
+              onClick={() => {
+                this.props.history.goBack()
+              }}
+            >
+              Cancel
             </button>
 
             <button type="submit" className="au-btn">
@@ -148,45 +152,28 @@ class ReferralBuilderForm extends Component {
           </Form>
         </div>
 
-        <div>
-        </div>
+        <div />
 
         <div>
-          <main>
-          </main>
+          <main />
         </div>
-
-
-      </div>
-    )
-  }
-
-  renderReferralBuilder(supplierData, regionCode, regionsData, price, organisation) {
-    return this.renderReferralInfo(supplierData, regionCode, regionsData, price, organisation)
-  }
-
-  renderLoadingIndicatorFullPage() {
-    return (
-      <div>
-        <LoadingIndicatorFullPage/>
       </div>
     )
   }
 
   render() {
     const { supplierData, regionCode, regionsData, price, organisation } = this.props
-
     const showReferralInfo = supplierData && regionCode && regionsData && price && organisation
     if (showReferralInfo) {
-      return this.renderReferralBuilder(supplierData, regionCode, regionsData, price, organisation)
+      return this.renderReferralInfo()
     }
-    else {
-      return this.renderLoadingIndicatorFullPage()
-    }
+    return (
+      <div>
+        <LoadingIndicatorFullPage />
+      </div>
+    )
   }
 }
-
-ReferralBuilderForm.propTypes = {}
 
 const mapStateToProps = state => ({
   ...formProps(state, 'referralBuilderForm')
