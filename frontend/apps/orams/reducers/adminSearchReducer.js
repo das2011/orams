@@ -1,9 +1,11 @@
 import {
-  ACTION_SET_SUPPLIER_SEARCH,
-  ACTION_SET_SUPPLIER_SEARCH_TERM,
-  ACTION_SET_USER_SEARCH,
+  SET_SUPPLIER_SEARCH,
+  SET_USER_SEARCH,
   ADMIN_SEARCH_TYPE_SUPPLIER,
-  ADMIN_SEARCH_TYPE_USER
+  ADMIN_SEARCH_TYPE_USER,
+  SET_USER_PROFILE_DATA,
+  SET_ADMIN_UPDATE_USER_SUCCESS,
+  SET_ADMIN_UPDATE_USER_ERROR
 } from 'orams/constants/constants'
 
 const initialState = {
@@ -11,34 +13,51 @@ const initialState = {
   supplierSearchResult: [],
   userSearchResult: [],
   currentlySending: false,
-  errorMessage: null
+  errorMessage: null,
+  updateUserSuccessMessage: null,
+  updateUserErrorMessage: null
 }
 
 const adminSearchReducer = (state = initialState, action) => {
   switch (action.type) {
-    case ACTION_SET_SUPPLIER_SEARCH:
+    case SET_SUPPLIER_SEARCH:
       return {
         ...state,
         searchType: ADMIN_SEARCH_TYPE_SUPPLIER,
         supplierSearchResult: action.supplierSearchResult,
-        userSearchResult: [],
-        userSearchTerm: ''
+        updateUserSuccessMessage: null,
+        updateUserErrorMessage: null
       }
 
-    case ACTION_SET_SUPPLIER_SEARCH_TERM:
-      return {
-        ...state,
-        searchType: ADMIN_SEARCH_TYPE_SUPPLIER,
-        supplierSearchTerm: action.supplierSearchTerm
-      }
-
-    case ACTION_SET_USER_SEARCH:
+    case SET_USER_SEARCH:
       return {
         ...state,
         searchType: ADMIN_SEARCH_TYPE_USER,
-        supplierSearchResult: [],
-        supplierSearchTerm: '',
-        userSearchResult: action.userSearchResult
+        userSearchResult: action.userSearchResult,
+        updateUserSuccessMessage: null,
+        updateUserErrorMessage: null
+      }
+
+    case SET_USER_PROFILE_DATA:
+      return {
+        ...state,
+        userProfileData: action.userProfileData
+      }
+
+    case SET_ADMIN_UPDATE_USER_ERROR:
+      return {
+        ...state,
+        errorMessage: null,
+        updateUserErrorMessage: action.errorMessage,
+        updateUserSuccessMessage: null
+      }
+
+    case SET_ADMIN_UPDATE_USER_SUCCESS:
+      return {
+        ...state,
+        errorMessage: null,
+        updateUserErrorMessage: null,
+        updateUserSuccessMessage: action.successMessage
       }
 
     default:

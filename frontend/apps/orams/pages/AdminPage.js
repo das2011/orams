@@ -1,19 +1,16 @@
 /* eslint-disable */
 import React, { Component } from 'react'
-import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import { Form } from 'react-redux-form'
 import { withRouter, Switch, Route } from 'react-router-dom'
 import AUpageAlert from '@gov.au/page-alerts/lib/js/react.js'
-import formProps from 'shared/form/formPropsSelector'
 import LoadingIndicatorFullPage from 'shared/LoadingIndicatorFullPage/LoadingIndicatorFullPage'
-import Textfield from 'shared/form/Textfield'
-import { searchSupplier } from 'orams/actions/adminSearchActions'
+import { searchSupplier, searchUser } from 'orams/actions/adminSearchActions'
 import { ADMIN_SEARCH_TYPE_SUPPLIER, ADMIN_SEARCH_TYPE_USER } from 'orams/constants/constants'
 import SupplierSearchForm from 'orams/components/SupplierSearchForm/SupplierSearchForm'
-import supplierSearchResults from 'orams/components/SupplierSearchResults/SupplierSearchResults'
-import { DISPLAY_STEP_2 } from '../constants/constants';
-import SupplierSearchResults from '../components/SupplierSearchResults/SupplierSearchResults';
+import UserSearchForm from '../components/UserSearchForm/UserSearchForm'
+import SupplierSearchResults from '../components/SupplierSearchResults/SupplierSearchResults'
+import UserSearchResults from '../components/UserSearchResults/UserSearchResults'
+
 
 class AdminPage extends Component {
   constructor(props) {
@@ -26,10 +23,15 @@ class AdminPage extends Component {
     doSearchSupplier(data)
   }
 
+  handleUserSearch = (data) => {
+    const { doSearchUser } = this.props
+    doSearchUser(data)
+  }
+
   renderSearchResults() {
-    const { currentlySending, errorMessage, searchType, supplierSearchResult: searchResults } = this.props
+    const { currentlySending, errorMessage, searchType, supplierSearchResult, userSearchResult } = this.props
     if (currentlySending) {
-      return <LoadingIndicatorFullPage />
+      return <LoadingIndicatorFullPage/>
     }
 
     if (errorMessage) {
@@ -40,9 +42,15 @@ class AdminPage extends Component {
       )
     }
 
-    if (searchType === ADMIN_SEARCH_TYPE_SUPPLIER ) {
-      return <SupplierSearchResults 
-        searchResults={searchResults} />
+    if (searchType === ADMIN_SEARCH_TYPE_SUPPLIER) {
+      return <SupplierSearchResults
+        searchResults={supplierSearchResult}/>
+    }
+
+    if (searchType === ADMIN_SEARCH_TYPE_USER) {
+      return <UserSearchResults
+        {...this.props}
+        searchResults={userSearchResult}/>
     }
 
     return ''
@@ -60,24 +68,12 @@ class AdminPage extends Component {
 
         <div className="row">
           <div className="col-sm-3 col-xs-12">
-            <SupplierSearchForm 
+            <SupplierSearchForm
               handleSearchSubmit={this.handleSupplierSearch}
             />
-            <div>
-              <div>Search User By Email</div>
-            </div>
-            <div>
-              <input
-                type="search"
-                id="searchUser"
-                name="string"
-                size="50"
-                placeholder="Search user like john@ato.gov.au or just john"
-              />
-              <button className="au-btn">
-                Search
-              </button>
-            </div>
+            <UserSearchForm
+              handleSearchSubmit={this.handleUserSearch}
+            />
           </div>
 
           <div className="col-sm-8 col-xs-12 col-sm-push-1">
@@ -107,11 +103,9 @@ const mapStateToProps = state => {
   }
 }
 
-const mapDispatchToProps = dispatch => {
-  return {
-    setSupplierSearchTerm: searchTerm => dispatch(setSupplierSearchTerm(searchTerm)),
-    doSearchSupplier: (searchTerm) => dispatch(searchSupplier(searchTerm))
-  }
+const mapDispatchToProps = {
+  doSearchSupplier: (searchTerm) => searchSupplier(searchTerm),
+  doSearchUser: (searchTerm) => searchUser(searchTerm)
 }
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(AdminPage))

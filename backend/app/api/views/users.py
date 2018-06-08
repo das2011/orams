@@ -15,11 +15,12 @@ from app.emails.users import (
     send_reset_password_confirm_email, orams_send_account_activation_admin_email
 )
 from dmutils.email import EmailError, InvalidToken
-from app.api.helpers import decode_creation_token, user_info
-from app.api.user import is_duplicate_user, update_user_details
+from app.api.helpers import decode_creation_token, user_info, role_required
+from app.api.user import (is_duplicate_user, update_user_details)
 from datetime import datetime
 from app.swagger import swag
 from app.api.services import users
+import json
 
 
 @api.route('/users/me', methods=["GET"], endpoint='ping')
@@ -49,7 +50,6 @@ def me():
         description: User
         schema:
           $ref: '#/definitions/UserInfo'
-
     """
     return jsonify(user_info(current_user))
 
@@ -455,4 +455,187 @@ def reset_password(token):
         ), 200
 
     except Exception as error:
+        return jsonify(message=error.message), 400
+
+
+@api.route('/users', methods=['GET'], endpoint='get_users')
+@login_required
+@role_required('admin')
+def find_user_by_string():
+    """Search Users by name
+    ---
+    tags:
+      - users
+    definitions:
+      UserDetail:
+        type: object
+        properties:
+          id:
+            type: integer
+          name:
+            type: string
+          emailAddress:
+            type: string
+          role:
+            type: string
+          supplier:
+            type: integer
+          active:
+            type: boolean
+          locked:
+            type: boolean
+          loggedInAt:
+            type: string
+          passwordChangedAt:
+            type: string
+    responses:
+      200:
+        description: User
+        schema:
+          $ref: '#/definitions/UserDetail'
+
+    """
+    userList = []
+    searchString = request.args.get("string", None)
+    if searchString:
+        foundUsers = users.find_user_by_partial_email_address(searchString)
+        if users is not None:
+            for user in foundUsers:
+                u = UserView(user)
+                userList.append(u)
+
+    return jsonify([ob.__dict__ for ob in userList])
+
+
+class UserView(object):
+    id = ''
+    name = ''
+    emailAddress = ''
+    role = '',
+    supplier = '',
+    active = None,
+    locked = None,
+    loggedInAt = None,
+    passwordChangedAt = None,
+
+    def __init__(self, user):
+        if user is not None:
+            self.id = user.id
+            self.name = user.name
+            self.emailAddress = user.email_address
+            self.role = user.role,
+            self.active = user.active
+            self.locked = user.locked
+
+            if user.logged_in_at:
+                self.loggedInAt = str(user.logged_in_at)
+
+            if user.password_changed_at:
+                self.passwordChangedAt = str(user.password_changed_at)
+
+            if user.supplier:
+                self.supplier = user.supplier.name
+
+
+@api.route('/users/<int:user_id>', methods=['GET'], endpoint='get_user')
+@login_required
+@role_required('admin')
+def get(user_id):
+    """Get User
+    ---
+    tags:
+      - users
+    parameters:
+      - name: user_id
+        in: path
+        type: integer
+        required: true
+    responses:
+      200:
+        description: A User
+        type: object
+        schema:
+          $ref: '#/definitions/UserDetail'
+    """
+    user = users.get(user_id)
+    user_detail = UserView(user)
+
+    return jsonify(user_detail.__dict__)
+
+
+@api.route('/users/<int:user_id>/activate', methods=['PUT'], endpoint='activate_user')
+@login_required
+@role_required('admin')
+def activate_user(user_id):
+    """Activate User
+    ---
+    tags:
+      - users
+    parameters:
+      - name: user_id
+        in: path
+        type: integer
+        required: true
+    responses:
+      200:
+        description: A User
+        type: object
+        schema:
+          $ref: '#/definitions/UserDetail'
+    """
+    return update_user(active=True, user_id=user_id)
+
+
+@api.route('/users/<int:user_id>/deactivate', methods=['PUT'], endpoint='deactivate_user')
+@login_required
+@role_required('admin')
+def deactivate_user(user_id):
+    """Deactivate User
+    ---
+    tags:
+      - users
+    parameters:
+      - name: user_id
+        in: path
+        type: integer
+        required: true
+    responses:
+      200:
+        description: A User
+        type: object
+        schema:
+          $ref: '#/definitions/UserDetail'
+    """
+    return update_user(active=False, user_id=user_id)
+
+
+@api.route('/users/<int:user_id>/unlock', methods=['PUT'], endpoint='unlock_user')
+@login_required
+@role_required('admin')
+def unlock_user(user_id):
+    """Unlock User
+    ---
+    tags:
+      - users
+    parameters:
+      - name: user_id
+        in: path
+        type: integer
+        required: true
+    responses:
+      200:
+        description: A User
+        type: object
+        schema:
+          $ref: '#/definitions/UserDetail'
+    """
+    return update_user(locked=False, user_id=user_id)
+
+
+def update_user(**kwargs):
+    try:
+        user = update_user_details(**kwargs)
+        user_detail = UserView(user)
+        return jsonify(user_detail.__dict__)
+    except ValueError as error:
         return jsonify(message=error.message), 400
