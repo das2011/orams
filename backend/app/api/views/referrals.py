@@ -4,6 +4,8 @@ from app.api import api
 from app.api.services import referral_service, suppliers, users
 from app.api.helpers import role_required, get_email_domain
 from app.swagger import swag
+from app.emails.referrals import send_new_referral_email
+from threading import Thread
 
 
 @api.route('/referrals', methods=['POST'], endpoint='create_referral')
@@ -43,6 +45,8 @@ def create_referral():
     new_referral = referral_service.create_referral(service_type_price_id,
                                                     current_user,
                                                     referral_details)
+    # sending email is best effort
+    Thread(target=send_new_referral_email, args=(new_referral.id)).start()
     return jsonify({'referralId': new_referral.id}), 200
 
 

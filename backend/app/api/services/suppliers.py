@@ -29,3 +29,10 @@ class SuppliersService(Service):
             .order_by(Supplier.name)
 
         return [supplier.serializable for supplier in suppliers.all()]
+
+    def get_email_address(self, supplier_code):
+        supplier = Supplier.query.outerjoin(SupplierContact).outerjoin(Contact) \
+            .filter(Supplier.code == supplier_code) \
+            .filter(Supplier.status != 'deleted') \
+            .first()
+        return supplier.email if supplier else None

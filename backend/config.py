@@ -101,6 +101,8 @@ class Config:
     BUYER_INVITE_REQUEST_ADMIN_EMAIL = 'marketplace+buyer-request@digital.gov.au'
     ORAMS_BUYER_INVITE_REQUEST_ADMIN_EMAIL = 'nick.ball+bcc@digital.gov.au'
 
+    NEW_REFERRAL_EMAIL_SUBJECT = 'New Referral'
+
     NEW_SUPPLIER_INVITE_SUBJECT = 'Digital Marketplace - invitation to create seller account'
 
     CLARIFICATION_EMAIL_NAME = DM_GENERIC_ADMIN_NAME
