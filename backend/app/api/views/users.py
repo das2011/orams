@@ -583,7 +583,7 @@ def activate_user(user_id):
         schema:
           $ref: '#/definitions/UserDetail'
     """
-    return get_user_view_updated_user(active=True, user_id=user_id)
+    return update_user(active=True, user_id=user_id)
 
 
 @api.route('/users/<int:user_id>/deactivate', methods=['PUT'], endpoint='deactivate_user')
@@ -606,7 +606,7 @@ def deactivate_user(user_id):
         schema:
           $ref: '#/definitions/UserDetail'
     """
-    return get_user_view_updated_user(active=False, user_id=user_id)
+    return update_user(active=False, user_id=user_id)
 
 
 @api.route('/users/<int:user_id>/unlock', methods=['PUT'], endpoint='unlock_user')
@@ -629,10 +629,10 @@ def unlock_user(user_id):
         schema:
           $ref: '#/definitions/UserDetail'
     """
-    return get_user_view_updated_user(locked=False, user_id=user_id)
+    return update_user(locked=False, user_id=user_id)
 
 
-def get_user_view_updated_user(**kwargs):
+def update_user(**kwargs):
     try:
         user = update_user_details(**kwargs)
         user_detail = UserView(user)
