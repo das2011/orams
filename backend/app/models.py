@@ -2845,7 +2845,6 @@ class Referral(db.Model):
     service_type_price_id = db.Column(db.Integer,
                                       db.ForeignKey('service_type_price.id'),
                                       nullable=False)
-
     domain = db.Column(db.String, nullable=False)
     created_by = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
     created_at = db.Column(DateTime, index=False, nullable=False, default=utcnow)
