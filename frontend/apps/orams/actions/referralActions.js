@@ -1,15 +1,15 @@
-import { SENDING_REQUEST, SET_ERROR_MESSAGE, SET_REFERRAL_DATA } from 'orams/constants/constants'
 import { GENERAL_ERROR, UNAUTHORISED_ERROR } from 'orams/constants/messageConstants'
 import dmapi from 'orams/services/apiClient'
 import { setSuccessMessage } from './editPriceActions'
+import {
+  SENDING_REQUEST,
+  SET_ERROR_MESSAGE,
+  SET_REFERRAL_DATA,
+  SET_LOADING_REFERRAL_DATA,
+  RESET_LOADING_REFERRAL_DATA,
+} from '../constants/constants'
 
 const sendingRequest = sending => ({ type: SENDING_REQUEST, sending })
-import {
-  SET_REFERRAL_DATA,
-  SET_ERROR_MESSAGE,
-  SET_LOADING_REFERRAL_DATA,
-  RESET_LOADING_REFERRAL_DATA
-} from '../constants/constants'
 
 const setErrorMessage = errorMessage => ({
   type: SET_ERROR_MESSAGE,
@@ -21,7 +21,7 @@ const resetLoading = () => ({ type: RESET_LOADING_REFERRAL_DATA })
 
 const setReferralData = referralData => ({ type: SET_REFERRAL_DATA, referralData })
 
-export const createReferral = data => dispatch => { //eslint-disable-line
+export const createReferral = data => dispatch => {
   dispatch(sendingRequest(true))
   dmapi({
     method: 'post',
