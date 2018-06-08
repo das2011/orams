@@ -6,7 +6,7 @@ import {
   SET_ERROR_MESSAGE,
   SET_REFERRAL_DATA,
   SET_LOADING_REFERRAL_DATA,
-  RESET_LOADING_REFERRAL_DATA,
+  RESET_LOADING_REFERRAL_DATA
 } from '../constants/constants'
 
 const sendingRequest = sending => ({ type: SENDING_REQUEST, sending })
