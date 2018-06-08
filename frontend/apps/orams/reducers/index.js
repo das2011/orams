@@ -37,6 +37,8 @@ export default combineReducers({
     signupForm: {},
     createUserPasswordForm: {},
     supplierSearchForm: {},
-    userSearchForm: {}
+    createReferralForm: {},
+    userSearchForm: {},
+    referralBuilderForm: {}
   })
 })

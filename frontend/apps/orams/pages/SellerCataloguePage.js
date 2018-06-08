@@ -9,7 +9,7 @@ import {
   loadServices,
   loadSuppliers,
   setCategoryData,
-  setRegionData,
+  setRegion,
   setSelectedSupplierPrice,
   setRegionAccordionOpen,
   setCategoryAccordionOpen
@@ -62,9 +62,9 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
+    setRegion: region => dispatch(setRegion(region)),
     loadRegionsData: () => dispatch(loadRegions()),
     loadServicesData: () => dispatch(loadServices()),
-    setRegion: region => dispatch(setRegionData(region)),
     setSelectedSupplierPrice: price => dispatch(setSelectedSupplierPrice(price)),
     setCategory: category => dispatch(setCategoryData(category)),
     onRegionAccordionOpen: id => dispatch(setRegionAccordionOpen(id)),
