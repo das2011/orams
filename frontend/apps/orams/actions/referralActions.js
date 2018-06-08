@@ -18,6 +18,7 @@ const setErrorMessage = errorMessage => ({
 
 const setLoading = () => ({ type: SET_LOADING_REFERRAL_DATA })
 const resetLoading = () => ({ type: RESET_LOADING_REFERRAL_DATA })
+const setAcceptSuccessMessage = () => ({ type: 'set success message' })
 
 const setReferralData = referralData => ({ type: SET_REFERRAL_DATA, referralData })
 
@@ -51,6 +52,28 @@ export function loadReferralData(id) {
         }
       } else {
         dispatch(setReferralData(response.data))
+        window.scrollTo(0, 0)
+      }
+    })
+  }
+}
+
+export function acceptReferral(id) {
+  return dispatch => {
+    console.log('ACCEPT REFERRAL', id); //eslint-disable-line
+
+    return dmapi({
+      url: `referrals/${id}/accept`
+    }).then(response => {
+      dispatch(resetLoading())
+      if (response.error) {
+        if (response.status === 403) {
+          dispatch(setErrorMessage(UNAUTHORISED_ERROR))
+        } else {
+          dispatch(setErrorMessage(GENERAL_ERROR))
+        }
+      } else {
+        dispatch(setAcceptSuccessMessage())
         window.scrollTo(0, 0)
       }
     })

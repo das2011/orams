@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { withRouter, Switch, Route } from 'react-router-dom'
 import ReferralDetails from 'orams/components/ReferralDetails/ReferralDetails'
-import { loadReferralData } from 'orams/actions/referralActions'
+import { loadReferralData, acceptReferral } from 'orams/actions/referralActions'
 
 export class ViewReferralPage extends Component {
   constructor(props) {
@@ -33,9 +33,10 @@ ViewReferralPage.propTypes = {
 const mapStateToProps = state => ({
   referralDetails: state.referralDetails,
   isLoading: state.referralDetails.isLoading,
-  errorMessage: state.app.errorMessage
+  errorMessage: state.app.errorMessage,
+  userType: state.app.userType
 })
 
-const mapDispatchToProps = { loadReferralData }
+const mapDispatchToProps = { loadReferralData, acceptReferral }
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(ViewReferralPage))

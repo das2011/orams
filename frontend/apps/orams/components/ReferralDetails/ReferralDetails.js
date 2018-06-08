@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import AUpageAlert from '@gov.au/page-alerts/lib/js/react.js'
+import Button from '@gov.au/buttons'
 import LoadingIndicatorFullPage from 'shared/LoadingIndicatorFullPage/LoadingIndicatorFullPage'
 import { DATE_FORMAT_D_MMM_YYYY } from 'orams/constants/formatConstants'
 import { formatDate } from 'orams/util/dateUtil'
@@ -39,6 +40,12 @@ export default class ReferralDetails extends Component {
     return <div className={styles.horizontalSeparatorLine} />
   }
 
+  handleAcceptReferral = () => {
+    console.log('redirect'); //eslint-disable-line
+    this.props.acceptReferral(this.props.referralDetails.referralId)
+    this.props.history.push('/dashboard')
+  }
+
   renderAllDetails() {
     const details = { ...this.props.referralDetails }
     const referralDetails = {
@@ -54,6 +61,14 @@ export default class ReferralDetails extends Component {
     return Object.keys(DETAILS_KEY_MAP).map(k =>
       ReferralDetails.renderDetailsItem(DETAILS_KEY_MAP[k], referralDetails[k])
     )
+  }
+
+  renderAcceptButton() {
+    return this.props.userType === 'supplier'
+      ? <div className={'row'}>
+          <Button onClick={this.handleAcceptReferral}>Accept</Button>
+        </div>
+      : null
   }
 
   render() {
@@ -82,7 +97,7 @@ export default class ReferralDetails extends Component {
         </div>
 
         {this.renderAllDetails()}
-
+        {this.renderAcceptButton()}
         {ReferralDetails.renderHorizontalLine()}
         {ReferralDetails.renderDisclaimerText()}
       </main>

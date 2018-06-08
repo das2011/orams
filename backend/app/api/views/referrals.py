@@ -79,3 +79,9 @@ def get_referral(referral_id):
     return (referral_view(referral_id, referral), 200) \
         if can_view_referral(referral.created_by, supplier_code, referral.domain, current_user) \
         else ('', 403)
+
+@api.route('/referrals/<int:referral_id>/accept', methods=['GET'], endpoint='accept_referral')
+@login_required
+@role_required('supplier')
+def accept_referral(referral_id):
+    return '', 200
