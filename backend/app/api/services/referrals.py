@@ -1,6 +1,5 @@
 from app.api.helpers import Service, get_email_domain
 from app.models import Referral
-from .users import UsersService
 
 
 class ReferralService(Service):
@@ -8,10 +7,8 @@ class ReferralService(Service):
 
     def __init__(self, *args, **kwargs):
         super(ReferralService, self).__init__(*args, **kwargs)
-        self.user_service = UsersService()
 
     def create_referral(self, service_type_price_id, requested_by):
-        user_org = self.user_service.get_user_organisation(get_email_domain(requested_by.email_address))
         return self.create(service_type_price_id=service_type_price_id,
-                           agency_name=user_org,
+                           domain=get_email_domain(requested_by.email_address),
                            created_by=requested_by.id)

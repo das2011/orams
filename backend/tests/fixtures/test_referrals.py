@@ -47,7 +47,7 @@ def test_referral_created(client, users, agencies, service_prices_without_future
     referral = Referral.query\
         .filter(Referral.id == referral['referralId'])\
         .first()
-    assert referral.agency_name == 'Digital Transformation Agency'
+    assert referral.domain == 'digital.gov.au'
     assert referral.created_by == buyer.id
     assert referral.service_type_price.supplier_code == service_prices_without_future[0].supplier_code
     assert referral.service_type_price.price == service_prices_without_future[0].price
