@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
-import parseDate from 'date-fns/parse'
-import format from 'date-fns/format'
 import AUpageAlert from '@gov.au/page-alerts/lib/js/react.js'
 import LoadingIndicatorFullPage from 'shared/LoadingIndicatorFullPage/LoadingIndicatorFullPage'
+import { DATE_FORMAT_D_MMM_YYYY } from 'orams/constants/formatConstants'
+import { formatDate } from 'orams/util/dateUtil'
 import styles from './ReferralDetails.scss'
 
 const DETAILS_KEY_MAP = {
@@ -44,7 +44,7 @@ export default class ReferralDetails extends Component {
     const referralDetails = {
       supplier: details.supplier,
       price: `$${details.price} incl GST`,
-      dateCreated: format(parseDate(details.dateCreated), 'DD MMM YYYY'),
+      dateCreated: formatDate(details.dateCreated, DATE_FORMAT_D_MMM_YYYY),
       location: `${details.regionState} ${details.regionName}`,
       createdBy: details.createdBy,
       referralId: details.referralId,
