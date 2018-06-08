@@ -41,12 +41,12 @@ def create_referral():
     return jsonify({'referralId': new_referral.id}), 200
 
 
-def belongs_to(created_by, supplier_code, current_user):
+def can_view_referral(created_by, supplier_code, current_user):
     return (current_user.role == 'buyer' and created_by == int(current_user.get_id()) or
             current_user.role == 'supplier' and supplier_code == current_user.supplier_code)
 
 
-def format_referral_response(referral_id, referral):
+def referral_view(referral_id, referral):
     supplier_code = referral.service_type_price.supplier_code
     supplier_name = suppliers.first(code=supplier_code).name
 
@@ -63,14 +63,13 @@ def format_referral_response(referral_id, referral):
     })
 
 
-@api.route('/referral/<int:referral_id>', methods=['GET'], endpoint='get_referral')
+@api.route('/referrals/<int:referral_id>', methods=['GET'], endpoint='get_referral')
 @login_required
 @role_required('buyer', 'supplier')
 def get_referral(referral_id):
     referral = referral_service.get(referral_id)
     supplier_code = referral.service_type_price.supplier_code
 
-    if belongs_to(referral.created_by, supplier_code, current_user):
-        return format_referral_response(referral_id, referral), 200
-    else:
-        return '', 401
+    return (referral_view(referral_id, referral), 200) \
+        if can_view_referral(referral.created_by, supplier_code, current_user) \
+        else ('', 403)

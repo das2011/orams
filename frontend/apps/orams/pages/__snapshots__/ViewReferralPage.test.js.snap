@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`ReferralReadOnlyPage component renders correctly when error message is present 1`] = `
+exports[`ViewReferralPage component renders correctly when error message is present 1`] = `
 <main>
   <div
     className="row headerSection"

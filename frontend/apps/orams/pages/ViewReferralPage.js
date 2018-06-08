@@ -5,7 +5,7 @@ import { withRouter, Switch, Route } from 'react-router-dom'
 import ReferralDetails from 'orams/components/ReferralDetails/ReferralDetails'
 import { loadReferralData } from 'orams/actions/referralActions'
 
-export class ReferralReadOnlyPage extends Component {
+export class ViewReferralPage extends Component {
   constructor(props) {
     super(props)
     this.state = {}
@@ -26,7 +26,7 @@ export class ReferralReadOnlyPage extends Component {
   }
 }
 
-ReferralReadOnlyPage.propTypes = {
+ViewReferralPage.propTypes = {
   match: PropTypes.object.isRequired
 }
 
@@ -38,4 +38,4 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = { loadReferralData }
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(ReferralReadOnlyPage))
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(ViewReferralPage))

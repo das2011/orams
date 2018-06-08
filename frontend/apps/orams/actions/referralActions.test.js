@@ -1,5 +1,6 @@
 import dmapi from 'orams/services/apiClient'
 import { GENERAL_ERROR, UNAUTHORISED_ERROR } from 'orams/constants/messageConstants'
+import { getMockCallArg } from 'orams/test-utils/mockUtils'
 import {
   SET_REFERRAL_DATA,
   SET_ERROR_MESSAGE,
@@ -24,17 +25,18 @@ describe('referralActions', () => {
 
     dmapi.mockReturnValueOnce(Promise.resolve(responseData))
     loadReferralData(321)(mockDispatch)
-    expect(dmapi.mock.calls[0][0]).toEqual({ url: 'referral/321' })
+    expect(getMockCallArg(dmapi, 0, 0)).toEqual({ url: 'referrals/321' })
   })
 
   it('should set referral data to state from response', () => {
     const responseData = { data: { price: 200 } }
     const expectedAction = { type: SET_REFERRAL_DATA, referralData: { price: 200 } }
     dmapi.mockReturnValueOnce(Promise.resolve(responseData))
+
     return loadReferralData(1)(mockDispatch).then(() => {
-      expect(mockDispatch.mock.calls[0][0]).toEqual(setLoadingAction)
-      expect(mockDispatch.mock.calls[1][0]).toEqual(resetLoadingAction)
-      expect(mockDispatch.mock.calls[2][0]).toEqual(expectedAction)
+      expect(getMockCallArg(mockDispatch, 0, 0)).toEqual(setLoadingAction)
+      expect(getMockCallArg(mockDispatch, 1, 0)).toEqual(resetLoadingAction)
+      expect(getMockCallArg(mockDispatch, 2, 0)).toEqual(expectedAction)
     })
   })
 
@@ -42,21 +44,22 @@ describe('referralActions', () => {
     const responseData = { error: { message: 'some error' } }
     const expectedAction = { type: SET_ERROR_MESSAGE, errorMessage: GENERAL_ERROR }
     dmapi.mockReturnValueOnce(Promise.resolve(responseData))
+
     return loadReferralData(1)(mockDispatch).then(() => {
-      expect(mockDispatch.mock.calls[0][0]).toEqual(setLoadingAction)
-      expect(mockDispatch.mock.calls[1][0]).toEqual(resetLoadingAction)
-      expect(mockDispatch.mock.calls[2][0]).toEqual(expectedAction)
+      expect(getMockCallArg(mockDispatch, 0, 0)).toEqual(setLoadingAction)
+      expect(getMockCallArg(mockDispatch, 1, 0)).toEqual(resetLoadingAction)
+      expect(getMockCallArg(mockDispatch, 2, 0)).toEqual(expectedAction)
     })
   })
 
   it('should set unauthorised error message', () => {
-    const responseData = { error: 'some error', status: 401 }
+    const responseData = { error: 'some error', status: 403 }
     const expectedAction = { type: SET_ERROR_MESSAGE, errorMessage: UNAUTHORISED_ERROR }
     dmapi.mockReturnValueOnce(Promise.resolve(responseData))
     return loadReferralData(1)(mockDispatch).then(() => {
-      expect(mockDispatch.mock.calls[0][0]).toEqual(setLoadingAction)
-      expect(mockDispatch.mock.calls[1][0]).toEqual(resetLoadingAction)
-      expect(mockDispatch.mock.calls[2][0]).toEqual(expectedAction)
+      expect(getMockCallArg(mockDispatch, 0, 0)).toEqual(setLoadingAction)
+      expect(getMockCallArg(mockDispatch, 1, 0)).toEqual(resetLoadingAction)
+      expect(getMockCallArg(mockDispatch, 2, 0)).toEqual(expectedAction)
     })
   })
 })

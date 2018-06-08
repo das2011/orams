@@ -45,7 +45,7 @@ export default class ReferralDetails extends Component {
       supplier: details.supplier,
       price: `$${details.price} incl GST`,
       dateCreated: format(parseDate(details.dateCreated), 'DD MMM YYYY'),
-      location: `${details.regionName} ${details.regionState}`,
+      location: `${details.regionState} ${details.regionName}`,
       createdBy: details.createdBy,
       referralId: details.referralId,
       agency: details.agency
@@ -59,7 +59,9 @@ export default class ReferralDetails extends Component {
   render() {
     if (this.props.isLoading) {
       return <LoadingIndicatorFullPage />
-    } else if (this.props.errorMessage) {
+    }
+
+    if (this.props.errorMessage) {
       return (
         <div className={styles.banner}>
           <AUpageAlert as="error">
@@ -70,6 +72,7 @@ export default class ReferralDetails extends Component {
         </div>
       )
     }
+
     return (
       <main>
         <div className={`row ${styles.headerSection}`}>

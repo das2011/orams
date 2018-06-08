@@ -41,10 +41,10 @@ export const createReferral = data => dispatch => { //eslint-disable-line
 export function loadReferralData(id) {
   return dispatch => {
     dispatch(setLoading())
-    return dmapi({ url: `referral/${id}` }).then(response => {
+    return dmapi({ url: `referrals/${id}` }).then(response => {
       dispatch(resetLoading())
       if (response.error) {
-        if (response.status === 401) {
+        if (response.status === 403) {
           dispatch(setErrorMessage(UNAUTHORISED_ERROR))
         } else {
           dispatch(setErrorMessage(GENERAL_ERROR))

@@ -1,9 +1,9 @@
 import React from 'react'
 import snapshotRenderer from 'react-test-renderer'
 import { MemoryRouter } from 'react-router'
-import { ReferralReadOnlyPage } from './ReferralReadOnlyPage'
+import { ViewReferralPage } from './ViewReferralPage'
 
-describe('ReferralReadOnlyPage component', () => {
+describe('ViewReferralPage component', () => {
   it('renders correctly when error message is present', () => {
     const props = {
       loadReferralData: jest.fn(),
@@ -12,7 +12,7 @@ describe('ReferralReadOnlyPage component', () => {
     const tree = snapshotRenderer
       .create(
         <MemoryRouter>
-          <ReferralReadOnlyPage {...props} />
+          <ViewReferralPage {...props} />
         </MemoryRouter>
       )
       .toJSON()

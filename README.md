@@ -11,10 +11,14 @@ pip install -r requirements.txt
 # run app
 make app_run
 
-# tests
-py.tests tests/fixtures
+# tests 
+# (note that you must have a db with the same name as your host machine)
+./scripts/run_tests.sh
 
+# non-DB tests
+./scripts/run_unit_tests.sh
 ```
+
 ## Frontend
 The frontend node server runs at http://localhost:60000.
 ```
