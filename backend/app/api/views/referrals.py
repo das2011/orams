@@ -28,6 +28,8 @@ def create_referral():
           properties:
             serviceTypePriceId:
               type: integer
+            referralDetails:
+              type: object
     responses:
       200:
         description: Unique Id of the created referral
@@ -37,7 +39,10 @@ def create_referral():
     """
     json_data = request.get_json()
     service_type_price_id = json_data.get('serviceTypePriceId')
-    new_referral = referral_service.create_referral(service_type_price_id, current_user)
+    referral_details = json_data.get('referralDetails')
+    new_referral = referral_service.create_referral(service_type_price_id,
+                                                    current_user,
+                                                    referral_details)
     return jsonify({'referralId': new_referral.id}), 200
 
 

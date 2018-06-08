@@ -14,7 +14,7 @@ from six import string_types, text_type, binary_type
 
 from sqlalchemy import text
 from sqlalchemy import asc, desc, func, and_
-from sqlalchemy.dialects.postgresql import JSON
+from sqlalchemy.dialects.postgresql import JSON, JSONB
 from sqlalchemy.ext.declarative import declared_attr
 from sqlalchemy.ext.hybrid import hybrid_property, hybrid_method
 from sqlalchemy.ext.mutable import MutableDict
@@ -2848,6 +2848,7 @@ class Referral(db.Model):
     domain = db.Column(db.String, nullable=False)
     created_by = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
     created_at = db.Column(DateTime, index=False, nullable=False, default=utcnow)
+    details = db.Column(MutableDict.as_mutable(JSONB), default=dict)
 
     service_type_price = db.relationship('ServiceTypePrice', lazy='joined')
     creator = db.relationship(User, lazy='joined')
