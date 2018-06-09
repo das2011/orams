@@ -34,7 +34,6 @@ const ServiceEditList = props => {
             Update ceiling prices - select a service
           </h2>
           <div className={styles.stepTitle}>Step 1 of 4</div>
-          <div className={styles.heading}>Select the service you want to edit</div>
           <div>
             <a
               onClick={() => {
@@ -44,6 +43,7 @@ const ServiceEditList = props => {
               Back to supplier search
             </a>
           </div>
+          <div className={styles.heading}>Select the service you want to edit</div>
         </header>
       )
     }

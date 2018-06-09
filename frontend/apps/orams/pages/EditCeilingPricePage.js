@@ -3,7 +3,14 @@ import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
 import AUpageAlert from '@gov.au/page-alerts/lib/js/react.js'
 import LoadingIndicatorFullPage from 'shared/LoadingIndicatorFullPage/LoadingIndicatorFullPage'
-import { hideNav, loadServiceEditData  } from 'orams/actions/editPriceActions'
+import {
+  hideNav,
+  loadPricesData,
+  loadServiceEditData,
+  setCeilingPriceToEdit,
+  setStep
+} from 'orams/actions/editPriceActions'
+import PricingList from 'orams/components/PricingList/PricingList'
 import ServiceEditList from 'orams/components/ServiceEditList/ServiceEditList'
 
 const LIST_SERVICES_STEP = 1
@@ -11,20 +18,19 @@ const LIST_PRICING_STEP = 2
 const UPDATE_CEILING_PRICE_STEP = 3
 
 class EditCeilingPricePage extends Component {
+  constructor(props) {
+    super(props)
+
+    this.loadListPricingStep = this.loadListPricingStep.bind(this)
+  }
+
   componentDidMount() {
     const { loadServiceEdit, supplierCode } = this.props
     loadServiceEdit(supplierCode)
   }
 
   loadListPricingStep(supplierCode, serviceTypeId, categoryId, serviceName, subCategoryName) {
-    /* eslint-disable class-method-use-this */
-    // this.props.loadPrices(supplierCode, serviceTypeId, categoryId, serviceName, subCategoryName)
-    console.log(`supplierCode: ${supplierCode}`)
-    console.log(`serviceTypeId: ${serviceTypeId}`)
-    console.log(`categoryId: ${categoryId}`)
-    console.log(`serviceName: ${serviceName}`)
-    console.log(`subCategoryName: ${subCategoryName}`)
-    /* eslint-enable */
+    this.props.loadPrices(supplierCode, serviceTypeId, categoryId, serviceName, subCategoryName)
   }
 
   render() {
@@ -55,7 +61,7 @@ class EditCeilingPricePage extends Component {
         )
 
       case LIST_PRICING_STEP:
-        return <div>Pricing Step</div>
+        return <PricingList pricesData={this.props.pricesData} {...this.props} />
 
       case UPDATE_CEILING_PRICE_STEP:
         return <div>Update Ceiling Price Step</div>
@@ -68,7 +74,18 @@ class EditCeilingPricePage extends Component {
 
 const mapStateToProps = state => {
   const { currentlySending, errorMessage } = state.app
-  const { supplierCode, editServiceData, pricesData, step, successMessage } = state.editPricing
+  const {
+    supplierCode,
+    editServiceData,
+    pricesData,
+    step,
+    successMessage,
+    priceData,
+    serviceToEdit,
+    pricesArray,
+    capPrice,
+    supplier
+  } = state.editPricing
 
   return {
     supplierCode,
@@ -77,17 +94,21 @@ const mapStateToProps = state => {
     editServiceData,
     pricesData,
     step,
-    // priceData: state.editPricing.priceData,
-    // serviceToEdit: state.editPricing.serviceToEdit,
-    // pricesArray: state.editPricing.pricesArray,
-    // capPrice: state.editPricing.capPrice,
-    // supplier: state.editPricing.supplier,
+    priceData,
+    serviceToEdit,
+    pricesArray,
+    capPrice,
+    supplier,
     successMessage
   }
 }
 
 const mapDispatchToProps = dispatch => ({
   loadServiceEdit: supplierCode => dispatch(loadServiceEditData(supplierCode)),
+  loadPrices: (supplierCode, serviceTypeId, categoryId, serviceName, subCategoryName) =>
+    dispatch(loadPricesData(supplierCode, serviceTypeId, categoryId, serviceName, subCategoryName)),
+  editPrice: priceToEditData => dispatch(setCeilingPriceToEdit(priceToEditData)),
+  goToStep: step => dispatch(setStep(step)),
   hideNav: bool => dispatch(hideNav(bool))
 })
 

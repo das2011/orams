@@ -17,6 +17,7 @@ import {
   SET_PRICE_TO_EDIT_DATA,
   SET_SERVICE_TO_EDIT_IN_STATE,
   SET_PRICE_TO_EDIT_ID,
+  SET_CEILING_PRICE_TO_EDIT_ID,
   SET_ONE_PRICE,
   SET_BUTTON_CLICK,
   SET_SUPPLIER,
@@ -34,6 +35,7 @@ const initialState = {
   priceData: '',
   serviceToEdit: '',
   priceId: '',
+  ceilingPriceId: '',
   pricesArray: [],
   saveAnother: false,
   successMessage: false,
@@ -85,6 +87,12 @@ const editPricingReducer = (state = initialState, action) => {
       return {
         ...state,
         priceId: action.priceId
+      }
+
+    case SET_CEILING_PRICE_TO_EDIT_ID:
+      return {
+        ...state,
+        ceilingPriceId: action.capPriceId
       }
 
     case SET_ONE_PRICE:

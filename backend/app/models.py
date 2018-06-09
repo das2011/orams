@@ -2803,6 +2803,7 @@ class ServiceTypePrice(db.Model):
             region=dict(state=self.region.state, name=self.region.name),
             price=format_price(self.price),
             capPrice=format_price(self.service_type_price_ceiling.price),
+            capPriceId=self.service_type_price_ceiling_id,
             startDate=format_date(self.date_from),
             endDate=format_date(self.date_to))
         return data

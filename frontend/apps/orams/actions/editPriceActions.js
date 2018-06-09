@@ -8,6 +8,7 @@ import {
   SET_PRICE_TO_EDIT_DATA,
   SET_SERVICE_TO_EDIT_IN_STATE,
   SET_PRICE_TO_EDIT_ID,
+  SET_CEILING_PRICE_TO_EDIT_ID,
   SET_ONE_PRICE,
   SET_BUTTON_CLICK,
   SET_SUPPLIER,
@@ -51,6 +52,10 @@ export function setPriceToEditId(priceId) {
   return { type: SET_PRICE_TO_EDIT_ID, priceId }
 }
 
+export function setCeilingPricetoEditId(capPriceId) {
+  return { type: SET_CEILING_PRICE_TO_EDIT_ID, capPriceId }
+}
+
 export function setOnePrice(priceObj) {
   return { type: SET_ONE_PRICE, priceObj }
 }
@@ -81,6 +86,12 @@ export function hideNav(hideNav) {
 
 export const setPrice = priceToEditData => dispatch => {
   dispatch(setPriceToEditId(priceToEditData.id))
+  dispatch(setPriceToEdit(priceToEditData))
+  dispatch(setStep(3))
+}
+
+export const setCeilingPriceToEdit = priceToEditData => dispatch => {
+  dispatch(setCeilingPricetoEditId(priceToEditData.capPriceId))
   dispatch(setPriceToEdit(priceToEditData))
   dispatch(setStep(3))
 }
