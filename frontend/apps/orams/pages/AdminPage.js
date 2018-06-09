@@ -1,16 +1,15 @@
-/* eslint-disable */
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { withRouter, Switch, Route } from 'react-router-dom'
+import { withRouter } from 'react-router-dom'
 import AUpageAlert from '@gov.au/page-alerts/lib/js/react.js'
 import LoadingIndicatorFullPage from 'shared/LoadingIndicatorFullPage/LoadingIndicatorFullPage'
 import { searchSupplier, searchUser } from 'orams/actions/adminSearchActions'
+import { setSupplierCode } from 'orams/actions/editPriceActions'
 import { ADMIN_SEARCH_TYPE_SUPPLIER, ADMIN_SEARCH_TYPE_USER } from 'orams/constants/constants'
 import SupplierSearchForm from 'orams/components/SupplierSearchForm/SupplierSearchForm'
 import UserSearchForm from '../components/UserSearchForm/UserSearchForm'
 import SupplierSearchResults from '../components/SupplierSearchResults/SupplierSearchResults'
 import UserSearchResults from '../components/UserSearchResults/UserSearchResults'
-
 
 class AdminPage extends Component {
   constructor(props) {
@@ -18,39 +17,52 @@ class AdminPage extends Component {
     this.state = {}
   }
 
-  handleSupplierSearch = (data) => {
+  handleSupplierSearch = data => {
     const { doSearchSupplier } = this.props
     doSearchSupplier(data)
   }
 
-  handleUserSearch = (data) => {
+  handleUserSearch = data => {
     const { doSearchUser } = this.props
     doSearchUser(data)
   }
 
   renderSearchResults() {
-    const { currentlySending, errorMessage, searchType, supplierSearchResult, userSearchResult } = this.props
+    const {
+      currentlySending,
+      errorMessage,
+      searchType,
+      supplierSearchResult,
+      userSearchResult,
+      onUpdateCeilingPrice
+    } = this.props
+
     if (currentlySending) {
-      return <LoadingIndicatorFullPage/>
+      return <LoadingIndicatorFullPage />
     }
 
     if (errorMessage) {
       return (
         <AUpageAlert as="error">
-          <h4>{errorMessage}</h4>
+          <h4>
+            {errorMessage}
+          </h4>
         </AUpageAlert>
       )
     }
 
     if (searchType === ADMIN_SEARCH_TYPE_SUPPLIER) {
-      return <SupplierSearchResults
-        searchResults={supplierSearchResult}/>
+      return (
+        <SupplierSearchResults
+          searchResults={supplierSearchResult}
+          onUpdateCeilingPrice={onUpdateCeilingPrice}
+          history={this.props.history}
+        />
+      )
     }
 
     if (searchType === ADMIN_SEARCH_TYPE_USER) {
-      return <UserSearchResults
-        {...this.props}
-        searchResults={userSearchResult}/>
+      return <UserSearchResults {...this.props} searchResults={userSearchResult} />
     }
 
     return ''
@@ -68,12 +80,8 @@ class AdminPage extends Component {
 
         <div className="row">
           <div className="col-sm-3 col-xs-12">
-            <SupplierSearchForm
-              handleSearchSubmit={this.handleSupplierSearch}
-            />
-            <UserSearchForm
-              handleSearchSubmit={this.handleUserSearch}
-            />
+            <SupplierSearchForm handleSearchSubmit={this.handleSupplierSearch} />
+            <UserSearchForm handleSearchSubmit={this.handleUserSearch} />
           </div>
 
           <div className="col-sm-8 col-xs-12 col-sm-push-1">
@@ -86,11 +94,7 @@ class AdminPage extends Component {
 }
 
 const mapStateToProps = state => {
-  const {
-    searchType,
-    supplierSearchResult,
-    userSearchResult
-  } = state.adminSearch
+  const { searchType, supplierSearchResult, userSearchResult } = state.adminSearch
 
   const { currentlySending, errorMessage } = state.app
 
@@ -103,9 +107,10 @@ const mapStateToProps = state => {
   }
 }
 
-const mapDispatchToProps = {
-  doSearchSupplier: (searchTerm) => searchSupplier(searchTerm),
-  doSearchUser: (searchTerm) => searchUser(searchTerm)
-}
+const mapDispatchToProps = dispatch => ({
+  doSearchSupplier: searchTerm => dispatch(searchSupplier(searchTerm)),
+  doSearchUser: searchTerm => dispatch(searchUser(searchTerm)),
+  onUpdateCeilingPrice: supplierCode => dispatch(setSupplierCode(supplierCode))
+})
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(AdminPage))

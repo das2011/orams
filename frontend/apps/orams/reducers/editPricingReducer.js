@@ -22,7 +22,8 @@ import {
   SET_SUPPLIER,
   SET_SUCCESS_MESSAGE,
   RESTART_EDIT_PRICING,
-  HIDE_NAV
+  HIDE_NAV,
+  SET_SUPPLIER_CODE
 } from 'orams/constants/constants'
 
 // The initial application state
@@ -36,7 +37,8 @@ const initialState = {
   pricesArray: [],
   saveAnother: false,
   successMessage: false,
-  hideNav: false
+  hideNav: false,
+  supplierCode: ''
 }
 
 const updateOrReplace = (array, obj) => {
@@ -101,6 +103,12 @@ const editPricingReducer = (state = initialState, action) => {
       return {
         ...state,
         supplier: action.supplier
+      }
+
+    case SET_SUPPLIER_CODE:
+      return {
+        ...state,
+        supplierCode: action.supplierCode
       }
 
     case SET_SUCCESS_MESSAGE:

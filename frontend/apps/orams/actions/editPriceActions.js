@@ -11,6 +11,7 @@ import {
   SET_ONE_PRICE,
   SET_BUTTON_CLICK,
   SET_SUPPLIER,
+  SET_SUPPLIER_CODE,
   SET_SUCCESS_MESSAGE,
   RESTART_EDIT_PRICING,
   HIDE_NAV
@@ -60,6 +61,10 @@ export function setButtonClick(value) {
 
 export function setSupplierData(supplier) {
   return { type: SET_SUPPLIER, supplier }
+}
+
+export function setSupplierCode(supplierCode) {
+  return { type: SET_SUPPLIER_CODE, supplierCode}
 }
 
 export function setSuccessMessage(successMessage) {

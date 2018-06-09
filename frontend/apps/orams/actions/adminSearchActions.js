@@ -84,7 +84,7 @@ export const searchSupplier = searchTerm => dispatch => {
 
 export const searchUser = searchTerm => dispatch => {
   dispatch(sendingRequest(true))
-  dmapi({
+  return dmapi({
     method: 'get',
     url: `/users?string=${searchTerm}`
   }).then(response => {

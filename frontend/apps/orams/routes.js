@@ -23,6 +23,7 @@ import SignupPage from 'orams/pages/SignupPage'
 import InvitationPage from 'orams/pages/InvitationPage'
 import CreatePasswordPage from 'orams/pages/CreatePasswordPage'
 import AdminPage from 'orams/pages/AdminPage'
+import EditCeilingPricePage from 'orams/pages/EditCeilingPricePage'
 
 export const Routes = () =>
   <Switch>
@@ -32,6 +33,7 @@ export const Routes = () =>
     <Route path={`/logout`} component={LogoutPage} />
     <PrivateRoute path={`/admin`} component={AdminPage} />
     <PrivateRoute path={`/edit-profile`} component={EditProfilePage} />
+    <PrivateRoute path={`/edit-supplier/edit-ceiling-pricing`} component={EditCeilingPricePage} />
     <PrivateRoute path={`/seller-catalogue`} component={SellerCataloguePage} />
     <PrivateRoute path={`/seller-profile/:id`} component={SellerProfilePage} />
     <PrivateRoute path={`/referral-builder/:id`} component={ReferralBuilderPage} />
