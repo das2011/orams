@@ -4,8 +4,8 @@ import AUpageAlert from '@gov.au/page-alerts/lib/js/react.js'
 import styles from './ServiceEditList.scss'
 
 const ServiceEditList = props => {
-  const { editServiceData, linkClick, successMessage, hideNav, supplierCode, isCeilingPriceUpdate } = props
-  const { services, name: supplierName } = editServiceData
+  const { editServiceData, linkClick, successMessage, hideNav, supplierCode, supplier, isCeilingPriceUpdate } = props
+  const { services } = editServiceData
 
   const renderSuccessMessage = () => {
     const message = isCeilingPriceUpdate ? 'Ceiling price updated' : 'Pricing updated'
@@ -25,22 +25,22 @@ const ServiceEditList = props => {
 
   const renderHeading = () => {
     if (isCeilingPriceUpdate) {
+      const supplierName = supplier ? supplier.name : ''
+
       return (
         <header>
-          <h1 className="au-display-xl" tabIndex="-2">
+          <h1 className="au-display-xl">
             {supplierName}
           </h1>
-          <h2 className="au-display-lg" tabIndex="-1">
-            Update ceiling prices - select a service
-          </h2>
-          <div className={styles.stepTitle}>Step 1 of 4</div>
+          <h2 className="au-display-lg">Update ceiling prices - select a service</h2>
+          <div className={styles.stepTitle}>Step 1 of 3</div>
           <div>
             <a
               onClick={() => {
                 props.history.goBack()
               }}
             >
-              Back to supplier search
+              Back to suppliers
             </a>
           </div>
           <div className={styles.heading}>Select the service you want to edit</div>
@@ -50,9 +50,7 @@ const ServiceEditList = props => {
 
     return (
       <header>
-        <h1 className="au-display-xl" tabIndex="-1">
-          Pricing
-        </h1>
+        <h1 className="au-display-xl">Pricing</h1>
         <div className={styles.stepTitle}>Step 1 of 4</div>
         <div className={styles.heading}>Select the service you want to edit</div>
       </header>

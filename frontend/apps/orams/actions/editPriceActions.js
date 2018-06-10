@@ -1,4 +1,3 @@
-/* eslint-disable */
 import {
   SENDING_REQUEST,
   SET_ERROR_MESSAGE,
@@ -69,7 +68,7 @@ export function setSupplierData(supplier) {
 }
 
 export function setSupplierCode(supplierCode) {
-  return { type: SET_SUPPLIER_CODE, supplierCode}
+  return { type: SET_SUPPLIER_CODE, supplierCode }
 }
 
 export function setSuccessMessage(successMessage) {
@@ -80,8 +79,8 @@ export function restartEditPricing() {
   return { type: RESTART_EDIT_PRICING }
 }
 
-export function hideNav(hideNav) {
-  return { type: HIDE_NAV, hideNav }
+export function hideNav(isHideNav) {
+  return { type: HIDE_NAV, isHideNav }
 }
 
 export const setPrice = priceToEditData => dispatch => {
@@ -99,7 +98,7 @@ export const setCeilingPriceToEdit = priceToEditData => dispatch => {
 export const loadServiceEditData = supplierCode => dispatch => {
   dispatch(sendingRequest(true))
   dispatch(setSuccessMessage(false))
-  dmapi({ url: '/suppliers/' + supplierCode }).then(response => {
+  dmapi({ url: `/suppliers/${supplierCode}` }).then(response => {
     if (response.error) {
       dispatch(setErrorMessage(GENERAL_ERROR))
     } else {
@@ -115,15 +114,15 @@ export const loadPricesData = (supplierCode, serviceTypeId, categoryId, serviceN
   dispatch(sendingRequest(true))
 
   const serviceToEdit = {
-    serviceTypeId: serviceTypeId,
-    categoryId: categoryId,
-    serviceName: serviceName,
-    subCategoryName: subCategoryName
+    serviceTypeId,
+    categoryId,
+    serviceName,
+    subCategoryName
   }
 
   dispatch(setServiceToEditInState(serviceToEdit))
 
-  const baseUrl = '/prices/suppliers/' + supplierCode + '/services/' + serviceTypeId + '/categories/' + categoryId
+  const baseUrl = `/prices/suppliers/${supplierCode}/services/${serviceTypeId}/categories/${categoryId}`
 
   dmapi({ url: baseUrl }).then(response => {
     if (response.error) {
@@ -140,7 +139,7 @@ export function setUserPrice(price, capPrice) {
   return (dispatch, getState) => {
     const state = getState()
     const priceObj = {
-      capPrice: capPrice,
+      capPrice,
       regionState: state.editPricing.priceData.region.state,
       regionName: state.editPricing.priceData.region.name,
       id: state.editPricing.priceId,
@@ -196,4 +195,34 @@ export function updatePrice() {
       dispatch(sendingRequest(false))
     })
   }
+}
+
+export const updateCeilingPrice = (data, capPriceId) => (dispatch, getState) => {
+  const state = getState()
+  const {
+    editPricing: { supplierCode, serviceToEdit: { serviceTypeId, categoryId, serviceName, subCategoryName } }
+  } = state
+  window.scrollTo(0, 0)
+  dispatch(sendingRequest(true))
+
+  dmapi({
+    method: 'post',
+    url: `/ceiling-prices/${capPriceId}`,
+    data: JSON.stringify(data)
+  }).then(response => {
+    if (response.error) {
+      const { message } = response.data
+      if (message) {
+        dispatch(setErrorMessage(message))
+      } else {
+        dispatch(setErrorMessage(GENERAL_ERROR))
+      }
+
+      dispatch(sendingRequest(false))
+    } else {
+      dispatch(setSuccessMessage(true))
+      dispatch(actions.reset('editCeilingPriceForm'))
+      dispatch(loadPricesData(supplierCode, serviceTypeId, categoryId, serviceName, subCategoryName))
+    }
+  })
 }

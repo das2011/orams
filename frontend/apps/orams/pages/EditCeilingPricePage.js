@@ -8,8 +8,10 @@ import {
   loadPricesData,
   loadServiceEditData,
   setCeilingPriceToEdit,
-  setStep
+  setStep,
+  updateCeilingPrice
 } from 'orams/actions/editPriceActions'
+import EditCeilingPriceForm from 'orams/components/EditCeilingPriceForm/EditCeilingPriceForm'
 import PricingList from 'orams/components/PricingList/PricingList'
 import ServiceEditList from 'orams/components/ServiceEditList/ServiceEditList'
 
@@ -22,6 +24,7 @@ class EditCeilingPricePage extends Component {
     super(props)
 
     this.loadListPricingStep = this.loadListPricingStep.bind(this)
+    this.handlePriceSubmit = this.handlePriceSubmit.bind(this)
   }
 
   componentDidMount() {
@@ -33,7 +36,11 @@ class EditCeilingPricePage extends Component {
     this.props.loadPrices(supplierCode, serviceTypeId, categoryId, serviceName, subCategoryName)
   }
 
-  render() {
+  handlePriceSubmit(data, capPriceId) {
+    this.props.submitUpdateCeilingPrice(data, capPriceId)
+  }
+
+  renderMain() {
     const { currentlySending, errorMessage, step } = this.props
     const isCeilingPriceUpdate = true
 
@@ -61,14 +68,26 @@ class EditCeilingPricePage extends Component {
         )
 
       case LIST_PRICING_STEP:
-        return <PricingList pricesData={this.props.pricesData} {...this.props} />
+        return (
+          <PricingList pricesData={this.props.pricesData} isCeilingPriceUpdate={isCeilingPriceUpdate} {...this.props} />
+        )
 
       case UPDATE_CEILING_PRICE_STEP:
-        return <div>Update Ceiling Price Step</div>
+        return <EditCeilingPriceForm {...this.props} handlePriceSubmit={this.handlePriceSubmit} />
 
       default:
         return ''
     }
+  }
+
+  render() {
+    return (
+      <main>
+        <div className="row">
+          {this.renderMain()}
+        </div>
+      </main>
+    )
   }
 }
 
@@ -108,6 +127,7 @@ const mapDispatchToProps = dispatch => ({
   loadPrices: (supplierCode, serviceTypeId, categoryId, serviceName, subCategoryName) =>
     dispatch(loadPricesData(supplierCode, serviceTypeId, categoryId, serviceName, subCategoryName)),
   editPrice: priceToEditData => dispatch(setCeilingPriceToEdit(priceToEditData)),
+  submitUpdateCeilingPrice: (data, capPriceId) => dispatch(updateCeilingPrice(data, capPriceId)),
   goToStep: step => dispatch(setStep(step)),
   hideNav: bool => dispatch(hideNav(bool))
 })
