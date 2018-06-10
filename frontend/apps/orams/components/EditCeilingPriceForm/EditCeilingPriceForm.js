@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { Form } from 'react-redux-form'
-import CheckboxDetailsField from 'shared/form/CheckboxDetailsField'
+import { Form, Control } from 'react-redux-form'
 import ErrorBox from 'shared/form/ErrorBox'
 import Textfield from 'shared/form/Textfield'
 import formProps from 'shared/form/formPropsSelector'
@@ -62,17 +61,23 @@ class EditCeilingPriceForm extends Component {
                 validMoreThanMinPrice: `Ceiling price must be valid and more than $${priceData.price}`
               }}
             />
-            <div>Check box if you want to set current price to match</div>
-            <CheckboxDetailsField
-              model={`${model}.setCurrentPriceToCeiling`}
-              id="setCurrentPriceToCeiling"
-              name="setCurrentPriceToCeiling"
-              value="setCurrentPriceToCeiling"
-              label="Set current price to match"
-              description="The terms of use"
-              detailsModel={model}
-              messages={''}
-            />
+            <div className="question-heading au-text-input__label">
+              Check box if you want to set current price to match
+            </div>
+            <div className={styles.ceilingPriceCheckbox}>
+              <label className="au-control-input au-control-input--full" htmlFor="setCurrentPriceToCeiling">
+                <Control.checkbox
+                  model={`${model}.setCurrentPriceToCeiling`}
+                  id="setCurrentPriceToCeiling"
+                  name="setCurrentPriceToCeiling"
+                  value="yes"
+                  mapProps={{
+                    className: 'au-control-input__input'
+                  }}
+                />
+                <span className="au-control-input__text">Set current price to match</span>
+              </label>
+            </div>
             <div className="row">
               <div className="col-xs-12 col-sm-12 col-md-11">
                 <button type="submit" className="au-btn">
