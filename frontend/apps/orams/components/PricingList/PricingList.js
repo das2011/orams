@@ -1,5 +1,5 @@
 import React from 'react'
-import AUpageAlert from '@gov.au/page-alerts/lib/js/react.js'
+import Alert from '@gov.au/page-alerts/lib/js/react.js'
 import { uniqueID } from 'shared/utils/helpers'
 import styles from './PricingList.scss'
 
@@ -12,11 +12,11 @@ const PricingList = props => {
 
     if (successMessage) {
       return (
-        <AUpageAlert as="success">
+        <Alert as="success">
           <h4>
             {message}
           </h4>
-        </AUpageAlert>
+        </Alert>
       )
     }
 

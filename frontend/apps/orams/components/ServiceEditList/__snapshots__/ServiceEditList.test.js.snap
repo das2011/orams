@@ -1,0 +1,241 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`#ServiceEditList renders correct header when it is not update ceiling price 1`] = `
+<div
+  className="container"
+>
+  
+  <header>
+    <h1
+      className="au-display-xl"
+    >
+      Pricing
+    </h1>
+    <div
+      className="stepTitle"
+    >
+      Step 1 of 4
+    </div>
+    <div
+      className="heading"
+    >
+      Select the service you want to edit
+    </div>
+  </header>
+  <article
+    role="main"
+  >
+    <div>
+      <div
+        onClick={[Function]}
+      >
+        <div
+          className="link link-service"
+        >
+          Componensation Service
+          <span>
+             (Physical)
+          </span>
+        </div>
+      </div>
+    </div>
+    <div>
+      <div
+        onClick={[Function]}
+      >
+        <div
+          className="link link-service"
+        >
+          Rehabiliation Service
+          <span>
+             (Physical)
+          </span>
+        </div>
+      </div>
+      <div
+        onClick={[Function]}
+      >
+        <div
+          className="link link-service"
+        >
+          Rehabiliation Service
+          <span>
+             (Psychological)
+          </span>
+        </div>
+      </div>
+    </div>
+  </article>
+</div>
+`;
+
+exports[`#ServiceEditList renders correct header when it is update ceiling price 1`] = `
+<div
+  className="container"
+>
+  
+  <header>
+    <h1
+      className="au-display-xl"
+    >
+      Supplier Name
+    </h1>
+    <h2
+      className="au-display-lg"
+    >
+      Update ceiling prices - select a service
+    </h2>
+    <div
+      className="stepTitle"
+    >
+      Step 1 of 3
+    </div>
+    <div
+      className="link link-back"
+      onClick={[Function]}
+      role="button"
+      tabIndex="0"
+    >
+      Back to suppliers
+    </div>
+    <div
+      className="heading"
+    >
+      Select the service you want to edit
+    </div>
+  </header>
+  <article
+    role="main"
+  >
+    <div>
+      <div
+        onClick={[Function]}
+      >
+        <div
+          className="link link-service"
+        >
+          Componensation Service
+          <span>
+             (Physical)
+          </span>
+        </div>
+      </div>
+    </div>
+    <div>
+      <div
+        onClick={[Function]}
+      >
+        <div
+          className="link link-service"
+        >
+          Rehabiliation Service
+          <span>
+             (Physical)
+          </span>
+        </div>
+      </div>
+      <div
+        onClick={[Function]}
+      >
+        <div
+          className="link link-service"
+        >
+          Rehabiliation Service
+          <span>
+             (Psychological)
+          </span>
+        </div>
+      </div>
+    </div>
+  </article>
+</div>
+`;
+
+exports[`#ServiceEditList renders success message 1`] = `
+<div
+  className="container"
+>
+  <div
+    className="au-body au-page-alerts   au-page-alerts--success"
+    role="alert"
+  >
+    <h4>
+      Ceiling price updated
+    </h4>
+  </div>
+  <header>
+    <h1
+      className="au-display-xl"
+    >
+      Supplier Name
+    </h1>
+    <h2
+      className="au-display-lg"
+    >
+      Update ceiling prices - select a service
+    </h2>
+    <div
+      className="stepTitle"
+    >
+      Step 1 of 3
+    </div>
+    <div
+      className="link link-back"
+      onClick={[Function]}
+      role="button"
+      tabIndex="0"
+    >
+      Back to suppliers
+    </div>
+    <div
+      className="heading"
+    >
+      Select the service you want to edit
+    </div>
+  </header>
+  <article
+    role="main"
+  >
+    <div>
+      <div
+        onClick={[Function]}
+      >
+        <div
+          className="link link-service"
+        >
+          Componensation Service
+          <span>
+             (Physical)
+          </span>
+        </div>
+      </div>
+    </div>
+    <div>
+      <div
+        onClick={[Function]}
+      >
+        <div
+          className="link link-service"
+        >
+          Rehabiliation Service
+          <span>
+             (Physical)
+          </span>
+        </div>
+      </div>
+      <div
+        onClick={[Function]}
+      >
+        <div
+          className="link link-service"
+        >
+          Rehabiliation Service
+          <span>
+             (Psychological)
+          </span>
+        </div>
+      </div>
+    </div>
+  </article>
+</div>
+`;

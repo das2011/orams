@@ -34,14 +34,15 @@ const ServiceEditList = props => {
           </h1>
           <h2 className="au-display-lg">Update ceiling prices - select a service</h2>
           <div className={styles.stepTitle}>Step 1 of 3</div>
-          <div>
-            <a
-              onClick={() => {
-                props.history.goBack()
-              }}
-            >
-              Back to suppliers
-            </a>
+          <div
+            role="button"
+            tabIndex="0"
+            className={`${styles.link} link-back`}
+            onClick={() => {
+              props.history.goBack()
+            }}
+          >
+            Back to suppliers
           </div>
           <div className={styles.heading}>Select the service you want to edit</div>
         </header>
@@ -80,7 +81,7 @@ const ServiceEditList = props => {
                     window.scrollTo(0, 0)
                   }}
                 >
-                  <div className={styles.link}>
+                  <div className={`${styles.link} link-service`}>
                     {service.name}
                     <span>
                       {subCategory.name ? ` (${subCategory.name})` : ''}

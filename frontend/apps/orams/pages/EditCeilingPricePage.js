@@ -11,13 +11,14 @@ import {
   setStep,
   updateCeilingPrice
 } from 'orams/actions/editPriceActions'
+import {
+  SET_PRICE_LIST_SERVICES_STEP,
+  SET_PRICE_LIST_PRICING_STEP,
+  SET_PRICE_UPDATE_PRICE_STEP
+} from 'orams/constants/constants'
 import EditCeilingPriceForm from 'orams/components/EditCeilingPriceForm/EditCeilingPriceForm'
 import PricingList from 'orams/components/PricingList/PricingList'
 import ServiceEditList from 'orams/components/ServiceEditList/ServiceEditList'
-
-const LIST_SERVICES_STEP = 1
-const LIST_PRICING_STEP = 2
-const UPDATE_CEILING_PRICE_STEP = 3
 
 class EditCeilingPricePage extends Component {
   constructor(props) {
@@ -57,7 +58,7 @@ class EditCeilingPricePage extends Component {
     }
 
     switch (step) {
-      case LIST_SERVICES_STEP:
+      case SET_PRICE_LIST_SERVICES_STEP:
         return (
           <ServiceEditList
             editServiceData={this.props.editServiceData}
@@ -67,12 +68,12 @@ class EditCeilingPricePage extends Component {
           />
         )
 
-      case LIST_PRICING_STEP:
+      case SET_PRICE_LIST_PRICING_STEP:
         return (
           <PricingList pricesData={this.props.pricesData} isCeilingPriceUpdate={isCeilingPriceUpdate} {...this.props} />
         )
 
-      case UPDATE_CEILING_PRICE_STEP:
+      case SET_PRICE_UPDATE_PRICE_STEP:
         return <EditCeilingPriceForm {...this.props} handlePriceSubmit={this.handlePriceSubmit} />
 
       default:

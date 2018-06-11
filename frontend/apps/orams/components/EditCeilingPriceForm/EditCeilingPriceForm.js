@@ -20,12 +20,13 @@ class EditCeilingPriceForm extends Component {
         </h1>
         <h2 className="au-display-lg"> Update ceiling prices - edit ceiling price</h2>
         <div className={styles.stepTitle}>Step 3 of 3</div>
-        <div role="button" tabIndex="0" className={styles.backLink} onClick={() => goToStep(2)}>
+        <div className={styles.backLink} onClick={() => goToStep(2)}>
           Back to pricing information
         </div>
       </header>
     )
   }
+
   render() {
     const { model, action, submitClicked, priceData, handlePriceSubmit } = this.props
     let hasFocused = false
@@ -72,7 +73,7 @@ class EditCeilingPriceForm extends Component {
                   name="setCurrentPriceToCeiling"
                   value="yes"
                   mapProps={{
-                    className: 'au-control-input__input'
+                    className: 'au-control-input__input match-ceiling-price__checkbox'
                   }}
                 />
                 <span className="au-control-input__text">Set current price to match</span>

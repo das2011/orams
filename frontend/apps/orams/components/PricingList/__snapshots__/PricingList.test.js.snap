@@ -1,0 +1,548 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`#PricingList renders correct header when it is not update ceiling price 1`] = `
+<div
+  className="container"
+>
+  
+  <header>
+    <h1
+      className="au-display-xl"
+      tabIndex="-1"
+    >
+      Pricing for 
+      Service To Edit
+      <span>
+         (Sub Category)
+      </span>
+    </h1>
+    <div
+      className="stepTitle"
+    >
+      Step 2 of 4
+    </div>
+    <div
+      className="backLink"
+      onClick={[Function]}
+      role="button"
+      tabIndex="0"
+    >
+      Back to services list
+    </div>
+  </header>
+  <article
+    role="main"
+  >
+    <div
+      className="headingRow"
+    >
+      <div
+        className="row"
+      >
+        <div
+          className="col-md-3 col-sm-3"
+        >
+          Region
+        </div>
+        <div
+          className="col-md-2 col-sm-2"
+        >
+          Price cap
+        </div>
+        <div
+          className="col-md-2 col-sm-2"
+        >
+          Price 
+          <span
+            className="gstTitle"
+          >
+            inc GST
+          </span>
+        </div>
+        <div
+          className="col-md-2 col-sm-2"
+        >
+          Start date
+        </div>
+        <div
+          className="col-md-2 col-sm-2"
+        >
+          End date
+        </div>
+        <div
+          className="col-md-1 col-sm-1"
+        />
+      </div>
+    </div>
+    <div
+      className="priceRow"
+    >
+      <div
+        className="row"
+      >
+        <div
+          className="col-md-3 col-sm-3"
+        >
+          NSW Metro
+        </div>
+        <div
+          className="col-md-2 col-sm-2"
+        >
+          $1000
+        </div>
+        <div
+          className="col-md-2 col-sm-2"
+        >
+          <span
+            className="price"
+          >
+            $500
+          </span>
+        </div>
+        <div
+          className="col-md-2 col-sm-2"
+        >
+          01/01/2018
+        </div>
+        <div
+          className="col-md-2 col-sm-2"
+        >
+          31/12/3999
+        </div>
+        <div
+          className="col-md-1 col-sm-1"
+        >
+          <div
+            className="link"
+            onClick={[Function]}
+            role="button"
+            tabIndex="0"
+          >
+            <strong>
+              Edit
+            </strong>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div
+      className="priceRow"
+    >
+      <div
+        className="row"
+      >
+        <div
+          className="col-md-3 col-sm-3"
+        >
+          NSW Metro
+        </div>
+        <div
+          className="col-md-2 col-sm-2"
+        >
+          $2000
+        </div>
+        <div
+          className="col-md-2 col-sm-2"
+        >
+          <span
+            className="price"
+          >
+            $1000
+          </span>
+        </div>
+        <div
+          className="col-md-2 col-sm-2"
+        >
+          01/01/2018
+        </div>
+        <div
+          className="col-md-2 col-sm-2"
+        >
+          31/12/3999
+        </div>
+        <div
+          className="col-md-1 col-sm-1"
+        >
+          <div
+            className="link"
+            onClick={[Function]}
+            role="button"
+            tabIndex="0"
+          >
+            <strong>
+              Edit
+            </strong>
+          </div>
+        </div>
+      </div>
+    </div>
+  </article>
+</div>
+`;
+
+exports[`#PricingList renders correct header when it is update ceiling price 1`] = `
+<div
+  className="container"
+>
+  
+  <header>
+    <h1
+      className="au-display-xl"
+    >
+      Supplier Name
+    </h1>
+    <h2
+      className="au-display-lg"
+    >
+      Update ceiling prices - select a region
+    </h2>
+    <div
+      className="stepTitle"
+    >
+      Step 2 of 3
+    </div>
+    <div
+      className="backLink"
+      onClick={[Function]}
+      role="button"
+      tabIndex="0"
+    >
+      Back to supplier search
+    </div>
+  </header>
+  <article
+    role="main"
+  >
+    <div
+      className="headingRow"
+    >
+      <div
+        className="row"
+      >
+        <div
+          className="col-md-3 col-sm-3"
+        >
+          Region
+        </div>
+        <div
+          className="col-md-2 col-sm-2"
+        >
+          Price cap
+        </div>
+        <div
+          className="col-md-2 col-sm-2"
+        >
+          Price 
+          <span
+            className="gstTitle"
+          >
+            inc GST
+          </span>
+        </div>
+        <div
+          className="col-md-2 col-sm-2"
+        >
+          Start date
+        </div>
+        <div
+          className="col-md-2 col-sm-2"
+        >
+          End date
+        </div>
+        <div
+          className="col-md-1 col-sm-1"
+        />
+      </div>
+    </div>
+    <div
+      className="priceRow"
+    >
+      <div
+        className="row"
+      >
+        <div
+          className="col-md-3 col-sm-3"
+        >
+          NSW Metro
+        </div>
+        <div
+          className="col-md-2 col-sm-2"
+        >
+          $1000
+        </div>
+        <div
+          className="col-md-2 col-sm-2"
+        >
+          <span
+            className="price"
+          >
+            $500
+          </span>
+        </div>
+        <div
+          className="col-md-2 col-sm-2"
+        >
+          01/01/2018
+        </div>
+        <div
+          className="col-md-2 col-sm-2"
+        >
+          31/12/3999
+        </div>
+        <div
+          className="col-md-1 col-sm-1"
+        >
+          <div
+            className="link"
+            onClick={[Function]}
+            role="button"
+            tabIndex="0"
+          >
+            <strong>
+              Edit
+            </strong>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div
+      className="priceRow"
+    >
+      <div
+        className="row"
+      >
+        <div
+          className="col-md-3 col-sm-3"
+        >
+          NSW Metro
+        </div>
+        <div
+          className="col-md-2 col-sm-2"
+        >
+          $2000
+        </div>
+        <div
+          className="col-md-2 col-sm-2"
+        >
+          <span
+            className="price"
+          >
+            $1000
+          </span>
+        </div>
+        <div
+          className="col-md-2 col-sm-2"
+        >
+          01/01/2018
+        </div>
+        <div
+          className="col-md-2 col-sm-2"
+        >
+          31/12/3999
+        </div>
+        <div
+          className="col-md-1 col-sm-1"
+        >
+          <div
+            className="link"
+            onClick={[Function]}
+            role="button"
+            tabIndex="0"
+          >
+            <strong>
+              Edit
+            </strong>
+          </div>
+        </div>
+      </div>
+    </div>
+  </article>
+</div>
+`;
+
+exports[`#PricingList renders success message 1`] = `
+<div
+  className="container"
+>
+  <div
+    className="au-body au-page-alerts   au-page-alerts--success"
+    role="alert"
+  >
+    <h4>
+      Ceiling price updated
+    </h4>
+  </div>
+  <header>
+    <h1
+      className="au-display-xl"
+    >
+      Supplier Name
+    </h1>
+    <h2
+      className="au-display-lg"
+    >
+      Update ceiling prices - select a region
+    </h2>
+    <div
+      className="stepTitle"
+    >
+      Step 2 of 3
+    </div>
+    <div
+      className="backLink"
+      onClick={[Function]}
+      role="button"
+      tabIndex="0"
+    >
+      Back to supplier search
+    </div>
+  </header>
+  <article
+    role="main"
+  >
+    <div
+      className="headingRow"
+    >
+      <div
+        className="row"
+      >
+        <div
+          className="col-md-3 col-sm-3"
+        >
+          Region
+        </div>
+        <div
+          className="col-md-2 col-sm-2"
+        >
+          Price cap
+        </div>
+        <div
+          className="col-md-2 col-sm-2"
+        >
+          Price 
+          <span
+            className="gstTitle"
+          >
+            inc GST
+          </span>
+        </div>
+        <div
+          className="col-md-2 col-sm-2"
+        >
+          Start date
+        </div>
+        <div
+          className="col-md-2 col-sm-2"
+        >
+          End date
+        </div>
+        <div
+          className="col-md-1 col-sm-1"
+        />
+      </div>
+    </div>
+    <div
+      className="priceRow"
+    >
+      <div
+        className="row"
+      >
+        <div
+          className="col-md-3 col-sm-3"
+        >
+          NSW Metro
+        </div>
+        <div
+          className="col-md-2 col-sm-2"
+        >
+          $1000
+        </div>
+        <div
+          className="col-md-2 col-sm-2"
+        >
+          <span
+            className="price"
+          >
+            $500
+          </span>
+        </div>
+        <div
+          className="col-md-2 col-sm-2"
+        >
+          01/01/2018
+        </div>
+        <div
+          className="col-md-2 col-sm-2"
+        >
+          31/12/3999
+        </div>
+        <div
+          className="col-md-1 col-sm-1"
+        >
+          <div
+            className="link"
+            onClick={[Function]}
+            role="button"
+            tabIndex="0"
+          >
+            <strong>
+              Edit
+            </strong>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div
+      className="priceRow"
+    >
+      <div
+        className="row"
+      >
+        <div
+          className="col-md-3 col-sm-3"
+        >
+          NSW Metro
+        </div>
+        <div
+          className="col-md-2 col-sm-2"
+        >
+          $2000
+        </div>
+        <div
+          className="col-md-2 col-sm-2"
+        >
+          <span
+            className="price"
+          >
+            $1000
+          </span>
+        </div>
+        <div
+          className="col-md-2 col-sm-2"
+        >
+          01/01/2018
+        </div>
+        <div
+          className="col-md-2 col-sm-2"
+        >
+          31/12/3999
+        </div>
+        <div
+          className="col-md-1 col-sm-1"
+        >
+          <div
+            className="link"
+            onClick={[Function]}
+            role="button"
+            tabIndex="0"
+          >
+            <strong>
+              Edit
+            </strong>
+          </div>
+        </div>
+      </div>
+    </div>
+  </article>
+</div>
+`;

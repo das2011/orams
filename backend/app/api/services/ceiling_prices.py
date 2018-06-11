@@ -77,7 +77,7 @@ class CeilingPriceService(Service):
             ceiling_price.service_type_id,
             ceiling_price.sub_service_id,
             pendulum.today(current_app.config['DEADLINES_TZ_NAME']).date(),
-            ceiling_price.id)
+            ceiling_price.region_id)
         if supplier_prices:
             current_price = supplier_prices[0]['price']
             current_price = current_price.translate(None, ',')

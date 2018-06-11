@@ -12,7 +12,7 @@ class PricesService(Service):
         super(PricesService, self).__init__(*args, **kwargs)
         self.audit = AuditService()
 
-    def get_prices(self, code, service_type_id, category_id, date, ceiling_price_id=None):
+    def get_prices(self, code, service_type_id, category_id, date, region_id=None):
         prices = db.session.query(ServiceTypePrice)\
             .join(ServiceTypePrice.region)\
             .filter(ServiceTypePrice.supplier_code == code,
@@ -20,9 +20,9 @@ class PricesService(Service):
                     ServiceTypePrice.sub_service_id == category_id,
                     ServiceTypePrice.is_current_price(date))
 
-        if ceiling_price_id:
+        if region_id:
             prices = prices.filter(
-                ServiceTypePrice.service_type_price_ceiling_id == ceiling_price_id)
+                ServiceTypePrice.region_id == region_id)
 
         prices = prices.distinct(
                     Region.state, Region.name, ServiceTypePrice.supplier_code,

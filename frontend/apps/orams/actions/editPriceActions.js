@@ -14,7 +14,11 @@ import {
   SET_SUPPLIER_CODE,
   SET_SUCCESS_MESSAGE,
   RESTART_EDIT_PRICING,
-  HIDE_NAV
+  HIDE_NAV,
+  SET_PRICE_LIST_SERVICES_STEP,
+  SET_PRICE_LIST_PRICING_STEP,
+  SET_PRICE_UPDATE_PRICE_STEP,
+  SET_PRICE_CONTRACT_VARIATION_STEP
 } from 'orams/constants/constants'
 import { GENERAL_ERROR } from 'orams/constants/messageConstants'
 import dmapi from 'orams/services/apiClient'
@@ -86,13 +90,13 @@ export function hideNav(isHideNav) {
 export const setPrice = priceToEditData => dispatch => {
   dispatch(setPriceToEditId(priceToEditData.id))
   dispatch(setPriceToEdit(priceToEditData))
-  dispatch(setStep(3))
+  dispatch(setStep(SET_PRICE_UPDATE_PRICE_STEP))
 }
 
 export const setCeilingPriceToEdit = priceToEditData => dispatch => {
   dispatch(setCeilingPricetoEditId(priceToEditData.capPriceId))
   dispatch(setPriceToEdit(priceToEditData))
-  dispatch(setStep(3))
+  dispatch(setStep(SET_PRICE_UPDATE_PRICE_STEP))
 }
 
 export const loadServiceEditData = supplierCode => dispatch => {
@@ -104,7 +108,7 @@ export const loadServiceEditData = supplierCode => dispatch => {
     } else {
       dispatch(setServiceEditData({ services: response.data.services }))
       dispatch(setSupplierData(response.data))
-      dispatch(setStep(1))
+      dispatch(setStep(SET_PRICE_LIST_SERVICES_STEP))
     }
     dispatch(sendingRequest(false))
   })
@@ -129,7 +133,7 @@ export const loadPricesData = (supplierCode, serviceTypeId, categoryId, serviceN
       dispatch(setErrorMessage(GENERAL_ERROR))
     } else {
       dispatch(setPricesData(response.data))
-      dispatch(setStep(2))
+      dispatch(setStep(SET_PRICE_LIST_PRICING_STEP))
     }
     dispatch(sendingRequest(false))
   })
@@ -164,7 +168,7 @@ export function setUserPrice(price, capPrice) {
     }
 
     if (state.editPricing.buttonClickValue === 'continueToFinalStep') {
-      dispatch(setStep(4))
+      dispatch(setStep(SET_PRICE_CONTRACT_VARIATION_STEP))
     }
   }
 }
@@ -190,39 +194,41 @@ export function updatePrice() {
         dispatch(setSuccessMessage(true))
         dispatch(restartEditPricing())
         dispatch(actions.reset('contractVariationForm'))
-        dispatch(setStep(1))
+        dispatch(setStep(SET_PRICE_LIST_SERVICES_STEP))
       }
       dispatch(sendingRequest(false))
     })
   }
 }
 
-export const updateCeilingPrice = (data, capPriceId) => (dispatch, getState) => {
-  const state = getState()
-  const {
-    editPricing: { supplierCode, serviceToEdit: { serviceTypeId, categoryId, serviceName, subCategoryName } }
-  } = state
-  window.scrollTo(0, 0)
-  dispatch(sendingRequest(true))
+export function updateCeilingPrice(data, capPriceId) {
+  return (dispatch, getState) => {
+    const state = getState()
+    const {
+      editPricing: { supplierCode, serviceToEdit: { serviceTypeId, categoryId, serviceName, subCategoryName } }
+    } = state
+    window.scrollTo(0, 0)
+    dispatch(sendingRequest(true))
 
-  dmapi({
-    method: 'post',
-    url: `/ceiling-prices/${capPriceId}`,
-    data: JSON.stringify(data)
-  }).then(response => {
-    if (response.error) {
-      const { message } = response.data
-      if (message) {
-        dispatch(setErrorMessage(message))
+    return dmapi({
+      method: 'post',
+      url: `/ceiling-prices/${capPriceId}`,
+      data: JSON.stringify(data)
+    }).then(response => {
+      if (response.error) {
+        dispatch(sendingRequest(false))
+
+        const { message } = response.data
+        if (message) {
+          dispatch(setErrorMessage(message))
+        } else {
+          dispatch(setErrorMessage(GENERAL_ERROR))
+        }
       } else {
-        dispatch(setErrorMessage(GENERAL_ERROR))
+        dispatch(setSuccessMessage(true))
+        dispatch(actions.reset('editCeilingPriceForm'))
+        dispatch(loadPricesData(supplierCode, serviceTypeId, categoryId, serviceName, subCategoryName))
       }
-
-      dispatch(sendingRequest(false))
-    } else {
-      dispatch(setSuccessMessage(true))
-      dispatch(actions.reset('editCeilingPriceForm'))
-      dispatch(loadPricesData(supplierCode, serviceTypeId, categoryId, serviceName, subCategoryName))
-    }
-  })
+    })
+  }
 }

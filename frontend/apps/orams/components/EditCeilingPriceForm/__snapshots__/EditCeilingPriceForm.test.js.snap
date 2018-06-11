@@ -1,0 +1,122 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`#EditCeilingPriceForm renders with pricing details 1`] = `
+<div
+  className="container"
+>
+  <header>
+    <h1
+      className="au-display-xl"
+    >
+      Supplier Name - NSW Metro - Service To Edit
+    </h1>
+    <h2
+      className="au-display-lg"
+    >
+       Update ceiling prices - edit ceiling price
+    </h2>
+    <div
+      className="stepTitle"
+    >
+      Step 3 of 3
+    </div>
+    <div
+      className="backLink"
+      onClick={[Function]}
+    >
+      Back to pricing information
+    </div>
+  </header>
+  <article
+    role="main"
+  >
+    <form
+      action={undefined}
+      id="EditCeilingPrice__create"
+      noValidate={undefined}
+      onReset={[Function]}
+      onSubmit={[Function]}
+    >
+      <div
+        className="field"
+      >
+        <label
+          className="question-heading au-text-input__label"
+          htmlFor="ceilingPrice"
+          id="ceilingPrice-label"
+        >
+          Enter a new ceiling price including GST
+        </label>
+        <div
+          className="au-text-input__hint"
+          id="ceilingPrice-hint"
+        >
+          The new ceiling price must not be less than $500
+        </div>
+        <input
+          aria-describedby="ceilingPrice-label"
+          className="au-text-input au-text-input--block"
+          disabled={false}
+          id="ceilingPrice"
+          maxLength={undefined}
+          name="ceilingPrice"
+          onBlur={[Function]}
+          onChange={[Function]}
+          onFocus={[Function]}
+          onKeyPress={[Function]}
+          pattern={null}
+          readOnly={false}
+          type="text"
+          value="1000"
+        />
+      </div>
+      <div
+        className="question-heading au-text-input__label"
+      >
+        Check box if you want to set current price to match
+      </div>
+      <div
+        className="ceilingPriceCheckbox"
+      >
+        <label
+          className="au-control-input au-control-input--full"
+          htmlFor="setCurrentPriceToCeiling"
+        >
+          <input
+            checked={false}
+            className="au-control-input__input match-ceiling-price__checkbox"
+            disabled={false}
+            id="setCurrentPriceToCeiling"
+            name="setCurrentPriceToCeiling"
+            onBlur={[Function]}
+            onChange={[Function]}
+            onFocus={[Function]}
+            onKeyPress={[Function]}
+            type="checkbox"
+            value="yes"
+          />
+          <span
+            className="au-control-input__text"
+          >
+            Set current price to match
+          </span>
+        </label>
+      </div>
+      <div
+        className="row"
+      >
+        <div
+          className="col-xs-12 col-sm-12 col-md-11"
+        >
+          <button
+            className="au-btn"
+            type="submit"
+          >
+            Save and return to region list
+          </button>
+        </div>
+      </div>
+    </form>
+  </article>
+</div>
+`;
