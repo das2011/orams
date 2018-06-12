@@ -1,7 +1,6 @@
 Hi {{supplier_name}},
 
-A new referral has been sent to you. Please log in to the [ORAMS portal]({{ url }}) 
-to accept or reject it.
+A new referral has been sent to you. You can accept/reject it in the [ORAMS portal]({{ url }}).
 
 Best regards,
 

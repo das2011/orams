@@ -1,6 +1,6 @@
 from sqlalchemy.sql import or_
 from app.api.helpers import Service
-from app.models import Supplier, SupplierFramework, SupplierContact, Framework, Contact
+from app.models import db, Supplier, SupplierFramework, SupplierContact, Framework, Contact
 
 
 class SuppliersService(Service):
@@ -31,8 +31,9 @@ class SuppliersService(Service):
         return [supplier.serializable for supplier in suppliers.all()]
 
     def get_email_address(self, supplier_code):
-        supplier = Supplier.query.outerjoin(SupplierContact).outerjoin(Contact) \
+        supplier, contact = db.session.query(Supplier, Contact) \
+            .outerjoin(SupplierContact).outerjoin(Contact) \
             .filter(Supplier.code == supplier_code) \
             .filter(Supplier.status != 'deleted') \
             .first()
-        return supplier.email if supplier else None
+        return contact.email if contact else None
