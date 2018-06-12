@@ -9,5 +9,6 @@ services:
 routes:
 - route: orams-frontend.apps.b.cld.gov.au
 - route: orams.service.gov.au/
+- route: marketplace.service.gov.au/orams
 applications:
 - name: orams-frontend

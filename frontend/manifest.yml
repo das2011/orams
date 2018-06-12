@@ -9,5 +9,6 @@ services:
 routes:
 - route: orams-dev-frontend.apps.y.cld.gov.au
 - route: orams-dev.apps.y.cld.gov.au/
+- route: dm-dev.apps.y.cld.gov.au/orams
 applications:
 - name: orams-dev-frontend
