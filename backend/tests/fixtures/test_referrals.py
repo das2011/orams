@@ -79,3 +79,33 @@ def test_referral_not_created_when_serviceTypePriceId_missing_from_request(clien
     assert response.status_code == 400
     response_body = json.loads(response.get_data())
     assert response_body['message'] == '\'serviceTypePriceId\' is a required property'
+
+
+def test_referral_created_with_details_as_json(client, admin_users, agencies, service_prices_without_future):
+    from app.models import Referral
+
+    res = client.post('/2/login', data=json.dumps({
+        'emailAddress': admin_users[0].email_address, 'password': 'testpassword'
+    }), content_type='application/json')
+    assert res.status_code == 200
+
+    response = client.post(
+        '/2/referrals',
+        data=json.dumps({
+            'serviceTypePriceId': service_prices_without_future[0].id,
+            'referralDetails': {
+                'foo': 'val',
+                'bar': 1
+            }
+        }),
+        content_type='application/json')
+    assert response.status_code == 200
+    referral_id = json.loads(response.data)['referralId']
+    referral = Referral.query\
+        .filter(Referral.id == referral_id)\
+        .first()
+    assert len(referral.details) == 2
+    assert 'foo' in referral.details
+    assert 'bar' in referral.details
+    assert referral.details['foo'] == 'val'
+    assert referral.details['bar'] == 1

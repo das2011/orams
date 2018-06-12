@@ -1,0 +1,7 @@
+BEGIN TRANSACTION;
+
+ALTER TABLE IF EXISTS "public"."referral" DROP COLUMN IF EXISTS details;
+
+ALTER TABLE IF EXISTS "public"."referral" ADD COLUMN IF NOT EXISTS "details" jsonb;
+
+COMMIT;
