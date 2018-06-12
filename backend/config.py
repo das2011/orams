@@ -212,8 +212,8 @@ class Live(Config):
         'TRANSACTION_ISOLATION': False
     }
 
-    FRONTEND_ADDRESS = 'https://marketplace.service.gov.au'
-    ADMIN_ADDRESS = 'https://orams-admin.apps.b.cld.gov.au'
+    FRONTEND_ADDRESS = 'https://orams.service.gov.au'
+    ADMIN_ADDRESS = 'https://orams.service.gov.au'
 
     SEND_EMAILS = True
     ORAMS_BUYER_INVITE_REQUEST_ADMIN_EMAIL = 'orams@ato.gov.au'
