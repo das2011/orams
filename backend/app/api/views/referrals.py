@@ -46,10 +46,15 @@ def create_referral():
     return jsonify({'referralId': new_referral.id}), 200
 
 
-def can_view_referral(created_by, supplier_code, referral_domain, current_user):
+def can_view_or_edit_referral(created_by, supplier_code, referral_domain, current_user):
     return (current_user.role == 'buyer' and created_by == int(current_user.get_id()) or
             current_user.role == 'supplier' and supplier_code == current_user.supplier_code or
             current_user.role == 'admin' and referral_domain == get_email_domain(current_user.email_address))
+
+
+def can_transition_to_state(role, target_state):
+    # this method will be non-trivial when other target_state comes into play
+    return (role == 'supplier') and (target_state == 'accepted')
 
 
 def referral_view(referral_id, referral):
@@ -77,11 +82,46 @@ def get_referral(referral_id):
     supplier_code = referral.service_type_price.supplier_code
 
     return (referral_view(referral_id, referral), 200) \
-        if can_view_referral(referral.created_by, supplier_code, referral.domain, current_user) \
+        if can_view_or_edit_referral(referral.created_by, supplier_code, referral.domain, current_user) \
         else ('', 403)
 
-@api.route('/referrals/<int:referral_id>/accept', methods=['GET'], endpoint='accept_referral')
+
+@api.route('/referrals/<int:referral_id>/status', methods=['POST'], endpoint='update_referral')
 @login_required
-@role_required('supplier')
-def accept_referral(referral_id):
-    return '', 200
+@role_required('supplier', 'buyer')
+@swag.validate('ChangeReferralState')
+def change_referral_state(referral_id):
+    """Change Referral State
+    ---
+    tags:
+      - referrals
+    consumes:
+      - application/json
+    parameters:
+      - name: body
+        in: body
+        required: true
+        schema:
+          id: ChangeReferralState
+          required:
+            - targetState
+          properties:
+            targetState:
+              enum: ['created', 'accepted', 'rejected', 'cancelled', 'completed', 'sentForPayment']
+              type: string
+    responses:
+      200:
+        description: Successfully transitioned to targetState
+    """
+    json_data = request.get_json()
+    target_state = json_data.get('targetState')
+
+    referral = referral_service.get(referral_id)
+    supplier_code = referral.service_type_price.supplier_code
+
+    if (can_transition_to_state(current_user.role, target_state)) \
+            and can_view_or_edit_referral(referral.created_by, supplier_code, referral.domain, current_user):
+        referral_service.accept_referral(referral_id)
+        return '', 200
+
+    return 'Cannot update state', 403

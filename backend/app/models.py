@@ -47,6 +47,7 @@ from .modelsbase import normalize_key_case
 from .utils import sorted_uniques
 from itertools import groupby
 
+from transitions import Machine
 
 # with io.open('data/domain_mapping_old_to_new.yaml') as f:
 #     DOMAIN_MAPPING = yaml.load(f.read())
@@ -2842,6 +2843,15 @@ class UserFramework(db.Model):
 class Referral(db.Model):
     __tablename__ = 'referral'
 
+    STATUSES = [
+        'created',
+        'accepted',
+        'rejected',
+        'cancelled',
+        'completed',
+        'sentForPayment'
+    ]
+
     id = db.Column(db.Integer, primary_key=True)
     service_type_price_id = db.Column(db.Integer,
                                       db.ForeignKey('service_type_price.id'),
@@ -2853,6 +2863,8 @@ class Referral(db.Model):
 
     service_type_price = db.relationship('ServiceTypePrice', lazy='joined')
     creator = db.relationship(User, lazy='joined')
+    status = db.Column(db.Enum(*STATUSES, name='referral_status_enum'), index=False, unique=False, nullable=False,
+                       default='created')
 
 
 # Index for .last_for_object queries. Without a composite index the

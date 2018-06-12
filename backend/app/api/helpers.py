@@ -254,9 +254,9 @@ def get_root_url(framework_slug):
     return current_app.config['APP_ROOT'].get(framework_slug)
 
 
-def abort(message):
+def abort(message, code=400):
     current_app.logger.error(message)
-    return flask_abort(make_response(jsonify(message=message), 400))
+    return flask_abort(make_response(jsonify(message=message), code))
 
 
 def forbidden(message):

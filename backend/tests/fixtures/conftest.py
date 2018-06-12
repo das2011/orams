@@ -6,7 +6,7 @@ import pendulum
 from app import create_app
 from app.models import db, utcnow, Agency, Contact, Supplier, SupplierDomain, User, Brief, ServiceTypePriceCeiling,\
     Framework, Lot, Domain, Assessment, Application, Region, ServiceType, ServiceTypePrice, ServiceSubType,\
-    SupplierFramework, UserFramework, BriefResponse, BriefUser
+    SupplierFramework, UserFramework, BriefResponse, BriefUser, Referral
 from tests.app.helpers import COMPLETE_DIGITAL_SPECIALISTS_BRIEF, WSGIApplicationWithEnvironment
 
 from sqlbag import temporary_database
@@ -612,3 +612,35 @@ def service_prices_with_multiple_region(app, request, regions, services, supplie
         db.session.flush()
         db.session.commit()
         yield ServiceTypePrice.query.all()
+
+
+@pytest.fixture()
+def created_referral(app, request, service_type_prices, users):
+    with app.app_context():
+        db.session.add(Referral(
+            id=1,
+            service_type_price_id=1,
+            created_by=7,
+            domain='digital.gov.au',
+            status='created'
+        ))
+        db.session.flush()
+
+        db.session.commit()
+        yield Referral.query.all()
+
+
+@pytest.fixture()
+def accepted_referral(app, request, service_type_prices, users):
+    with app.app_context():
+        db.session.add(Referral(
+            id=1,
+            service_type_price_id=1,
+            created_by=7,
+            domain='digital.gov.au',
+            status='accepted'
+        ))
+        db.session.flush()
+
+        db.session.commit()
+        yield Referral.query.all()

@@ -109,3 +109,27 @@ def test_referral_created_with_details_as_json(client, admin_users, agencies, se
     assert 'bar' in referral.details
     assert referral.details['foo'] == 'val'
     assert referral.details['bar'] == 1
+
+
+def test_supplier_can_accept_a_referral_in_created_state(client, created_referral, supplier_user):
+    res = client.post('/2/login', data=json.dumps({
+        'emailAddress': 'j@examplecompany.biz', 'password': 'testpassword'
+    }), content_type='application/json')
+    assert res.status_code == 200
+
+    response = client.post('/2/referrals/1/status', data=json.dumps({
+        'targetState': 'accepted'
+    }), content_type='application/json')
+    assert response.status_code == 200
+
+
+def test_supplier_cannot_accept_a_referral_already_in_accepted_state(client, accepted_referral, supplier_user):
+    res = client.post('/2/login', data=json.dumps({
+        'emailAddress': 'j@examplecompany.biz', 'password': 'testpassword'
+    }), content_type='application/json')
+    assert res.status_code == 200
+
+    response = client.post('/2/referrals/1/status', data=json.dumps({
+        'targetState': 'accepted'
+    }), content_type='application/json')
+    assert response.status_code == 409
