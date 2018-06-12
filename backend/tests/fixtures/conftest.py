@@ -535,6 +535,13 @@ def service_type_price_ceiling(app, request, regions, services, suppliers):
             supplier_code=1,
             price=321.56
         ))
+        db.session.add(ServiceTypePriceCeiling(
+            service_type_id=1,
+            sub_service_id=1,
+            region_id=2,
+            supplier_code=1,
+            price=321.56
+        ))
         db.session.flush()
 
         db.session.commit()
@@ -574,5 +581,34 @@ def service_prices_all_expired(app, request, regions, services, suppliers):
             date_to=pendulum.Date.yesterday()
         ))
 
+        db.session.commit()
+        yield ServiceTypePrice.query.all()
+
+
+@pytest.fixture()
+def service_prices_with_multiple_region(app, request, regions, services, suppliers, service_type_price_ceiling):
+    with app.app_context():
+        db.session.add(ServiceTypePrice(
+            service_type_id=1,
+            sub_service_id=1,
+            region_id=1,
+            supplier_code=1,
+            service_type_price_ceiling_id=1,
+            price=210.60,
+            date_from='1/1/2016',
+            date_to=pendulum.Date.today()
+        ))
+        db.session.add(ServiceTypePrice(
+            service_type_id=1,
+            sub_service_id=1,
+            region_id=2,
+            supplier_code=1,
+            service_type_price_ceiling_id=2,
+            price=200.50,
+            date_from=pendulum.Date.today(),
+            date_to='1/1/2050'
+        ))
+
+        db.session.flush()
         db.session.commit()
         yield ServiceTypePrice.query.all()
