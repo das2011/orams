@@ -256,3 +256,39 @@ def test_current_price_created_when_all_expired(
     assert len(prices) == 2
     assert prices[0].date_from == pendulum.today().date()
     assert prices[0].price == 310.00
+
+
+def test_current_price_for_a_region_updated_when_matching_required(
+        client, admin_users, supplier_user, service_prices_with_multiple_region):
+    from app.models import ServiceTypePrice
+
+    res = client.post('/2/login', data=json.dumps({
+        'emailAddress': admin_users[0].email_address, 'password': 'testpassword'
+    }), content_type='application/json')
+    assert res.status_code == 200
+
+    ceiling_id = 2
+    new_price = 290
+    response = client.post(
+        '/2/ceiling-prices/{}'.format(ceiling_id),
+        data=json.dumps({'ceilingPrice': new_price, 'setCurrentPriceToCeiling': True}),
+        content_type='application/json')
+    assert response.status_code == 200
+
+    prices = ServiceTypePrice.query\
+        .filter(ServiceTypePrice.service_type_id == 1,
+                ServiceTypePrice.supplier_code == 1,
+                ServiceTypePrice.sub_service_id == 1,
+                ServiceTypePrice.region_id == 2,
+                ServiceTypePrice.service_type_price_ceiling_id == 2)\
+        .order_by(ServiceTypePrice.updated_at.desc())\
+        .all()
+
+    current_price = prices[0]
+    previous_price = prices[1]
+    assert current_price.date_from == pendulum.tomorrow().date()
+    assert current_price.date_to == pendulum.Date.create(2050, 1, 1)
+    assert current_price.price == 290.00
+
+    assert previous_price.date_to == pendulum.today().date()
+    assert previous_price.price == 200.50

@@ -20,6 +20,12 @@ import {
   updatePrice,
   hideNav
 } from 'orams/actions/editPriceActions'
+import {
+  SET_PRICE_LIST_SERVICES_STEP,
+  SET_PRICE_LIST_PRICING_STEP,
+  SET_PRICE_UPDATE_PRICE_STEP,
+  SET_PRICE_CONTRACT_VARIATION_STEP
+} from 'orams/constants/constants'
 
 import styles from './PricingDetailsForm.scss'
 
@@ -61,13 +67,13 @@ class PricingDetailsForm extends BaseForm {
     }
 
     switch (this.props.step) {
-      case 1:
+      case SET_PRICE_LIST_SERVICES_STEP:
         return (
           <ServiceEditList editServiceData={this.props.editServiceData} linkClick={this.loadStepTwo} {...this.props} />
         )
-      case 2:
+      case SET_PRICE_LIST_PRICING_STEP:
         return <PricingList pricesData={this.props.pricesData} {...this.props} />
-      case 3:
+      case SET_PRICE_UPDATE_PRICE_STEP:
         return (
           <EditPriceForm
             priceData={this.props.priceData}
@@ -76,7 +82,7 @@ class PricingDetailsForm extends BaseForm {
             buttonClick={this.buttonClick}
           />
         )
-      case 4:
+      case SET_PRICE_CONTRACT_VARIATION_STEP:
         return <ContractVariation {...this.props} submitUpdatePrice={this.submitUpdatePrice} />
 
       default:

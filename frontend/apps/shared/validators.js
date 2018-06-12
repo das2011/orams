@@ -182,6 +182,9 @@ export const validPrice = val => val.match(/^\d+(?:[.]\d+)*$/g)
 export const validPriceRange = max => val =>
   required(val) && validPrice(val) && (parseFloat(val) > 0 && parseFloat(max.replace(/,/g, '')) >= parseFloat(val))
 
+export const validMoreThanMinPrice = minPrice => val =>
+  required(val) && validPrice(val) && (parseFloat(val) > 0 && parseFloat(minPrice.replace(/,/g, '')) <= parseFloat(val))
+
 export default {
   required,
   minArrayLength,
@@ -199,5 +202,6 @@ export default {
   passwordsMatch,
   passwordLength,
   validPrice,
-  validPriceRange
+  validPriceRange,
+  validMoreThanMinPrice
 }

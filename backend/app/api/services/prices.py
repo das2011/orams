@@ -12,18 +12,26 @@ class PricesService(Service):
         super(PricesService, self).__init__(*args, **kwargs)
         self.audit = AuditService()
 
-    def get_prices(self, code, service_type_id, category_id, date):
+    def get_prices(self, code, service_type_id, category_id, date, region_id=None):
         prices = db.session.query(ServiceTypePrice)\
             .join(ServiceTypePrice.region)\
             .filter(ServiceTypePrice.supplier_code == code,
                     ServiceTypePrice.service_type_id == service_type_id,
                     ServiceTypePrice.sub_service_id == category_id,
-                    ServiceTypePrice.is_current_price(date))\
-            .distinct(Region.state, Region.name, ServiceTypePrice.supplier_code, ServiceTypePrice.service_type_id,
-                      ServiceTypePrice.sub_service_id, ServiceTypePrice.region_id)\
-            .order_by(Region.state, Region.name, ServiceTypePrice.supplier_code.desc(),
-                      ServiceTypePrice.service_type_id.desc(), ServiceTypePrice.sub_service_id.desc(),
-                      ServiceTypePrice.region_id.desc(), ServiceTypePrice.updated_at.desc())\
+                    ServiceTypePrice.is_current_price(date))
+
+        if region_id:
+            prices = prices.filter(
+                ServiceTypePrice.region_id == region_id)
+
+        prices = prices.distinct(
+                    Region.state, Region.name, ServiceTypePrice.supplier_code,
+                    ServiceTypePrice.service_type_id, ServiceTypePrice.sub_service_id,
+                    ServiceTypePrice.region_id)\
+            .order_by(
+                    Region.state, Region.name, ServiceTypePrice.supplier_code.desc(),
+                    ServiceTypePrice.service_type_id.desc(), ServiceTypePrice.sub_service_id.desc(),
+                    ServiceTypePrice.region_id.desc(), ServiceTypePrice.updated_at.desc())\
             .all()
 
         return [p.serializable for p in prices]

@@ -76,9 +76,11 @@ class CeilingPriceService(Service):
             ceiling_price.supplier_code,
             ceiling_price.service_type_id,
             ceiling_price.sub_service_id,
-            pendulum.today(current_app.config['DEADLINES_TZ_NAME']).date())
+            pendulum.today(current_app.config['DEADLINES_TZ_NAME']).date(),
+            ceiling_price.region_id)
         if supplier_prices:
             current_price = supplier_prices[0]['price']
+            current_price = current_price.translate(None, ',')
             if new_ceiling < float(current_price.strip(' "')):
                 abort('Ceiling price cannot be lower than ${} (current price)'.format(
                     current_price))

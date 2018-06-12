@@ -17,12 +17,14 @@ import {
   SET_PRICE_TO_EDIT_DATA,
   SET_SERVICE_TO_EDIT_IN_STATE,
   SET_PRICE_TO_EDIT_ID,
+  SET_CEILING_PRICE_TO_EDIT_ID,
   SET_ONE_PRICE,
   SET_BUTTON_CLICK,
   SET_SUPPLIER,
   SET_SUCCESS_MESSAGE,
   RESTART_EDIT_PRICING,
-  HIDE_NAV
+  HIDE_NAV,
+  SET_SUPPLIER_CODE
 } from 'orams/constants/constants'
 
 // The initial application state
@@ -33,10 +35,12 @@ const initialState = {
   priceData: '',
   serviceToEdit: '',
   priceId: '',
+  ceilingPriceId: '',
   pricesArray: [],
   saveAnother: false,
   successMessage: false,
-  hideNav: false
+  hideNav: false,
+  supplierCode: ''
 }
 
 const updateOrReplace = (array, obj) => {
@@ -85,6 +89,12 @@ const editPricingReducer = (state = initialState, action) => {
         priceId: action.priceId
       }
 
+    case SET_CEILING_PRICE_TO_EDIT_ID:
+      return {
+        ...state,
+        ceilingPriceId: action.capPriceId
+      }
+
     case SET_ONE_PRICE:
       return {
         ...state,
@@ -101,6 +111,12 @@ const editPricingReducer = (state = initialState, action) => {
       return {
         ...state,
         supplier: action.supplier
+      }
+
+    case SET_SUPPLIER_CODE:
+      return {
+        ...state,
+        supplierCode: action.supplierCode
       }
 
     case SET_SUCCESS_MESSAGE:

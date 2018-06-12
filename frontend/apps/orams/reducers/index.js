@@ -41,6 +41,7 @@ export default combineReducers({
     supplierSearchForm: {},
     createReferralForm: {},
     userSearchForm: {},
-    referralBuilderForm: {}
+    referralBuilderForm: {},
+    editCeilingPriceForm: {}
   })
 })
