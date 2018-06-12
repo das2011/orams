@@ -10,6 +10,7 @@ import editPricingReducer from './editPricingReducer'
 import priceHistoryReducer from './priceHistoryReducer'
 import errorMessage from './errorMessage'
 import form_options from './form_options'
+import referralDetailsReducer from './referralDetailsReducer'
 
 export default combineReducers({
   app: appReducer,
@@ -18,6 +19,7 @@ export default combineReducers({
   adminSearch: adminSearchReducer,
   editPricing: editPricingReducer,
   priceHistory: priceHistoryReducer,
+  referralDetails: referralDetailsReducer,
   form_options,
   errorMessage,
   options: (state = {}) => state,

@@ -1,0 +1,173 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ReferralDetails component renders correctly when error message is present 1`] = `
+<div
+  className="banner"
+>
+  <div
+    className="au-body au-page-alerts   au-page-alerts--error"
+    role="alert"
+  >
+    <h4>
+      This is an error
+    </h4>
+  </div>
+</div>
+`;
+
+exports[`ReferralDetails component renders correctly when page is loading 1`] = `
+<div
+  className="wrapper"
+>
+  <div
+    className="loadingIndicator"
+  >
+    <div
+      className="loadingInner"
+    />
+  </div>
+  <div
+    className="loadingText"
+  >
+    Loading...
+  </div>
+</div>
+`;
+
+exports[`ReferralDetails component renders correctly when there is no error 1`] = `
+<main>
+  <div
+    className="row headerSection"
+  >
+    <div
+      className="col-xs-12 col-sm-12"
+    >
+      <h1
+        className="au-display-xl"
+      >
+        Referral Details
+      </h1>
+    </div>
+  </div>
+  <div
+    className="row detailsRow"
+  >
+    <div
+      className="col-sm-3 col-xs-12"
+    >
+      <div
+        className="title"
+      >
+        Supplier
+      </div>
+    </div>
+    <div>
+      Supplier name
+    </div>
+  </div>
+  <div
+    className="row detailsRow"
+  >
+    <div
+      className="col-sm-3 col-xs-12"
+    >
+      <div
+        className="title"
+      >
+        Price
+      </div>
+    </div>
+    <div>
+      $123 incl GST
+    </div>
+  </div>
+  <div
+    className="row detailsRow"
+  >
+    <div
+      className="col-sm-3 col-xs-12"
+    >
+      <div
+        className="title"
+      >
+        Date of creation
+      </div>
+    </div>
+    <div>
+      7 Jun 2018
+    </div>
+  </div>
+  <div
+    className="row detailsRow"
+  >
+    <div
+      className="col-sm-3 col-xs-12"
+    >
+      <div
+        className="title"
+      >
+        Location
+      </div>
+    </div>
+    <div>
+      NSW East
+    </div>
+  </div>
+  <div
+    className="row detailsRow"
+  >
+    <div
+      className="col-sm-3 col-xs-12"
+    >
+      <div
+        className="title"
+      >
+        Created By
+      </div>
+    </div>
+    <div>
+      Stan Lee
+    </div>
+  </div>
+  <div
+    className="row detailsRow"
+  >
+    <div
+      className="col-sm-3 col-xs-12"
+    >
+      <div
+        className="title"
+      >
+        Referral ID
+      </div>
+    </div>
+    <div>
+      456
+    </div>
+  </div>
+  <div
+    className="row detailsRow"
+  >
+    <div
+      className="col-sm-3 col-xs-12"
+    >
+      <div
+        className="title"
+      >
+        Agency
+      </div>
+    </div>
+    <div>
+      ATO
+    </div>
+  </div>
+  <div
+    className="horizontalSeparatorLine"
+  />
+  <div
+    className="row"
+  >
+    Disclaimer:
+  </div>
+</main>
+`;
