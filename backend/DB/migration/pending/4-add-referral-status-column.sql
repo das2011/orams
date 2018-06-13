@@ -8,6 +8,6 @@ CREATE TYPE referral_status_enum AS ENUM (
   'completed',
   'sentForPayment');
 
-ALTER TABLE IF EXISTS "public"."referral" ADD COLUMN IF NOT EXISTS "status" referral_status_enum not null DEFAULT 'created';
+ALTER TABLE IF EXISTS "public"."referral" ADD COLUMN IF NOT EXISTS "status" referral_status_enum not null;
 
 COMMIT;
