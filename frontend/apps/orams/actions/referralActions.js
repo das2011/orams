@@ -1,4 +1,4 @@
-import { GENERAL_ERROR, UNAUTHORISED_ERROR } from 'orams/constants/messageConstants'
+import { GENERAL_ERROR, UNAUTHORISED_ERROR, REFERRAL_ACCEPT_SUCCESS } from 'orams/constants/messageConstants'
 import dmapi from 'orams/services/apiClient'
 import { setSuccessMessage } from './editPriceActions'
 import {
@@ -70,7 +70,7 @@ export function acceptReferral(id) {
       if (response.error) {
         dispatch(setErrorMessage(GENERAL_ERROR))
       } else {
-        dispatch(setGenericSuccessMessage('Successfully accepted referral'))
+        dispatch(setGenericSuccessMessage(REFERRAL_ACCEPT_SUCCESS))
         window.scrollTo(0, 0)
       }
     })

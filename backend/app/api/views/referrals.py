@@ -88,7 +88,7 @@ def get_referral(referral_id):
 
 @api.route('/referrals/<int:referral_id>/status', methods=['POST'], endpoint='update_referral')
 @login_required
-@role_required('supplier', 'buyer')
+@role_required('admin', 'buyer', 'supplier')
 @swag.validate('ChangeReferralState')
 def change_referral_state(referral_id):
     """Change Referral State
