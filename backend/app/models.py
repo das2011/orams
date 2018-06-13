@@ -47,8 +47,6 @@ from .modelsbase import normalize_key_case
 from .utils import sorted_uniques
 from itertools import groupby
 
-from transitions import Machine
-
 # with io.open('data/domain_mapping_old_to_new.yaml') as f:
 #     DOMAIN_MAPPING = yaml.load(f.read())
 
