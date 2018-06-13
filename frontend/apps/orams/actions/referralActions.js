@@ -5,6 +5,8 @@ import {
   SENDING_REQUEST,
   SET_ERROR_MESSAGE,
   SET_REFERRAL_DATA,
+  SET_REFERRAL_INFO_DATA,
+  SET_REFERRAL_FORM_DATA,
   SET_LOADING_REFERRAL_DATA,
   RESET_LOADING_REFERRAL_DATA
 } from '../constants/constants'
@@ -18,8 +20,13 @@ const setErrorMessage = errorMessage => ({
 
 const setLoading = () => ({ type: SET_LOADING_REFERRAL_DATA })
 const resetLoading = () => ({ type: RESET_LOADING_REFERRAL_DATA })
-
 const setReferralData = referralData => ({ type: SET_REFERRAL_DATA, referralData })
+const setReferralFormData = referralFormData => ({ type: SET_REFERRAL_FORM_DATA, referralFormData })
+const setReferralInfoData = referralInfoData => ({ type: SET_REFERRAL_INFO_DATA, referralInfoData })
+
+export const saveReferralBuilder1FormData = data => dispatch => {
+  dispatch(setReferralFormData(data))
+}
 
 export const createReferral = data => dispatch => {
   dispatch(sendingRequest(true))
@@ -53,6 +60,23 @@ export function loadReferralData(id) {
         dispatch(setReferralData(response.data))
         window.scrollTo(0, 0)
       }
+    })
+  }
+}
+
+export function loadReferralInfoByPriceId(id) {
+  return dispatch => {
+    dispatch(sendingRequest(true))
+    return dmapi({
+      method: 'get',
+      url: `/prices/${id}`
+    }).then(response => {
+      if (response.error) {
+        dispatch(setErrorMessage(GENERAL_ERROR))
+      } else {
+        dispatch(setReferralInfoData(response.data))
+      }
+      dispatch(sendingRequest(false))
     })
   }
 }

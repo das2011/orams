@@ -2,7 +2,7 @@ import pendulum
 from flask import current_app, request, jsonify
 from flask_login import login_required, current_user
 from app.api import api
-from app.api.services import prices, ceiling_prices
+from app.api.services import prices, ceiling_prices, suppliers
 from app.api.helpers import role_required, is_current_supplier, parse_date, abort, is_service_current_framework
 from app.swagger import swag
 from app.emails.prices import send_price_change_email
@@ -195,3 +195,26 @@ def update_ceiling_price(ceiling_id):
 def get_ceiling_price(ceiling_id):
     ceiling_price = ceiling_prices.get(ceiling_id)
     return jsonify(ceiling_price), 200
+
+
+@api.route('/prices/<price_id>', methods=['GET'], endpoint='get_price')
+@login_required
+@role_required('buyer')
+# @swag.validate('PriceUpdate')
+def get_price(price_id):
+    price = prices.get(price_id)
+    supplier = suppliers.first(code=price.supplier_code)
+    return jsonify({
+        'supplierCode': price.supplier_code,
+        'supplierName': supplier.name,
+        'categoryName': price.service_type.category.name,
+        'serviceName': price.service_type.name,
+        'regionId': price.region_id,
+        'regionState': price.region.state,
+        'regionName': price.region.name,
+        'price': price.price
+    }), 200
+    # region_id
+    # region state
+    # region name
+    # service_type_price - price

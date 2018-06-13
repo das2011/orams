@@ -21,7 +21,7 @@ class ResultsTable extends Component {
 
   onClickReferral(supplierCode, priceId, price) {
     this.props.setSelectedSupplierPrice({ priceId, price })
-    this.props.history.push(`/referral-builder/${supplierCode}`)
+    this.props.history.push(`/referral-builder/${priceId}`)
   }
 
   setRef = c => {

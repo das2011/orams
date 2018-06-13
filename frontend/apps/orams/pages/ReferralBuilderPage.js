@@ -2,9 +2,8 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { withRouter, Switch, Route } from 'react-router-dom'
-import { createReferral } from 'orams/actions/referralActions'
-import ReferralBuilderForm from 'orams/components/ReferralBuilderForm/ReferralBuilderForm'
-import { loadSupplierProfile } from 'orams/actions/sellerCatalogueActions'
+import { createReferral, saveReferralBuilder1FormData, loadReferralInfoByPriceId } from 'orams/actions/referralActions'
+import ReferralBuilder from 'orams/components/ReferralBuilder/ReferralBuilder'
 
 class ReferralBuilderPage extends Component {
   constructor(props) {
@@ -13,12 +12,12 @@ class ReferralBuilderPage extends Component {
   }
 
   componentDidMount() {
-    this.props.loadSupplierData(this.props.match.params.id)
+    this.props.loadReferralInfo(this.props.match.params.id)
   }
 
-  handleCreateReferral = data => {
-    const { doCreateReferral } = this.props
-    doCreateReferral(data)
+  handleCreateReferral1Form = data => {
+    const { saveReferral1FormData } = this.props
+    saveReferral1FormData(data)
   }
 
   render() {
@@ -31,8 +30,8 @@ class ReferralBuilderPage extends Component {
             exact
             path={match.url}
             render={() =>
-              <ReferralBuilderForm
-                handleCreateReferralSubmit={this.handleCreateReferral}
+              <ReferralBuilder
+                handleReferralBuilder1FormSubmit={this.handleCreateReferral1Form}
                 id={match.params.id}
                 {...this.props}
               />}
@@ -48,16 +47,14 @@ ReferralBuilderPage.propTypes = {
 }
 
 const mapStateToProps = state => ({
-  supplierData: state.sellersCatalogue.supplierData,
-  regionCode: state.sellersCatalogue.region,
-  regionsData: state.sellersCatalogue.regionsData,
-  price: state.sellersCatalogue.price,
+  referralInfoData: state.referralDetails.referralInfoData,
   organisation: state.app.organisation
 })
 
 const mapDispatchToProps = dispatch => ({
-  loadSupplierData: id => dispatch(loadSupplierProfile(id)),
-  doCreateReferral: data => dispatch(createReferral(data))
+  loadReferralInfo: id => dispatch(loadReferralInfoByPriceId(id)),
+  doCreateReferral: data => dispatch(createReferral(data)),
+  saveReferral1FormData: data => dispatch(saveReferralBuilder1FormData(data))
 })
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(ReferralBuilderPage))

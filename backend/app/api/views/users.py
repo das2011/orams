@@ -57,6 +57,8 @@ def me():
 # deprecated
 @api.route('/ping', methods=["GET"])
 def me_deprecated():
+    email_address = current_user.email_address
+    current_user.user_organisation = users.get_user_organisation(get_email_domain(email_address))
     return jsonify(user_info(current_user))
 
 
