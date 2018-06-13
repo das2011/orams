@@ -20,7 +20,9 @@ import {
   SET_INVITATION_DATA,
   SET_USER_TO_CREATE_DATA,
   CREATE_USER_SUCCESS,
-  SET_AUTH_FRAMEWORK_ERROR
+  SET_AUTH_FRAMEWORK_ERROR,
+  SET_APP_SUCCESS_MESSAGE,
+  RESET_APP_SUCCESS_MESSAGE
 } from 'orams/constants/constants'
 
 // The initial application state
@@ -29,7 +31,8 @@ const initialState = {
   errorMessage: null,
   loggedIn: false,
   createUserSuccess: false,
-  frameworkError: false
+  frameworkError: false,
+  successMessage: null
 }
 
 const appReducer = (state = initialState, action) => {
@@ -95,6 +98,18 @@ const appReducer = (state = initialState, action) => {
       return {
         ...state,
         createUserSuccess: true
+      }
+
+    case SET_APP_SUCCESS_MESSAGE:
+      return {
+        ...state,
+        successMessage: action.message
+      }
+
+    case RESET_APP_SUCCESS_MESSAGE:
+      return {
+        ...state,
+        successMessage: null
       }
 
     default:

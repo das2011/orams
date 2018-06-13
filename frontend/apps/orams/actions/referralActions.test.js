@@ -5,9 +5,10 @@ import {
   SET_REFERRAL_DATA,
   SET_ERROR_MESSAGE,
   SET_LOADING_REFERRAL_DATA,
-  RESET_LOADING_REFERRAL_DATA
+  RESET_LOADING_REFERRAL_DATA,
+  SET_APP_SUCCESS_MESSAGE
 } from '../constants/constants'
-import { loadReferralData } from './referralActions'
+import { loadReferralData, acceptReferral } from './referralActions'
 
 jest.mock('orams/services/apiClient')
 
@@ -18,6 +19,46 @@ describe('referralActions', () => {
 
   beforeEach(() => {
     jest.resetAllMocks()
+  })
+
+  describe('acceptReferral', () => {
+    it('should POST to correct endpoint to accept', () => {
+      dmapi.mockReturnValueOnce(Promise.resolve({ status: 200 }))
+      acceptReferral(20)(mockDispatch)
+
+      const expectedArgument = {
+        method: 'post',
+        url: `referrals/20/status`,
+        data: JSON.stringify({ targetState: 'accepted' })
+      }
+
+      const apiClientCallArg = getMockCallArg(dmapi, 0, 0)
+      expect(apiClientCallArg).toEqual(expectedArgument)
+    })
+
+    it('should set error message for error response', () => {
+      dmapi.mockReturnValueOnce(Promise.resolve({ error: 'error', status: 409 }))
+
+      return acceptReferral(20)(mockDispatch).then(() => {
+        expect(mockDispatch).toHaveBeenCalledTimes(1)
+        expect(mockDispatch).toHaveBeenCalledWith({
+          type: SET_ERROR_MESSAGE,
+          errorMessage: 'ORAMS encountered an error.'
+        })
+      })
+    })
+
+    it('should set success message for success response', () => {
+      dmapi.mockReturnValueOnce(Promise.resolve({ status: 200 }))
+
+      return acceptReferral(20)(mockDispatch).then(() => {
+        expect(mockDispatch).toHaveBeenCalledTimes(1)
+        expect(mockDispatch).toHaveBeenCalledWith({
+          type: SET_APP_SUCCESS_MESSAGE,
+          message: 'Successfully accepted referral'
+        })
+      })
+    })
   })
 
   it('should GET from correct path', () => {

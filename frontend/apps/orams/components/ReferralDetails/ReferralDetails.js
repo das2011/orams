@@ -41,7 +41,6 @@ export default class ReferralDetails extends Component {
   }
 
   handleAcceptReferral = () => {
-    console.log('redirect'); //eslint-disable-line
     this.props.acceptReferral(this.props.referralDetails.referralId)
     this.props.history.push('/dashboard')
   }
@@ -66,7 +65,9 @@ export default class ReferralDetails extends Component {
   renderAcceptButton() {
     return this.props.userType === 'supplier'
       ? <div className={'row'}>
-          <Button onClick={this.handleAcceptReferral}>Accept</Button>
+          <Button className="referral--accept" onClick={this.handleAcceptReferral}>
+            Accept
+          </Button>
         </div>
       : null
   }

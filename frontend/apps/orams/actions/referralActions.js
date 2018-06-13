@@ -6,7 +6,8 @@ import {
   SET_ERROR_MESSAGE,
   SET_REFERRAL_DATA,
   SET_LOADING_REFERRAL_DATA,
-  RESET_LOADING_REFERRAL_DATA
+  RESET_LOADING_REFERRAL_DATA,
+  SET_APP_SUCCESS_MESSAGE
 } from '../constants/constants'
 
 const sendingRequest = sending => ({ type: SENDING_REQUEST, sending })
@@ -18,7 +19,7 @@ const setErrorMessage = errorMessage => ({
 
 const setLoading = () => ({ type: SET_LOADING_REFERRAL_DATA })
 const resetLoading = () => ({ type: RESET_LOADING_REFERRAL_DATA })
-const setAcceptSuccessMessage = () => ({ type: 'set success message' })
+const setGenericSuccessMessage = message => ({ type: SET_APP_SUCCESS_MESSAGE, message })
 
 const setReferralData = referralData => ({ type: SET_REFERRAL_DATA, referralData })
 
@@ -60,20 +61,16 @@ export function loadReferralData(id) {
 
 export function acceptReferral(id) {
   return dispatch => {
-    console.log('ACCEPT REFERRAL', id); //eslint-disable-line
-
+    const data = { targetState: 'accepted' }
     return dmapi({
-      url: `referrals/${id}/accept`
+      method: 'post',
+      url: `referrals/${id}/status`,
+      data: JSON.stringify(data)
     }).then(response => {
-      dispatch(resetLoading())
       if (response.error) {
-        if (response.status === 403) {
-          dispatch(setErrorMessage(UNAUTHORISED_ERROR))
-        } else {
-          dispatch(setErrorMessage(GENERAL_ERROR))
-        }
+        dispatch(setErrorMessage(GENERAL_ERROR))
       } else {
-        dispatch(setAcceptSuccessMessage())
+        dispatch(setGenericSuccessMessage('Successfully accepted referral'))
         window.scrollTo(0, 0)
       }
     })

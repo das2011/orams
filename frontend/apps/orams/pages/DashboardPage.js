@@ -10,10 +10,6 @@ export class DashboardPage extends Component {
     this.state = {}
   }
 
-  componentDidMount() {
-    console.log('MOUNTED'); //eslint-disable-line
-  }
-
   render() {
     const { match } = this.props
 
@@ -29,8 +25,9 @@ DashboardPage.propTypes = {
   match: PropTypes.object.isRequired
 }
 
-const mapStateToProps = () => ({})
+const mapStateToProps = state => ({
+  errorMessage: state.app.errorMessage,
+  successMessage: state.app.successMessage
+})
 
-const mapDispatchToProps = {}
-
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(DashboardPage))
+export default withRouter(connect(mapStateToProps)(DashboardPage))

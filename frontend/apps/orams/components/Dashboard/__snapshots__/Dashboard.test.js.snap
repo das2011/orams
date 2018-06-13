@@ -1,0 +1,37 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Dashboard component renders correctly when error message is present 1`] = `
+<main>
+  <div
+    className="au-body au-page-alerts   au-page-alerts--error"
+    role="alert"
+  >
+    This is an error
+  </div>
+  <div>
+    DASHBOARD
+  </div>
+</main>
+`;
+
+exports[`Dashboard component renders correctly when no banner messages present 1`] = `
+<main>
+  <div>
+    DASHBOARD
+  </div>
+</main>
+`;
+
+exports[`Dashboard component renders correctly when success message is present 1`] = `
+<main>
+  <div
+    className="au-body au-page-alerts   au-page-alerts--success"
+    role="alert"
+  >
+    Successful operation
+  </div>
+  <div>
+    DASHBOARD
+  </div>
+</main>
+`;
